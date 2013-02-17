@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Student Information System</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+    <h:body>
+        
+        <h:panelGroup id="content" layout="block">
+            <div class="container650" style="margin-top: 100px; width: 350px">
+                <h:messages style="color:red;font-weight:bold;"></h:messages>
+                <h:panelGrid columns="1" bgcolor="#4e4e4e">
+                    <div class="subtitle" style="align: middle;">Sign In</div>
+
+                    <div style="position: relative; background-color: #ffffff; margin: 5px; width: 100%">
+                        <h:form>
+                            <h:panelGrid columns="2" bgcolor="white"  width="350" columnClasses="rightAlign,leftAlign">
+                                <h:outputText value="User Name:"/>
+                                <h:inputText label="User Name" value="#{userController.userName}" required="true">
+                                    <f:validateLength minimum="2" maximum="50"></f:validateLength>
+                                </h:inputText>
+
+                                <h:outputText value="Password:"/>
+                                <h:inputSecret label="Password" value="#{userController.password}" required="true">
+                                    <f:validateLength minimum="2" maximum="50"></f:validateLength>
+                                </h:inputSecret>
+                                <h:panelGroup></h:panelGroup>
+                                <h:commandButton action="#{userController.login}" value="Login"></h:commandButton>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+               </h:panelGrid>
+               <br/><br/><br/>
+    
+            </div>
+        </h:panelGroup>
+
+       
+    </h:body>
+</html>
+
