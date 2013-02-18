@@ -22,7 +22,7 @@ import javax.persistence.Query;
 @ManagedBean(name="userController")
 @SessionScoped
 public class UserController implements Serializable {
-    @PersistenceUnit(unitName="SISDBPU")
+    @PersistenceUnit(unitName="SISPU")
     private EntityManagerFactory entityManagerFactory;
     private String userName;
     private String password;
