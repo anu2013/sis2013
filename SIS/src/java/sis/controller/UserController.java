@@ -69,11 +69,6 @@ public class UserController implements Serializable {
     public boolean isLoggedIn() {
         return (loggedInUser != null);
     }
-    
-    public boolean isAdmin() {
-        return true;
-        //return (loggedInUser != null && loggedInUser.getUserType() == 2);
-    }
      
     /**
      * @return the user
