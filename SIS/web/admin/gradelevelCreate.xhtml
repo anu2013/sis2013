@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Create Grade level</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+        <h1>Create Grade level</h1>
+        <h:messages style="color:red;font-weight:bold;"></h:messages>
+        <h:form>
+           <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
+                <h:outputText value="Grade Level:"></h:outputText>
+                <h:inputText label="Grade Level" value="#{gradelevel.gradelevel}" required="true" size="60">
+                    <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                </h:inputText>
+                <h:outputText value="Description:"></h:outputText>
+                <h:inputTextarea label="Description" value="#{gradelevel.description}" required="true" rows="5" cols="50">
+                    <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                </h:inputTextarea>
+                <h:commandButton action="#{gradelevelCRUDController.createGradelevel}" value="  Save  "></h:commandButton>
+            </h:panelGrid>
+        </h:form>
+
+    </h:body>
+</html>
+

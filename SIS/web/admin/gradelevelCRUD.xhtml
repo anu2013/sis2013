@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Gradelevel Maintenance</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+        <h1>Grade level Maintenance</h1>
+        <h:form>
+            <h:dataTable rendered="#{not empty gradelevelCRUDController.gradelevels}" value="#{gradelevelCRUDController.gradelevels}" var="gradelevel" border="1" width="50%">
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Gradelevel" />
+                    </f:facet>        
+                    <h:outputText value="${gradelevel.gradelevel}" />    
+                </h:column>
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Description" />
+                    </f:facet>        
+                    <h:outputText value="${gradelevel.description}" />    
+                </h:column>
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Edit"/>
+                    </f:facet>
+                    <h:commandLink action="#{gradelevelCRUDController.editGradelevel(gradelevel)}">
+                        <h:outputText value="Edit"/>
+                    </h:commandLink>
+                </h:column>        
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Delete"/>
+                    </f:facet>
+                    <h:commandLink action="#{gradelevelCRUDController.deleteGradelevel(gradelevel)}">
+                        <h:outputText value="Delete"/>
+                    </h:commandLink>
+                </h:column>        
+            </h:dataTable>
+
+            <h:panelGroup rendered="#{empty gradelevelCRUDController.gradelevels}">
+                <p>There are no grade levels available. Please add new items.</p>
+            </h:panelGroup>
+
+            <br/>
+
+            <h:commandButton value="Add Gradelevel" action="#{gradelevelCRUDController.addGradelevel}">
+            </h:commandButton>
+        </h:form>
+
+    </h:body>
+</html>
+
