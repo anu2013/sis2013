@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Update subject</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+
+        <h1>Update Subject</h1>
+        <h:messages style="color:red;font-weight:bold;"></h:messages>
+        <h:form>
+            <h:panelGroup></h:panelGroup>
+            <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                <h:outputText value="Subject Name:"></h:outputText>
+                <h:inputText label="Subject Name" value="#{subjectCRUDController.subject.subjectname}" required="true" size="60">
+                    <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                </h:inputText>
+                <h:outputText value="Description:"></h:outputText>
+                <h:inputTextarea label="Description" value="#{subjectCRUDController.subject.description}" required="true" rows="5" cols="50">
+                    <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                </h:inputTextarea>
+            </h:panelGrid>
+            <h:inputHidden value="#{subjectCRUDController.subject.subjectid}"></h:inputHidden>
+            <h:commandButton action="#{subjectCRUDController.updateSubject}" value="Save"></h:commandButton>
+        </h:form>
+    </h:body>
+</html>
+

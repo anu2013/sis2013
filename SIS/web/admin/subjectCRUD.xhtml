@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Subject Maintenance</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+        <h1>Subject Maintenance</h1>
+        <h:form>
+            <h:dataTable rendered="#{not empty subjectCRUDController.subjects}" value="#{subjectCRUDController.subjects}" var="subject" border="1" width="50%">
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Subject Name" />
+                    </f:facet>        
+                    <h:outputText value="${subject.subjectname}" />    
+                </h:column>
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Description" />
+                    </f:facet>        
+                    <h:outputText value="${subject.description}" />    
+                </h:column>
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Edit"/>
+                    </f:facet>
+                    <h:commandLink action="#{subjectCRUDController.editSubject(subject)}">
+                        <h:outputText value="Edit"/>
+                    </h:commandLink>
+                </h:column>        
+                <h:column>        
+                    <f:facet name="header">            
+                        <h:outputText value="Delete"/>
+                    </f:facet>
+                    <h:commandLink action="#{subjectCRUDController.deleteSubject(subject)}">
+                        <h:outputText value="Delete"/>
+                    </h:commandLink>
+                </h:column>        
+            </h:dataTable>
+
+            <h:panelGroup rendered="#{empty subjectCRUDController.subjects}">
+                <p>There are no subjects available. Please add new items.</p>
+            </h:panelGroup>
+
+            <br/>
+
+            <h:commandButton value="Add Subject" action="#{subjectCRUDController.addSubject}">
+            </h:commandButton>
+        </h:form>
+
+    </h:body>
+</html>
+
