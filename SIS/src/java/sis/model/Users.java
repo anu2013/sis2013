@@ -6,9 +6,8 @@ package sis.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,12 +24,10 @@ import javax.validation.constraints.Size;
  *
  * @author Anupama Karumudi
  */
+@ManagedBean
 @Entity
 @Table(name = "USERS")
-@NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 public class Users implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -61,24 +54,10 @@ public class Users implements Serializable {
     @Column(name = "LASTUPDATEDDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastupdateddate;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
-    private Userprofile userprofile;
-    @OneToMany(mappedBy = "sentby")
-    private List<Conversations> conversationsList;
-    @OneToMany(mappedBy = "recipientid")
-    private List<Recipients> recipientsList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
-    private Teacher teacher;
-    @OneToMany(mappedBy = "messagecreatedby")
-    private List<Messages> messagesList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
-    private Admin admin;
     @JoinColumn(name = "ROLEID", referencedColumnName = "ROLEID")
     @ManyToOne
-    private Role roleid;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
-    private Student student;
-
+    private Role role;
+    
     public Users() {
     }
 
@@ -158,70 +137,14 @@ public class Users implements Serializable {
         this.lastupdateddate = lastupdateddate;
     }
 
-    public Userprofile getUserprofile() {
-        return userprofile;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUserprofile(Userprofile userprofile) {
-        this.userprofile = userprofile;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
-    public List<Conversations> getConversationsList() {
-        return conversationsList;
-    }
-
-    public void setConversationsList(List<Conversations> conversationsList) {
-        this.conversationsList = conversationsList;
-    }
-
-    public List<Recipients> getRecipientsList() {
-        return recipientsList;
-    }
-
-    public void setRecipientsList(List<Recipients> recipientsList) {
-        this.recipientsList = recipientsList;
-    }
-
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
-    public List<Messages> getMessagesList() {
-        return messagesList;
-    }
-
-    public void setMessagesList(List<Messages> messagesList) {
-        this.messagesList = messagesList;
-    }
-
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }
-
-    public Role getRoleid() {
-        return roleid;
-    }
-
-    public void setRoleid(Role roleid) {
-        this.roleid = roleid;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
