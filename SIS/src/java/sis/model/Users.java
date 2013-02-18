@@ -145,6 +145,33 @@ public class Users implements Serializable {
         this.role = role;
     }
     
+    public Boolean getIsAdmin() {
+        if(null != role){
+            String roleName = role.getRolename();
+            if(null != roleName && roleName.equals("admin"))
+                return true;
+        }
+        return false;
+    }
+    
+    public Boolean getIsTeacher() {
+        if(null != role){
+            String roleName = role.getRolename();
+            if(null != roleName && roleName.equals("teacher"))
+                return true;
+        }
+        return false;
+    }
+      
+    public Boolean getIsStudent() {
+        if(null != role){
+            String roleName = role.getRolename();
+            if(null != roleName && roleName.equals("student"))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
