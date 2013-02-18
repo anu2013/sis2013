@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Anupama Karumudi Karunudi
+ * @author Anupama Karunud
  */
 @ManagedBean(name="userController")
 @SessionScoped
@@ -46,11 +46,13 @@ public class UserController implements Serializable {
                 userName = null;
                 password = null;
             } else {
-                //if(loggedInUser.isAdmin()){
+                if(loggedInUser.getIsAdmin()){
                     return "admin/index?faces-redirect=true";
-                //}else{
-                //    return "teacher/index?faces-redirect=true";
-                //}
+                }else if(loggedInUser.getIsTeacher()){
+                    return "teacher/index?faces-redirect=true";
+                }else if(loggedInUser.getIsStudent()){
+                    return "student/index?faces-redirect=true";
+                }
             }
         }catch(Exception e){
             e.printStackTrace();
