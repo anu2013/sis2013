@@ -1,11 +1,55 @@
+/* 
+    Document   : styles
+    Created on : Feb 18, 2013, 6:22:12 PM
+    Author     : Anupama Karumudi
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
 body{
+    background-image:url('../images/page-bg.png');
     margin: 0;
     padding: 0;
     border: 0;
-    overflow: hidden;
     height: 100%; 
     max-height: 100%;
     font-weight: bold;
+}
+
+#logo{
+    background-image:url('../images/logo.png');
+    width: 158px; 
+    height: 75px;
+    margin-top: 10px;
+    margin-left:2px;
+}
+
+#header{
+    background-image:url('../images/header-bg.png');
+    width: 1100px; 
+    height: 95px;
+    overflow: hidden;
+    color: white;
+    margin-top: 20px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#content{
+    position: fixed;
+    width: 1100px; 	
+    top: 115px;
+    left: 50%;
+    margin-left: -550px;
+    bottom: 20px;
+    background: #fff;
+    overflow: auto;
+}
+
+#app-title{
+    margin-left: 100px;
+    margin-top: 35px;
+    font-size: 30px;
 }
 
 .container650{
@@ -15,9 +59,37 @@ body{
     width: 650px;
 }
 
+.title{
+    margin: 15px;
+    font-size: 36px;
+}
+
 .subtitle{
     margin: 3px;
     font-size: 18px;
     background-color: #4e4e4e;
     color: white;
+}
+
+thead{
+    font-size: 16px;
+    background-color: #4e4e4e;
+    color: white;
+}
+
+.navigation{
+    padding-right: 20px;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.navigation.hover{
+    color: red;
+}
+
+.errorMsg{
+    color:red;
+    font-weight:bold;
 }

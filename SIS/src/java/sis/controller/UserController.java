@@ -4,7 +4,6 @@
  */
 package sis.controller;
 
-import sis.model.Users;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -14,10 +13,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import sis.model.Users;
 
 /**
  *
- * @author Anupama Karumudi Karunudi
+ * @author Anupama Karunud
  */
 @ManagedBean(name="userController")
 @SessionScoped
@@ -46,11 +46,13 @@ public class UserController implements Serializable {
                 userName = null;
                 password = null;
             } else {
-                //if(loggedInUser.isAdmin()){
+                if(loggedInUser.getIsAdmin()){
                     return "admin/index?faces-redirect=true";
-                //}else{
-                //    return "teacher/index?faces-redirect=true";
-                //}
+                }else if(loggedInUser.getIsTeacher()){
+                    return "teacher/index?faces-redirect=true";
+                }else if(loggedInUser.getIsStudent()){
+                    return "student/index?faces-redirect=true";
+                }
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -66,11 +68,6 @@ public class UserController implements Serializable {
 
     public boolean isLoggedIn() {
         return (loggedInUser != null);
-    }
-    
-    public boolean isAdmin() {
-        return true;
-        //return (loggedInUser != null && loggedInUser.getUserType() == 2);
     }
      
     /**
