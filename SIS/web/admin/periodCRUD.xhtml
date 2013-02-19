@@ -5,77 +5,147 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
     <h:head>
-        <title>Period Maintenance</title>
-        <h:outputStylesheet library="css" name="style.css"/>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            .form-container {
+                max-width: 1000px;
+                padding: 19px 29px 29px;
+                margin: 0 auto 20px;
+                margin-top: 20px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            }
+            .form-container .form-container-heading{
+                font-size: 20px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 2px 9px;
+            }
+        </style>
     </h:head>
+
     <h:body>
-        <h1>Period Maintenance</h1>
-        <h:form>
-            <h:dataTable rendered="#{not empty periodCRUDController.periods}" value="#{periodCRUDController.periods}" var="period" border="1" width="50%">
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="Description" />
-                    </f:facet>        
-                    <h:outputText value="${period.description}" />    
-                </h:column>
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="Period Code" />
-                    </f:facet>        
-                    <h:outputText value="${period.periodcode}" />    
-                </h:column>
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="Sort Order" />
-                    </f:facet>        
-                    <h:outputText value="${period.sortorder}" />    
-                </h:column>
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="Start Time" />
-                    </f:facet>        
-                    <h:outputText value="${period.starttime}" />    
-                </h:column>
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="End Time" />
-                    </f:facet>        
-                    <h:outputText value="${period.endtime}" />    
-                </h:column>
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="School Year" />
-                    </f:facet>        
-                    <h:outputText value="${period.schoolyear.schoolyear}" />    
-                </h:column>
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="Edit"/>
-                    </f:facet>
-                    <h:commandLink action="#{periodCRUDController.editPeriod(period)}">
-                        <h:outputText value="Edit"/>
-                    </h:commandLink>
-                </h:column>        
-                <h:column>        
-                    <f:facet name="header">            
-                        <h:outputText value="Delete"/>
-                    </f:facet>
-                    <h:commandLink action="#{periodCRUDController.deletePeriod(period)}">
-                        <h:outputText value="Delete"/>
-                    </h:commandLink>
-                </h:column>        
-            </h:dataTable>
+        <h:panelGroup id="header" layout="block">
+            <table width="100%">
+                <tr>
+                    <th align="left">
+                        <div id="logo"></div>
+                    </th>
+                    <th align="left">
+                        <div id="app-title">Student Information System</div>
+                    </th>
+                    <th align="right" valign="top">
+                        <h:form>
+                            <div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>
+                            <a href="index.xhtml" class="navigation">Home</a>
+                            <h:commandLink action="#{userController.logout}" class="navigation">
+                                <h:outputText value="Logout"/>
+                            </h:commandLink>
+                        </h:form>
+                    </th>
+                </tr>
+            </table>
+        </h:panelGroup>
 
-            <h:panelGroup rendered="#{empty periodCRUDController.periods}">
-                <p>There are no periods available. Please add new items.</p>
+        <div id="content">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>
+                                <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
+                                <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
+                                <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
+                                <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h:panelGroup id="container" layout="block">
+                <h:form class="form-container">
+                    <h2 class="form-container-heading" align="center">Period Maintenance</h2>
+                    <div align="center">
+                        <h:dataTable rendered="#{not empty periodCRUDController.periods}" value="#{periodCRUDController.periods}" var="period" border="1" width="100%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Description" />
+                                </f:facet>        
+                                <h:outputText value="${period.description}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Period Code" />
+                                </f:facet>        
+                                <h:outputText value="${period.periodcode}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Sort Order" />
+                                </f:facet>        
+                                <h:outputText value="${period.sortorder}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Start Time" />
+                                </f:facet>        
+                                <h:outputText value="${period.starttime}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="End Time" />
+                                </f:facet>        
+                                <h:outputText value="${period.endtime}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="School Year" />
+                                </f:facet>        
+                                <h:outputText value="${period.schoolyear.schoolyear}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                                <h:commandLink action="#{periodCRUDController.editPeriod(period)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>        
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Delete"/>
+                                </f:facet>
+                                <h:commandLink action="#{periodCRUDController.deletePeriod(period)}">
+                                    <h:outputText value="Delete"/>
+                                </h:commandLink>
+                            </h:column>        
+                        </h:dataTable>
+                        <h:panelGroup rendered="#{empty periodCRUDController.periods}">
+                            <p>There are no periods available. Please add new items.</p>
+                        </h:panelGroup>
+                        <br/>
+                        <h:commandButton value="Add Period" action="#{periodCRUDController.addPeriod}">
+                        </h:commandButton>
+                    </div>
+                </h:form>
             </h:panelGroup>
-
-            <br/>
-
-            <h:commandButton value="Add Period" action="#{periodCRUDController.addPeriod}">
-            </h:commandButton>
-        </h:form>
-
+        </div>
     </h:body>
 </html>
 
