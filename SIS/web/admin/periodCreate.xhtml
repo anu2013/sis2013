@@ -4,23 +4,37 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Create Subject</title>
+        <title>Create Period</title>
         <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
     <h:body>
-        <h1>Create Subject</h1>
+        <h1>Create Period</h1>
         <h:messages style="color:red;font-weight:bold;"></h:messages>
         <h:form>
            <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                <h:outputText value="Subject Name:"></h:outputText>
-                <h:inputText label="Subject Name" value="#{subject.subjectname}" required="true" size="60">
+                <h:outputText value="Description:"></h:outputText>
+                <h:inputText label="Description" value="#{period.description}" required="true" size="60">
                     <f:validateLength minimum="3" maximum="100"></f:validateLength>
                 </h:inputText>
-                <h:outputText value="Description:"></h:outputText>
-                <h:inputTextarea label="Description" value="#{subject.description}" required="true" rows="5" cols="50">
+                <h:outputText value="Period Code:"></h:outputText>
+                <h:inputText label="Period Code" value="#{period.periodcode}" required="true">
                     <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                </h:inputTextarea>
-                <h:commandButton action="#{subjectCRUDController.createSubject}" value="  Save  "></h:commandButton>
+                </h:inputText>
+                <h:outputText value="Sort Order:"></h:outputText>
+                <h:inputText label="Sort Order" value="#{period.sortorder}" required="true" >
+                </h:inputText>
+                <h:outputText value="Start Time:"></h:outputText>
+                <h:inputText label="Start Time" value="#{period.starttime}" required="true">
+                    <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                </h:inputText>
+                <h:outputText value="End Time:"></h:outputText>
+                <h:inputText label="End Time" value="#{period.endtime}" required="true">
+                    <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                </h:inputText>
+                <h:outputText value="School Year:"></h:outputText>
+                <h:inputText label="School Year" value="#{period.schoolyear.schoolyear}" required="true">
+                </h:inputText>
+                <h:commandButton action="#{periodCRUDController.createPeriod}" value="  Save  "></h:commandButton>
             </h:panelGrid>
         </h:form>
 
