@@ -56,18 +56,13 @@ public class SchoolyearscheduleCRUDController {
     }
 
     public String createSchoolyearschedule() {
-
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             Schoolyearschedule schoolyearschedule = retrieveSchoolyearschedule();
             if (schoolyearschedule == null) {
-
                 userTransaction.begin();
-
                 entityManager.persist(getSchoolyearschedule());
-
                 userTransaction.commit();
-
                 retrieveSchoolyearschedules();
                 return "/admin/schoolyearscheduleCRUD";
             } else {
