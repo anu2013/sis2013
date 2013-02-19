@@ -53,7 +53,6 @@
                 </tr>
             </table>
         </h:panelGroup>
-
         <div id="content">
             <div class="navbar navbar-inverse">
                 <div class="navbar-inner">
@@ -70,7 +69,7 @@
                                 <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
                                 <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
-                                <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
+                                <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
                             </ul>
                         </div>
                     </div>
@@ -79,39 +78,39 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Period</h2>
+                    <h2 class="form-container-heading" align="center">Update Period</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+
                             <h:outputText value="Description:"></h:outputText>
-                            <h:inputText label="Description" value="#{period.description}" required="true" size="60">
+                            <h:inputText label="Description" value="#{periodCRUDController.period.description}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Period Code:"></h:outputText>
-                            <h:inputText label="Period Code" value="#{period.periodcode}" required="true">
+                            <h:inputText label="Period Code" value="#{periodCRUDController.period.periodcode}" required="true">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Sort Order:"></h:outputText>
-                            <h:inputText label="Sort Order" value="#{period.sortorder}" required="true" >
+                            <h:inputText label="Sort Order" value="#{periodCRUDController.period.sortorder}" required="true" >
                             </h:inputText>
                             <h:outputText value="Start Time:"></h:outputText>
-                            <h:inputText label="Start Time" value="#{period.starttime}" required="true">
+                            <h:inputText label="Start Time" value="#{periodCRUDController.period.starttime}" required="true">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="End Time:"></h:outputText>
-                            <h:inputText label="End Time" value="#{period.endtime}" required="true">
+                            <h:inputText label="End Time" value="#{periodCRUDController.period.endtime}" required="true">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="School Year:"></h:outputText>
-
-                            <h:selectOneMenu value="#{schoolyearschedule.schoolyear}">
+                            <h:selectOneMenu value="#{periodCRUDController.schoolyearschedule.schoolyear}">
                                 <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
                                                itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
                             </h:selectOneMenu>
-
                         </h:panelGrid>
+                        <h:inputHidden value="#{periodCRUDController.period.periodid}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{periodCRUDController.createPeriod}" value="  Save  "></h:commandButton>
+                        <h:commandButton action="#{periodCRUDController.updatePeriod}" value="Save"></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

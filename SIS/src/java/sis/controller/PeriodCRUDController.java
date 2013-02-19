@@ -17,6 +17,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
+import sis.model.Schoolyearschedule;
 
 /**
  *
@@ -32,6 +33,8 @@ public class PeriodCRUDController {
     private List<Period> periods;
     @ManagedProperty(value = "#{period}")
     private Period period;
+    @ManagedProperty(value = "#{schoolyearschedule}")
+    private Schoolyearschedule schoolyearschedule;
 
     @PostConstruct
     public void init() {
@@ -53,7 +56,9 @@ public class PeriodCRUDController {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
-            entityManager.persist(getPeriod());
+            Period p = getPeriod();
+            p.setSchoolyear(getSchoolyearschedule());
+            entityManager.persist(p);
             userTransaction.commit();
             retrievePeriods();
             return "/admin/periodCRUD";
@@ -71,13 +76,14 @@ public class PeriodCRUDController {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
-            Period p = em.find(Period.class, this.period.getSchoolyear());
+            Period p = em.find(Period.class, this.period.getPeriodid());
             p.setDescription(this.period.getDescription());
             p.setPeriodcode(this.period.getPeriodcode());
             p.setSortorder(this.period.getSortorder());
             p.setStarttime(this.period.getStarttime());
             p.setEndtime(this.period.getEndtime());
-            p.setSchoolyear(this.period.getSchoolyear());
+            p.setSchoolyear(this.schoolyearschedule);
+            //p.setSchoolyear(this.period.getSchoolyear());
             em.persist(p);
             userTransaction.commit();
             retrievePeriods();
@@ -134,5 +140,19 @@ public class PeriodCRUDController {
      */
     public void setPeriod(Period period) {
         this.period = period;
+    }
+
+    /**
+     * @return the schoolyearschedule
+     */
+    public Schoolyearschedule getSchoolyearschedule() {
+        return schoolyearschedule;
+    }
+
+    /**
+     * @param schoolyearschedule the schoolyearschedule to set
+     */
+    public void setSchoolyearschedule(Schoolyearschedule schoolyearschedule) {
+        this.schoolyearschedule = schoolyearschedule;
     }
 }
