@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Update school year schedule</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+
+        <h1>Update School year schedule</h1>
+        <h:messages style="color:red;font-weight:bold;"></h:messages>
+        <h:form>
+            <h:panelGroup></h:panelGroup>
+            <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                <h:outputText value="Schoolyear : #{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:outputText>
+                <h:outputText></h:outputText>
+                <h:outputText value="Start Date (MM-dd-yyyy):"></h:outputText>
+                <h:inputText label="Start Date" value="#{schoolyearscheduleCRUDController.schoolyearschedule.startdate}" required="true">
+                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                </h:inputText>
+                <h:outputText value="End Date (MM-dd-yyyy):"></h:outputText>
+                <h:inputText label="End Date" value="#{schoolyearscheduleCRUDController.schoolyearschedule.enddate}" required="true">
+                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                </h:inputText>
+            </h:panelGrid>
+            <h:inputHidden value="#{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:inputHidden>
+            <h:commandButton action="#{schoolyearscheduleCRUDController.updateSchoolyearschedule}" value="Save"></h:commandButton>
+        </h:form>
+    </h:body>
+</html>
+
