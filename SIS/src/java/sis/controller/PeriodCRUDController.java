@@ -82,7 +82,6 @@ public class PeriodCRUDController {
             p.setSortorder(this.period.getSortorder());
             p.setStarttime(this.period.getStarttime());
             p.setEndtime(this.period.getEndtime());
-            
             em.persist(p);
             userTransaction.commit();
             retrievePeriods();
