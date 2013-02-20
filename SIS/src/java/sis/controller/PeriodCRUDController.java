@@ -82,8 +82,7 @@ public class PeriodCRUDController {
             p.setSortorder(this.period.getSortorder());
             p.setStarttime(this.period.getStarttime());
             p.setEndtime(this.period.getEndtime());
-            p.setSchoolyear(this.schoolyearschedule);
-            //p.setSchoolyear(this.period.getSchoolyear());
+            
             em.persist(p);
             userTransaction.commit();
             retrievePeriods();
