@@ -98,7 +98,7 @@ public class PeriodCRUDController {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
-            Period currentPeriod = em.find(Period.class, argPeriod.getSchoolyear());
+            Period currentPeriod = em.find(Period.class, argPeriod.getPeriodid());
             em.remove(currentPeriod);
             userTransaction.commit();
             retrievePeriods();
