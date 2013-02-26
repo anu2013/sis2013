@@ -69,7 +69,7 @@
                                 <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
                                 <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
-                                <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
+                                <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
                             </ul>
                         </div>
                     </div>
@@ -103,10 +103,10 @@
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="School Year:"></h:outputText>
-                            <h:selectOneMenu value="#{periodCRUDController.schoolyearschedule.schoolyear}">
+                            <!--<h:selectOneMenu value="#{periodCRUDController.schoolyearschedule.schoolyear}">
                                 <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
                                                itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
-                            </h:selectOneMenu>
+                            </h:selectOneMenu>-->
                         </h:panelGrid>
                         <h:inputHidden value="#{periodCRUDController.period.periodid}"></h:inputHidden>
                         <br/>

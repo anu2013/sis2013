@@ -53,7 +53,7 @@ public class Period implements Serializable {
     private String endtime;
     @JoinColumn(name = "SCHOOLYEAR", referencedColumnName = "SCHOOLYEAR")
     @ManyToOne
-    private Schoolyearschedule schoolyear;
+    private Schoolyearschedule schoolyear; 
     @OneToMany(mappedBy = "periodid")
     private List<Subjectschedule> subjectscheduleList;
 
