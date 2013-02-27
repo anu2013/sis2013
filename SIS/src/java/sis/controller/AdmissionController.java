@@ -42,6 +42,7 @@ public class AdmissionController {
             userTransaction.begin();
             Admission a = getAdmission();
             a.setCreateddate(new Date());
+            entityManager.persist(a);
             userTransaction.commit();
             return "/admin/admissionConfirmation";
         } catch (Exception e) {
