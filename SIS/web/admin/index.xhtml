@@ -46,6 +46,9 @@
                         <h:form>
                             <div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>
                             <a href="index.xhtml" class="navigation">Home</a>
+                            <h:commandLink action="#{userProfileController.editProfile()}" class="navigation">
+                                <h:outputText value="Update Profile"/>
+                            </h:commandLink>
                             <h:commandLink action="#{userController.logout}" class="navigation">
                                     <h:outputText value="Logout"/>
                                 </h:commandLink>

@@ -84,8 +84,19 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading">Teacher Home</h2>
-                    <div>This is teacher's home page.  </div>
+                    <h2 class="form-container-heading" align="center">Update Profile</h2>
+                    <div align="center">
+                        <h:messages style="color:red;font-weight:bold;"></h:messages>
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                            <h:outputText value="First Name:"></h:outputText>
+                            <h:inputText label="First Name" value="#{userProfileController.userprofile.firstname}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                            </h:inputText>
+                        </h:panelGrid>
+                        <h:inputHidden value="#{userProfileController.userprofile.userid}"></h:inputHidden>
+                        <br/>
+                        <h:commandButton action="#{userProfileController.updateProfile}" value="Save"></h:commandButton>
+                    </div>
                 </h:form>
             </h:panelGroup>
         </div>

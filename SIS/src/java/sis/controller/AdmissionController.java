@@ -20,6 +20,7 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import sis.model.Schoolyearschedule;
+import sis.model.Users;
 
 /**
  *
@@ -38,10 +39,13 @@ public class AdmissionController {
 
     public String createAdmission() {
         try {
+            UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
+            Users loggedinUser = userController.getUser();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Admission a = getAdmission();
             a.setCreateddate(new Date());
+            a.setCreatedby(loggedinUser.getUserid());
             entityManager.persist(a);
             userTransaction.commit();
             return "/admin/admissionConfirmation";

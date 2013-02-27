@@ -9,10 +9,10 @@
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
         <style type="text/css">
             .form-container {
-                max-width: 500px;
+                max-width: 1000px;
                 padding: 19px 29px 29px;
                 margin: 0 auto 20px;
-                margin-top: 150px;
+                margin-top: 20px;
                 background-color: #fff;
                 border: 1px solid #e5e5e5;
                 -webkit-border-radius: 5px;
@@ -29,10 +29,9 @@
                 padding: 2px 9px;
             }
         </style>
-
     </h:head>
-    <h:body>
 
+    <h:body>
         <h:panelGroup id="header" layout="block">
             <table width="100%">
                 <tr>
@@ -44,7 +43,7 @@
                     </th>
                     <th align="right" valign="top">
                         <h:form>
-                            <div class="navigation" style="display:inline-block; text-decoration: none;">Teacher</div>
+                            <div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>
                             <a href="index.xhtml" class="navigation">Home</a>
                             <h:commandLink action="#{userProfileController.editProfile()}" class="navigation">
                                 <h:outputText value="Update Profile"/>
@@ -57,7 +56,6 @@
                 </tr>
             </table>
         </h:panelGroup>
-
         <div id="content">
             <div class="navbar navbar-inverse">
                 <div class="navbar-inner">
@@ -67,15 +65,15 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="brand" href="#">Teacher</a>
+                        <a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>
                         <div class="nav-collapse collapse">
                             <ul class="nav">
-                                <li class="active"><a href="#">Home</a></li>
-                                <li><a href="#">Link 1</a></li>
-                                <li><a href="#">Link 2</a></li>
-                                <li><a href="#">Link 3</a></li>
-                                <li><a href="#">Link 4</a></li>
-                                <li><a href="#">Link 5</a></li>
+                                <li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>
+                                <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
+                                <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
+                                <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
+                                <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
+                                <li><a href="/SIS/faces/admin/admissionCreate.xhtml">Application Submission</a></li>
                             </ul>
                         </div>
                     </div>
@@ -84,12 +82,22 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading">Teacher Home</h2>
-                    <div>This is teacher's home page.  </div>
+                    <h2 class="form-container-heading" align="center">Update Profile</h2>
+                    <div align="center">
+                        <h:messages style="color:red;font-weight:bold;"></h:messages>
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                            <h:outputText value="First Name:"></h:outputText>
+                            <h:inputText label="First Name" value="#{userProfileController.userprofile.firstname}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                            </h:inputText>
+                        </h:panelGrid>
+                        <h:inputHidden value="#{userProfileController.userprofile.userid}"></h:inputHidden>
+                        <br/>
+                        <h:commandButton action="#{userProfileController.updateProfile}" value="Save"></h:commandButton>
+                    </div>
                 </h:form>
             </h:panelGroup>
         </div>
-
     </h:body>
 </html>
 
