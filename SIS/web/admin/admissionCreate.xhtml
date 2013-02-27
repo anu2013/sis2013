@@ -53,7 +53,6 @@
                 </tr>
             </table>
         </h:panelGroup>
-
         <div id="content">
             <div class="navbar navbar-inverse">
                 <div class="navbar-inner">
@@ -80,24 +79,37 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create School Year Schedule</h2>
+                    <h2 class="form-container-heading" align="center">Submit Online Application</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="School Year:"></h:outputText>
-                            <h:inputText label="School Year" value="#{schoolyearschedule.schoolyear}" required="true" size="60">
+                            <h:outputText value="Description:"></h:outputText>
+                            <h:inputText label="Description" value="#{admission.description}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Start Date (MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Start Date" value="#{schoolyearschedule.startdate}" required="true">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
-                            <h:outputText value="End Date (MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="End Date" value="#{schoolyearschedule.enddate}" required="true">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
+                            
+                            <h:outputText value="Application Type:"></h:outputText>
+                            <h:selectOneMenu value="#{admission.applicationtype}">
+                                <f:selectItem itemValue="Online" itemLabel="Online" />
+                                <f:selectItem itemValue="Paper" itemLabel="Paper Application" />
+                                
+                            </h:selectOneMenu>
+                            
+                            <h:outputText value="Grade Level Applying for:"></h:outputText>
+                            <h:selectOneMenu value="#{admission.gradelevelapplyingfor}">
+                                <f:selectItems value="#{gradelevelCRUDController.gradelevels}" var="y"
+                                               itemLabel="#{y.gradelevel}" itemValue="#{y.gradelevelid}" />
+                            </h:selectOneMenu>
+                            
+                            <h:outputText value="Admission Seeking year:"></h:outputText>
+                            <h:selectOneMenu value="#{admission.admissionseekingyear}">
+                                <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
+                                               itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
+                            </h:selectOneMenu>
+
                         </h:panelGrid>
                         <br/>
-                        <h:commandButton action="#{schoolyearscheduleCRUDController.createSchoolyearschedule}" value="  Save  "></h:commandButton>
+                        <h:commandButton action="#{admissionController.createAdmission}" value="  Save  "></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>
