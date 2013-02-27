@@ -4,6 +4,7 @@
  */
 package sis.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import sis.model.Admission;
 import java.util.List;
@@ -34,24 +35,13 @@ public class AdmissionController {
     private List<Admission> admissions;
     @ManagedProperty(value = "#{admission}")
     private Admission admission;
-    
-//    @PostConstruct
-//    public void init() {
-//        retrieveAdmissions();
-//    }
 
-    
     public String createAdmission() {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Admission a = getAdmission();
             a.setCreateddate(new Date());
-            System.out.println("Admissoin year="+a.getAdmissionseekingyear());
-            System.out.println("Application Type="+a.getApplicationtype());
-            System.out.println("Grade level="+a.getGradelevelapplyingfor());
-            a.setTrackingnumber("20130101");
-            entityManager.persist(a);
             userTransaction.commit();
             return "/admin/admissionConfirmation";
         } catch (Exception e) {
@@ -84,6 +74,4 @@ public class AdmissionController {
     public void setAdmission(Admission admission) {
         this.admission = admission;
     }
-
-    
 }
