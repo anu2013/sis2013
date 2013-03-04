@@ -73,7 +73,7 @@ body{
 
 thead{
     font-size: 16px;
-    background-color: #4e4e4e;
+    background-color: #306192;
     color: white;
 }
 
@@ -92,4 +92,8 @@ thead{
 .errorMsg{
     color:red;
     font-weight:bold;
+}
+
+.center-align {
+    margin: 0 auto;
 }
