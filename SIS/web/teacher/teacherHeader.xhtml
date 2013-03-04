@@ -1,0 +1,31 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:panelGroup id="header" layout="block">
+        <table width="100%">
+            <tr>
+                <th align="left">
+                    <div id="logo"></div>
+                </th>
+                <th align="left">
+                    <div id="app-title">Student Information System</div>
+                </th>
+                <th align="right" valign="top">
+                    <h:form>
+                        <div class="navigation" style="display:inline-block; text-decoration: none;">Teacher</div>
+                        <a href="index.xhtml" class="navigation">Home</a>
+                        <h:commandLink action="#{userProfileController.editProfile()}" class="navigation">
+                            <h:outputText value="Update Profile"/>
+                        </h:commandLink>
+                        <h:commandLink action="#{userController.logout}" class="navigation">
+                            <h:outputText value="Logout"/>
+                        </h:commandLink>
+                    </h:form>
+                </th>
+            </tr>
+        </table>
+    </h:panelGroup>
+</ui:composition>
