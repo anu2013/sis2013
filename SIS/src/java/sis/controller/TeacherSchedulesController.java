@@ -32,6 +32,7 @@ public class TeacherSchedulesController {
     private UserController userController;
     
     private List<TeacherSchedule> schedules = new ArrayList<TeacherSchedule>();
+    private TeacherSchedule selectedSchedule = null;
     
     @PostConstruct
     public void init(){
@@ -58,6 +59,7 @@ public class TeacherSchedulesController {
             if (null == schedule) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Schedule not found!"));
             } else {
+                setSelectedSchedule(schedule);
                 return "attendance?faces-redirect=true&sid=" + schedule.getSubjectscheduleid();
             }
         }catch(Exception e){
@@ -78,6 +80,20 @@ public class TeacherSchedulesController {
              }
         }
         return null;
+    }
+    
+     /**
+     * @return the selected schedule
+     */
+    public TeacherSchedule getSelectedSchedule() {
+        return selectedSchedule;
+    }
+
+    /**
+     * @param schedule the selected schedule to set
+     */
+    public void setSelectedSchedule(TeacherSchedule schedule) {
+        this.selectedSchedule = schedule;
     }
     
     /**
