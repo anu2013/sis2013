@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,6 +23,7 @@ import sis.model.TeacherSchedule;
  * @author Anupama Karumudi
  */
 @ManagedBean(name="teacherSchedulesController")
+@SessionScoped
 public class TeacherSchedulesController {
     @PersistenceUnit(unitName="SISPU")
     private EntityManagerFactory entityManagerFactory;
@@ -64,6 +66,20 @@ public class TeacherSchedulesController {
         return null;
     }
 
+     /**
+     * @return schedule by id
+     */
+    public TeacherSchedule getScheduleById(Integer id) {
+        if(null != schedules){
+             for(TeacherSchedule ts : schedules){
+                if(ts.getSubjectscheduleid() == id){
+                    return ts;
+                }
+             }
+        }
+        return null;
+    }
+    
     /**
      * @return the schedules
      */
