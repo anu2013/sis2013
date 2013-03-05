@@ -111,4 +111,8 @@ public class UserController implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public Integer getCurrentSchoolYear() {
+        return 2012;
+    }
 }
