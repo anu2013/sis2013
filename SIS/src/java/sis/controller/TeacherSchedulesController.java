@@ -58,7 +58,7 @@ public class TeacherSchedulesController {
             if (null == schedule) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Schedule not found!"));
             } else {
-                return "takeAttendance?faces-redirect=true&sid=" + schedule.getSubjectscheduleid();
+                return "attendance?faces-redirect=true&sid=" + schedule.getSubjectscheduleid();
             }
         }catch(Exception e){
             e.printStackTrace();
