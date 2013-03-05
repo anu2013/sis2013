@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css"></style>
+    </h:head>
+    <h:body>
+        <ui:include src="teacherHeader.xhtml" />
+
+        <div id="content">
+            <ui:include src="teacherMenu.xhtml" />
+
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:panelGrid rows="2" class="center-align">
+                    <div style="align: middle;">
+                        <h2><u>Attendance</u></h2>
+                    </div>
+
+                    <h:form>
+                        <h:dataTable value="#{teacherSchedulesController.schedules}" var="schedule" cellpadding="7" border="1" width="100%">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
+
+                            <h:column width="10%">
+                                <f:facet name="header">Subject</f:facet>
+                                #{schedule.subject.subjectname}
+                            </h:column>
+
+                            <h:column width="20%">
+                                <f:facet name="header">Period</f:facet>
+                                 #{schedule.period.starttime} to #{schedule.period.endtime}
+                            </h:column>
+
+                            <h:column width="20%">
+                                <f:facet name="header">Schedule Days</f:facet>
+                                #{schedule.scheduledays}
+                            </h:column>
+
+                            <h:column width="20%">
+                                <f:facet name="header">Primary Teacher</f:facet>
+                                #{schedule.primaryTeacherName}
+                            </h:column>
+
+                            <h:column width="20%">
+                                <f:facet name="header">Secondary Teacher</f:facet>
+                                #{schedule.secondaryTeacherName}
+                            </h:column>
+
+                            <h:column width="10%">
+                                <h:commandButton value="Take Attendance" action="#{teacherSchedulesController.takeAttendance(schedule)}" class="btn btn-medium btn-primary" />
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+
+                </h:panelGrid>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+
