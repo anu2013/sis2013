@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
@@ -56,6 +57,7 @@
                 </tr>
             </table>
         </h:panelGroup>
+
         <div id="content">
             <div class="navbar navbar-inverse">
                 <div class="navbar-inner">
@@ -74,30 +76,61 @@
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
                                 <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
                                 <li><a href="/SIS/faces/admin/admissionCRUD.xhtml">Application Submission</a></li>
+                                <li><a href="/SIS/faces/admin/teacherCRUD.xhtml">Teacher</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Subject</h2>
+                    <h2 class="form-container-heading" align="center">Teacher Maintenance</h2>
                     <div align="center">
-                        <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Subject Name:"></h:outputText>
-                            <h:inputText label="Subject Name" value="#{subject.subjectname}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{subject.description}" required="true" rows="5" cols="50">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputTextarea>
+                        <h:dataTable rendered="#{not empty teacherCRUDController.teacher}" value="#{teacherCRUDController.teacher}" var="teacher" border="1" width="50%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="First Name:" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.users.userloginname}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Educational Qualification:" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.educationalqualification}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Desiginiation" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.specialization}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                                <h:commandLink action="#{teacherCRUDController.editteacher(teacher)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>        
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Delete"/>
+                                </f:facet>
+                                <h:commandLink action="#{teacherCRUDController.deleteteacher(teacher)}">
+                                    <h:outputText value="Delete"/>
+                                </h:commandLink>
+                            </h:column>        
+                        </h:dataTable>
 
-                        </h:panelGrid>
+                        <h:panelGroup rendered="#{empty teacherCRUDController.teacher}">
+                            <p>There are no teachers available. Please add new items.</p>
+                        </h:panelGroup>
+
                         <br/>
-                        <h:commandButton action="#{subjectCRUDController.createSubject}" value="  Save  "></h:commandButton>
+
+                        <h:commandButton value="Add Teacher" action="#{teacherCRUDController.addTeacher}">
+                        </h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

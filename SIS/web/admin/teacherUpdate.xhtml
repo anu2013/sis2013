@@ -82,22 +82,22 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Subject</h2>
+                    <h2 class="form-container-heading" align="center">Update Subject</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Subject Name:"></h:outputText>
-                            <h:inputText label="Subject Name" value="#{subject.subjectname}" required="true" size="60">
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                            <h:outputText value="Educational qualification:"></h:outputText>
+                            <h:inputText label="Educational qualification" value="#{teacherCRUDController.teacher.educationalqualification}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{subject.description}" required="true" rows="5" cols="50">
+                            <h:outputText value="Specialization:"></h:outputText>
+                            <h:inputTextarea label="Specialization" value="#{teacherCRUDController.teacher.specialization}" required="true" rows="5" cols="50">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
-
                         </h:panelGrid>
+                        <h:inputHidden value="#{teacherCRUDController.teacher.teacherid}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{subjectCRUDController.createSubject}" value="  Save  "></h:commandButton>
+                        <h:commandButton action="#{teacherCRUDController.updateTeacher}" value="Save"></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

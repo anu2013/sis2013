@@ -74,6 +74,7 @@
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
                                 <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
                                 <li><a href="/SIS/faces/admin/admissionCRUD.xhtml">Application Submission</a></li>
+                                <li><a href="/SIS/faces/admin/teacherCRUD.xhtml">Teacher</a></li>
                             </ul>
                         </div>
                     </div>
@@ -82,22 +83,26 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Subject</h2>
+                    <h2 class="form-container-heading" align="center">Create Teacher</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Subject Name:"></h:outputText>
-                            <h:inputText label="Subject Name" value="#{subject.subjectname}" required="true" size="60">
+                             <h:outputText value="First Name:"></h:outputText>
+                             <h:inputText label="First Name" value="#{userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{subject.description}" required="true" rows="5" cols="50">
+                            <h:outputText value="Educational quaification:"></h:outputText>
+                            <h:inputText label="Educational quaification" value="#{teacher.educationalqualification}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Specialization:"></h:outputText>
+                            <h:inputTextarea label="Specialization" value="#{teacher.specialization}" required="true" rows="5" cols="50">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
 
                         </h:panelGrid>
                         <br/>
-                        <h:commandButton action="#{subjectCRUDController.createSubject}" value="  Save  "></h:commandButton>
+                        <h:commandButton action="#{teacherCRUDController.createTeacher}" value="  Save  "></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>
