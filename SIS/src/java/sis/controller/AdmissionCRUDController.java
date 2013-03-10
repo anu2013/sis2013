@@ -4,25 +4,21 @@
  */
 package sis.controller;
 
-import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIConversion;
-import java.util.Calendar;
 import java.util.Date;
-import sis.model.Admission;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import sis.model.Admission;
+import sis.model.Parent;
+import sis.model.Previouseducation;
 import sis.model.Role;
-import sis.model.Schoolyearschedule;
 
 import sis.model.Student;
 import sis.model.Userprofile;
@@ -46,6 +42,10 @@ public class AdmissionCRUDController {
     private Student student;
     @ManagedProperty(value = "#{userprofile}")
     private Userprofile userprofile;
+    @ManagedProperty(value = "#{previouseducation}")
+    private Previouseducation previouseducation;
+    @ManagedProperty(value = "#{parent}")
+    private Parent parent;
 
     @PostConstruct
     public void init() {
@@ -63,17 +63,29 @@ public class AdmissionCRUDController {
         }
     }
 
-    public String createAdmission() {
+    public void trackApplicationStatus() {
+        try {
+            EntityManager em = entityManagerFactory.createEntityManager();
+            Admission ad = em.find(Admission.class, getAdmission().getAdmissionid());
+            getAdmission().setStatus(ad.getStatus());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String createAdmission(String argApplicationType) {
+        String returnURL = "";
         try {
             EntityManager entityManager = null;
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             Admission ad = getAdmission();
+            ad.setApplicationtype(argApplicationType);
             ad.setCreateddate(new Date());
             ad.setStatus("In-progress");
             entityManager.persist(ad);
             userTransaction.commit();
-            
+
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             Users u = new Users();
@@ -93,12 +105,33 @@ public class AdmissionCRUDController {
             Student st = getStudent();
             st.setStudentid(u.getUserid());
             st.setAdmissionid(ad.getAdmissionid());
+
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(st);
             userTransaction.commit();
-            retrieveAdmissions();
-            return "/admin/admissionCRUD";
+
+            Previouseducation pe = getPreviouseducation();
+            pe.setStudentid(st);
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.persist(pe);
+            userTransaction.commit();
+
+            Parent pa = getParent();
+            pa.setStudentid(st);
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.persist(pa);
+            userTransaction.commit();
+
+            if (argApplicationType.equalsIgnoreCase("Online")) {
+                returnURL = "admissionConfirmation";
+            } else {
+                retrieveAdmissions();
+                returnURL = "/admin/admissionCRUD";
+            }
+            return returnURL;
         } catch (Exception e) {
             e.printStackTrace();
             return "error";
@@ -116,42 +149,62 @@ public class AdmissionCRUDController {
             userTransaction.begin();
             Admission a = em.find(Admission.class, this.admission.getAdmissionid());
             a.setDescription(this.admission.getDescription());
-            a.setApplicationtype(this.admission.getApplicationtype());
             a.setGradelevelapplyingfor(this.admission.getGradelevelapplyingfor());
             a.setAdmissionseekingyear(this.admission.getAdmissionseekingyear());
             em.persist(a);
-            
+
             Student s = em.find(Student.class, this.student.getStudentid());
             s.setRace(this.student.getRace());
+            s.setEthnicity(this.student.getEthnicity());
             em.persist(s);
 
             Userprofile up = em.find(Userprofile.class, this.student.getStudentid());
             up.setFirstname(this.userprofile.getFirstname());
             up.setLastname(this.userprofile.getLastname());
             up.setMiddlename(this.userprofile.getMiddlename());
-            
+            up.setGender(this.userprofile.getGender());
+            up.setDateofbirth(this.userprofile.getDateofbirth());
             up.setCurrentaddress1(this.userprofile.getCurrentaddress1());
             up.setCurrentaddress2(this.userprofile.getCurrentaddress2());
             up.setCurrentcity(this.userprofile.getCurrentcity());
             up.setCurrentstate(this.userprofile.getCurrentstate());
             up.setCurrentzip(this.userprofile.getCurrentzip());
             up.setCurrentcountry(this.userprofile.getCurrentcountry());
-            
             up.setMailingaddress1(this.userprofile.getMailingaddress1());
             up.setMailingaddress2(this.userprofile.getMailingaddress2());
             up.setMailingcity(this.userprofile.getMailingcity());
             up.setMailingstate(this.userprofile.getMailingstate());
             up.setMailingzip(this.userprofile.getMailingzip());
             up.setMailingcountry(this.userprofile.getMailingcountry());
-            
             up.setEmail1(this.userprofile.getEmail1());
             up.setEmail2(this.userprofile.getEmail2());
-            
             up.setHomephone(this.userprofile.getEmail2());
             up.setMobilephone(this.userprofile.getMobilephone());
             up.setHomephone(this.userprofile.getHomephone());
-            
             em.persist(up);
+
+            Parent pa = em.find(Parent.class, this.parent.getParentid());
+            pa.setParentfirstname(this.parent.getParentfirstname());
+            pa.setParentlastname(this.parent.getParentlastname());
+            pa.setParenteducation(this.parent.getParenteducation());
+            pa.setParentcontactaddress1(this.parent.getParentcontactaddress1());
+            pa.setParentcontactaddress2(this.parent.getParentcontactaddress2());
+            pa.setParentcontactcity(this.parent.getParentcontactcity());
+            pa.setParentcontactstate(this.parent.getParentcontactstate());
+            pa.setParentcontactzip(this.parent.getParentcontactzip());
+            pa.setParentcontactcountry(this.parent.getParentcontactcountry());
+            pa.setRelationshipwithstudent(this.parent.getRelationshipwithstudent());
+            
+            Previouseducation pe = em.find(Previouseducation.class, this.previouseducation.getPreviousschoolid());
+            pe.setLastattendedgradelevel(this.previouseducation.getLastattendedgradelevel());         
+            pe.setPreviousschoolname(this.previouseducation.getPreviousschoolname());
+            pe.setPreviousschooladdress1(this.previouseducation.getPreviousschooladdress1());
+            pe.setPreviousschooladdress2(this.previouseducation.getPreviousschooladdress2());
+            pe.setPreviousschoolcity(this.previouseducation.getPreviousschoolcity());
+            pe.setPreviousschoolstate(this.previouseducation.getPreviousschoolstate());
+            pe.setPreviousschoolzip(this.previouseducation.getPreviousschoolzip());
+            pe.setPreviousschoolcountry(this.previouseducation.getPreviousschoolcountry());
+            
             userTransaction.commit();
             retrieveAdmissions();
             return "/admin/admissionCRUD";
@@ -178,8 +231,8 @@ public class AdmissionCRUDController {
 
     public String editAdmission(Admission argAdmission) {
         this.admission = argAdmission;
-
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         String queryString = "select s from Student s  where s.admissionid = :admissionid";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("admissionid", argAdmission.getAdmissionid());
@@ -190,7 +243,20 @@ public class AdmissionCRUDController {
         query = entityManager.createQuery(queryString);
         query.setParameter("userid", s.getStudentid());
         Userprofile up = (Userprofile) query.getSingleResult();
-        this.userprofile=up;
+        this.userprofile = up;
+        
+        queryString = "select pa from Parent pa  where pa.studentid.studentid = :studentid";
+        query = entityManager.createQuery(queryString);
+        query.setParameter("studentid", s.getStudentid());
+        Parent pa = (Parent) query.getSingleResult();
+        this.parent = pa;
+        
+        queryString = "select pe from Previouseducation pe  where pe.studentid.studentid = :studentid";
+        query = entityManager.createQuery(queryString);
+        query.setParameter("studentid", s.getStudentid());
+        Previouseducation pe = (Previouseducation) query.getSingleResult();
+        this.previouseducation = pe;
+        
         return "/admin/admissionUpdate";
     }
 
@@ -248,5 +314,33 @@ public class AdmissionCRUDController {
      */
     public void setUserprofile(Userprofile userprofile) {
         this.userprofile = userprofile;
+    }
+
+    /**
+     * @return the previouseducation
+     */
+    public Previouseducation getPreviouseducation() {
+        return previouseducation;
+    }
+
+    /**
+     * @param previouseducation the previouseducation to set
+     */
+    public void setPreviouseducation(Previouseducation previouseducation) {
+        this.previouseducation = previouseducation;
+    }
+
+    /**
+     * @param parent the parent to set
+     */
+    public void setParent(Parent parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * @return the parent
+     */
+    public Parent getParent() {
+        return parent;
     }
 }

@@ -86,20 +86,96 @@
                     <h2 class="form-container-heading" align="center">Create Teacher</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                             <h:outputText value="First Name:"></h:outputText>
-                             <h:inputText label="First Name" value="#{userprofile.firstname}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                        <h:panelGrid align="center" columns="4" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="First Name:"></h:outputText>
+                            <h:inputText label="First Name" value="#{userprofile.firstname}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Last Name:"></h:outputText>
+                            <h:inputText label="Last Name" value="#{userprofile.lastname}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Middle Name:"></h:outputText>
+                            <h:inputText label="Middle Name" value="#{userprofile.middlename}" size="60">
+                                <f:validateLength maximum="10"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Gender:"></h:outputText>
+                            <h:selectOneMenu value="#{userprofile.gender}">
+                                <f:selectItem itemValue="Male" itemLabel="Male" />
+                                <f:selectItem itemValue="Female" itemLabel="Female" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Current Address 1:"></h:outputText>
+                            <h:inputText label="Current Address 1" value="#{userprofile.currentaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current Address 2:"></h:outputText>
+                            <h:inputText label="Current Address 2" value="#{userprofile.currentaddress2}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current City:"></h:outputText>
+                            <h:inputText label="Current City" value="#{userprofile.currentcity}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current State:"></h:outputText>
+                            <h:inputText label="Current State" value="#{userprofile.currentstate}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current Zip:"></h:outputText>
+                            <h:inputText label="Current Zip" value="#{userprofile.currentzip}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing Address 1:"></h:outputText>
+                            <h:inputText label="Mailing Address 1" value="#{userprofile.mailingaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing Address 2:"></h:outputText>
+                            <h:inputText label="Mailing Address 2" value="#{userprofile.mailingaddress2}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing City:"></h:outputText>
+                            <h:inputText label="Mailing City" value="#{userprofile.mailingcity}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing State:"></h:outputText>
+                            <h:inputText label="Mailing State" value="#{userprofile.mailingstate}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing Zip:"></h:outputText>
+                            <h:inputText label="Mailing Zip" value="#{userprofile.mailingzip}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Email 1:"></h:outputText>
+                            <h:inputText label="Email 1" value="#{userprofile.email1}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Email 2:"></h:outputText>
+                            <h:inputText label="Email 2" value="#{userprofile.email2}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Home Phone:"></h:outputText>
+                            <h:inputText label="Home Phone" value="#{userprofile.homephone}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mobile Phone:"></h:outputText>
+                            <h:inputText label="Mobile Phone" value="#{userprofile.mobilephone}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Work Phone:"></h:outputText>
+                            <h:inputText label="Work Phone" value="#{userprofile.workphone}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Educational quaification:"></h:outputText>
-                            <h:inputText label="Educational quaification" value="#{teacher.educationalqualification}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                            <h:inputText label="Educational quaification" value="#{teacher.educationalqualification}" size="60">
+                                <f:validateLength maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Specialization:"></h:outputText>
-                            <h:inputTextarea label="Specialization" value="#{teacher.specialization}" required="true" rows="5" cols="50">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputTextarea>
-
+                            <h:inputText label="Specialization" value="#{teacher.specialization}">
+                                <f:validateLength maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Years of experience:"></h:outputText>
+                            <h:inputText label="YearsOfExperience" value="#{teacher.yearsofexperience}">
+                                <f:validateLength maximum="2"></f:validateLength>
+                            </h:inputText>
                         </h:panelGrid>
                         <br/>
                         <h:commandButton action="#{teacherCRUDController.createTeacher}" value="  Save  "></h:commandButton>

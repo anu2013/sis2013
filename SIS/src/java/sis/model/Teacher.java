@@ -6,6 +6,7 @@ package sis.model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ import javax.validation.constraints.Size;
  *
  * @author Anupama Karumudi
  */
+@ManagedBean
 @Entity
 @Table(name = "TEACHER")
 @NamedQueries({
@@ -42,6 +44,9 @@ public class Teacher implements Serializable {
     @Size(max = 255)
     @Column(name = "SPECIALIZATION")
     private String specialization;
+    @JoinColumn(name = "TEACHERID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Userprofile userprofile;  
     @JoinColumn(name = "TEACHERID", referencedColumnName = "USERID", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Users users;
@@ -130,6 +135,7 @@ public class Teacher implements Serializable {
         return hash;
     }
 
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -146,6 +152,20 @@ public class Teacher implements Serializable {
     @Override
     public String toString() {
         return "sis.model.Teacher[ teacherid=" + teacherid + " ]";
+    }
+
+    /**
+     * @return the userprofile
+     */
+    public Userprofile getUserprofile() {
+        return userprofile;
+    }
+
+    /**
+     * @param userprofile the userprofile to set
+     */
+    public void setUserprofile(Userprofile userprofile) {
+        this.userprofile = userprofile;
     }
     
 }
