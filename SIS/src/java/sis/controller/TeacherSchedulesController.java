@@ -4,6 +4,7 @@
  */
 package sis.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,7 +25,7 @@ import sis.model.TeacherSchedule;
  */
 @ManagedBean(name="teacherSchedulesController")
 @SessionScoped
-public class TeacherSchedulesController {
+public class TeacherSchedulesController implements Serializable {
     @PersistenceUnit(unitName="SISPU")
     private EntityManagerFactory entityManagerFactory;
     
@@ -42,9 +43,10 @@ public class TeacherSchedulesController {
     private void populateSchedules(){
         try{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select ts from TeacherSchedule ts where ts.primaryteacher.teacherid = :uid or ts.secondaryteacher.teacherid = :uid";
+            String queryString = "select ts from TeacherSchedule ts where (ts.primaryteacher.teacherid = :uid or ts.secondaryteacher.teacherid = :uid) and ts.schoolyear.schoolyear = :sy";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("uid", userController.getUser().getUserid());
+            query.setParameter("sy", userController.getCurrentSchoolYear());
             List<TeacherSchedule> records = query.getResultList();
             if(records != null){
                 setSchedules(records);
