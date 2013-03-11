@@ -117,7 +117,7 @@ public class TeacherAttendanceController implements Serializable{
             Query query = entityManager.createQuery(queryString);
             query.setParameter("ssid", getSelectedSchedule().getSubjectscheduleid());
             List<StudentSchedule> records = query.getResultList();
-            if(records != null){
+            if(records != null && records.size() > 0){
                 for(StudentSchedule ss : records){
                     // Get Grade Level
                     queryString = "select sgl from Studentgradelevel sgl where sgl.student.studentid = :studentid and sgl.schoolyear.schoolyear = :schoolyear";
@@ -163,6 +163,8 @@ public class TeacherAttendanceController implements Serializable{
                     ss.setSelectedDayAttendance(at);
                 }
                 setStudentSchedules(records);
+            }else{
+                setErrorMessage("There are no students enrolled in this class.");
             }
         }catch(Exception e){
             e.printStackTrace();
