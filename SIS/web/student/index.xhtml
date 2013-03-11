@@ -14,59 +14,49 @@
     <h:body>
         <ui:include src="studentHeader.xhtml" />
 
-        <div id="content">
+         <div id="content">
             <ui:include src="studentMenu.xhtml" />
 
             <h:panelGroup id="container" layout="block" class="center-align">
                 <h:panelGrid rows="2" class="center-align">
                     <div style="align: middle;">
                         <h4><u>Schedules</u></h4>
+                        
+                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
 
                     <h:form>
+                        <h:dataTable value="#{studentSchedulesController.schedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                      rendered="#{studentSchedulesController.schedules != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
 
-                        <table width="850" cellpadding="7" border="1">
-                        <thead>
-                                <tr>
-                                        <th scope="col">Subject</th>
-                                        <th scope="col">Period</th>
-                                        <th scope="col">Schedule Days</th>
-                                        <th scope="col">Teacher</th>
-                                </tr>
-                        </thead>
-                        <tbody>
-                                <tr>
-                                        <td>Drawing</td>
-                                        <td>8:30 AM to 9:30 AM</td>
-                                        <td> M,T,W,TH,F </td>
-                                        <td>Hijack Houston</td>
-                                </tr>
-                                 <tr>
-                                        <td>English</td>
-                                        <td>9:30 AM to 10:30 AM</td>
-                                        <td> M,T,W,TH,F</td>
-                                        <td>Hijack Houston</td>
-                                </tr>
-                                 <tr>
-                                        <td>Spanish</td>
-                                        <td>10:30 AM to 11:30 AM</td>
-                                        <td> M,T,W,TH,F</td>
-                                        <td>Hijack Houston</td>
-                                </tr>
-                                <tr>
-                                        <td>Maths</td>
-                                        <td>12:30 PM to 1:30 PM</td>
-                                        <td> M,T,W,TH,F</td>
-                                        <td>Hijack Houston</td>
-                                </tr>
-                                <tr>
-                                        <td>Music</td>
-                                        <td>1:30 PM to 3:30 PM</td>
-                                        <td> M,T,W,TH,F</td>
-                                        <td>Hijack Houston</td>
-                                </tr>
-                        </tbody>
-                        </table>
+                            <h:column>
+                                <f:facet name="header">Subject</f:facet>
+                                #{schedule.schedule.subject.subjectname}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Period</f:facet>
+                                 #{schedule.schedule.period.starttime} to #{schedule.schedule.period.endtime}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Schedule Days</f:facet>
+                                #{schedule.schedule.scheduledays}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Primary Teacher</f:facet>
+                                #{schedule.schedule.primaryTeacherName}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Secondary Teacher</f:facet>
+                                #{schedule.schedule.secondaryTeacherName}
+                            </h:column>
+
+                        </h:dataTable>
                     </h:form>
 
                 </h:panelGrid>
@@ -74,4 +64,3 @@
         </div>
     </h:body>
 </html>
-
