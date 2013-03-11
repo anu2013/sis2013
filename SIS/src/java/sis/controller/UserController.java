@@ -13,6 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import sis.model.Schoolyearschedule;
+import sis.model.Userprofile;
 import sis.model.Users;
 
 /**
@@ -27,6 +29,8 @@ public class UserController implements Serializable {
     private String userName;
     private String password;
     private Users loggedInUser;
+    private Userprofile profile;
+    private Schoolyearschedule currentSchoolYearShedule;
     
     public String login(){
         try{
@@ -46,6 +50,25 @@ public class UserController implements Serializable {
                 userName = null;
                 password = null;
             } else {
+                queryString = "select sys from Schoolyearschedule sys where sys.schoolyear in (select max(sy.schoolyear) from Schoolyearschedule sy)";
+                query = entityManager.createQuery(queryString);
+                query.setMaxResults(1);
+                try{
+                    setCurrentSchoolYearShedule((Schoolyearschedule)query.getSingleResult());
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+                
+                queryString = "select up from Userprofile up where up.userid = :userid";
+                query = entityManager.createQuery(queryString);
+                query.setParameter("userid", loggedInUser.getUserid());
+                try{
+                    setProfile((Userprofile)query.getSingleResult());
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+                
+                //select * from SCHOOLYEARSCHEDULE where schoolyear in (select max(schoolyear) from SCHOOLYEARSCHEDULE); 
                 if(loggedInUser.getIsAdmin()){
                     return "admin/index?faces-redirect=true";
                 }else if(loggedInUser.getIsTeacher()){
@@ -112,7 +135,23 @@ public class UserController implements Serializable {
         this.password = password;
     }
     
+    public Userprofile getProfile() {
+        return profile;
+    }
+     
+    public void setProfile(Userprofile profile) {
+        this.profile = profile;
+    }
+
+    public Schoolyearschedule getCurrentSchoolYearShedule() {
+        return currentSchoolYearShedule;
+    }
+     
+    public void setCurrentSchoolYearShedule(Schoolyearschedule schoolYear) {
+        this.currentSchoolYearShedule = schoolYear;
+    }
+    
     public Integer getCurrentSchoolYear() {
-        return 2012;
+        return getCurrentSchoolYearShedule().getSchoolyear();
     }
 }
