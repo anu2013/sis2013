@@ -43,10 +43,13 @@
                     </th>
                     <th align="right" valign="top">
                         <h:form>
-                            <div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>
+                            <!--<div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>-->
                             <a href="index.xhtml" class="navigation">Home</a>
-                            <h:commandLink action="#{userProfileController.editProfile()}" class="navigation">
+                            <h:commandLink action="#{userProfileController.editProfile}" class="navigation">
                                 <h:outputText value="Update Profile"/>
+                            </h:commandLink>
+                            <h:commandLink action="#{userProfileController.editPassword}" class="navigation">
+                                <h:outputText value="Change Password"/>
                             </h:commandLink>
                             <h:commandLink action="#{userController.logout}" class="navigation">
                                 <h:outputText value="Logout"/>
@@ -65,15 +68,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>
+                        <!--<a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>-->
                         <div class="nav-collapse collapse">
                             <ul class="nav">
-                                <li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>
+                                <!--<li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>-->
                                 <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
                                 <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
                                 <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
                                 <li><a href="/SIS/faces/admin/admissionCRUD.xhtml">Application Submission</a></li>
+                                <li><a href="/SIS/faces/admin/teacherCRUD.xhtml">Teacher</a></li>
+                                <li><a href="/SIS/faces/admin/studentCRUD.xhtml">Student</a></li>
                             </ul>
                         </div>
                     </div>
@@ -85,7 +90,7 @@
                     <h2 class="form-container-heading" align="center">Update Profile</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                        <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign">
                             <h:outputText value="First Name:"></h:outputText>
                             <h:inputText label="First Name" value="#{userProfileController.userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
@@ -98,6 +103,15 @@
                             <h:inputText label="Middle Name" value="#{userProfileController.userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
+                            <h:outputText value="Date of Birth(MM-dd-yyyy):"></h:outputText>
+                            <h:inputText label="Date of Birth" value="#{userProfileController.userprofile.dateofbirth}" size="60">
+                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                            </h:inputText>
+                            <h:outputText value="Gender:"></h:outputText>
+                            <h:selectOneMenu value="#{userProfileController.userprofile.gender}">
+                                <f:selectItem itemValue="Male" itemLabel="Male" />
+                                <f:selectItem itemValue="Female" itemLabel="Female" />
+                            </h:selectOneMenu>
                             <h:outputText value="Current Address 1:"></h:outputText>
                             <h:inputText label="Current Address 1" value="#{userProfileController.userprofile.currentaddress1}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
