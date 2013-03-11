@@ -4,21 +4,15 @@
  */
 package sis.controller;
 
-import sis.model.Period;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.Query;
 import javax.transaction.UserTransaction;
-import sis.model.Admission;
-import sis.model.Schoolyearschedule;
 import sis.model.Userprofile;
 import sis.model.Users;
 
@@ -36,23 +30,34 @@ public class UserProfileController {
     private List<Userprofile> userprofiles;
     @ManagedProperty(value = "#{userprofile}")
     private Userprofile userprofile;
+    @ManagedProperty(value = "#{users}")
+    private Users changepassworduser;
     
-//    @PostConstruct
-//    public void init() {
-//        retrieveUserProfiles();
-//    }
-//
-//    private void retrieveUserProfiles() {
-//        try {
-//            EntityManager entityManager = entityManagerFactory.createEntityManager();
-//            String queryString = "select up from Userprofile up";
-//            Query query = entityManager.createQuery(queryString);
-//            this.setUserprofiles((List<Userprofile>) query.getResultList());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
+    public String updatePassword() {
+        try {
+            EntityManager em = entityManagerFactory.createEntityManager();
+            userTransaction.begin();
+            Users u = em.find(Users.class, this.changepassworduser.getUserid());
+            u.setPassword(this.changepassworduser.getPassword());
+            em.persist(u);
+            userTransaction.commit();
+            UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
+            Users loggedInUser = userController.getUser();
+            String returnURL = "";
+            if (loggedInUser.getIsAdmin()) {
+                returnURL = "/admin/updateUserPasswordConfirmation";
+            } else if (loggedInUser.getIsTeacher()) {
+                returnURL = "/teacher/updateUserPasswordConfirmation";
+            } else if (loggedInUser.getIsStudent()) {
+                returnURL = "/student/updateUserPasswordConfirmation";
+            }
+            return returnURL;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+    
     public String updateProfile() {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
@@ -61,6 +66,8 @@ public class UserProfileController {
             up.setFirstname(this.userprofile.getFirstname());
             up.setLastname(this.userprofile.getLastname());
             up.setMiddlename(this.userprofile.getMiddlename());
+            up.setDateofbirth(this.userprofile.getDateofbirth());
+            up.setGender(this.userprofile.getGender());
             up.setCurrentaddress1(this.userprofile.getCurrentaddress1());
             up.setCurrentaddress2(this.userprofile.getCurrentaddress2());
             up.setCurrentcity(this.userprofile.getCurrentcity());
@@ -113,6 +120,23 @@ public class UserProfileController {
         }
         return returnURL;
     }
+    
+    public String editPassword() {
+        UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
+        Users loggedInUser = userController.getUser();
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Users u = em.find(Users.class, loggedInUser.getUserid());
+        this.changepassworduser = u;
+        String returnURL = "";
+        if (loggedInUser.getIsAdmin()) {
+            returnURL = "/admin/updateUserPassword";
+        } else if (loggedInUser.getIsTeacher()) {
+            returnURL = "/teacher/updateUserPassword";
+        } else if (loggedInUser.getIsStudent()) {
+            returnURL = "/student/updateUserPassword";
+        }
+        return returnURL;
+    }
 
     /**
      * @return the userprofile
@@ -140,6 +164,20 @@ public class UserProfileController {
      */
     public void setUserprofiles(List<Userprofile> userprofiles) {
         this.userprofiles = userprofiles;
+    }
+
+    /**
+     * @return the changepassworduser
+     */
+    public Users getChangepassworduser() {
+        return changepassworduser;
+    }
+
+    /**
+     * @param changepassworduser the changepassworduser to set
+     */
+    public void setChangepassworduser(Users changepassworduser) {
+        this.changepassworduser = changepassworduser;
     }
     
     

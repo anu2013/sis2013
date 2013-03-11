@@ -78,6 +78,10 @@ public class Student implements Serializable {
     @OneToMany(mappedBy = "studentid")
     private List<Studentscorecard> studentscorecardList;
 
+    @JoinColumn(name = "STUDENTID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Userprofile userprofile;  
+    
     public Student() {
     }
 
@@ -244,6 +248,20 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return "sis.model.Student[ studentid=" + studentid + " ]";
+    }
+
+    /**
+     * @return the userprofile
+     */
+    public Userprofile getUserprofile() {
+        return userprofile;
+    }
+
+    /**
+     * @param userprofile the userprofile to set
+     */
+    public void setUserprofile(Userprofile userprofile) {
+        this.userprofile = userprofile;
     }
     
 }
