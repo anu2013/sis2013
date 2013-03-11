@@ -89,21 +89,56 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Grade Level</h2>
+                    <h4 class="form-container-heading" align="center">Student Maintenance</h4>
                     <div align="center">
-                        <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Grade Level:"></h:outputText>
-                            <h:inputText label="Grade Level" value="#{gradelevel.gradelevel}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{gradelevel.description}" required="true" rows="5" cols="50">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputTextarea>
-                        </h:panelGrid>
-                        <br/>
-                        <h:commandButton action="#{gradelevelCRUDController.createGradelevel}" value="  Save  "></h:commandButton>
+                        <h:dataTable rendered="#{not empty studentCRUDController.students}" value="#{studentCRUDController.students}" var="student" border="1" width="100%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="First Name" />
+                                </f:facet>        
+                                <h:outputText value="${student.userprofile.firstname}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Last Name" />
+                                </f:facet>        
+                                <h:outputText value="${student.userprofile.lastname}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Gender" />
+                                </f:facet>        
+                                <h:outputText value="${student.userprofile.gender}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Date of Birth" />
+                                </f:facet>        
+                                <h:outputText value="${student.userprofile.dateofbirth}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Email Address" />
+                                </f:facet>        
+                                <h:outputText value="${student.userprofile.email1}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Home Phone" />
+                                </f:facet>        
+                                <h:outputText value="${student.userprofile.homephone}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                               
+                                <h:commandLink action="#{studentCRUDController.editStudent(student)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>        
+                        </h:dataTable>
+
                     </div>
                 </h:form>
             </h:panelGroup>
