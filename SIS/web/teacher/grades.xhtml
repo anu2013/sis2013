@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      >
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css"></style>
+    </h:head>
+    <h:body>
+         <ui:include src="teacherHeader.xhtml" />
+
+        <div id="content">
+            <ui:include src="teacherMenu.xhtml" />
+
+            <h:panelGroup id="container" layout="block" class="center-align">
+               <h:form>
+                <h:panelGrid rows="2" class="center-align" width="850">
+                    <div style="align: middle;">
+                        <h4><u>Grades</u></h4>
+                        
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Subject:"/>
+                            <h:outputText value=""/>
+                            <h:selectOneMenu class="right25" style="width:250px;"
+                                            value="#{teacherGradesController.selectedScheduleId}"
+                                            converter="javax.faces.Integer"
+                                            >
+                               <f:selectItem itemLabel="Select a subject" itemValue="0" />
+                               <f:selectItems value="#{teacherGradesController.schedulesController.schedules}" var="schedule" itemLabel="#{schedule.subject.subjectname}" itemValue="#{schedule.subjectscheduleid}"/>
+                            </h:selectOneMenu>
+                            <h:commandButton action="#{teacherGradesController.goButton}" value="Go" class="btn btn-medium btn-primary" style="margin-top:-8px;"></h:commandButton>
+                        </h:panelGrid>
+                        
+                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                    </div>
+                                        
+                    <h:dataTable value="#{teacherGradesController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                 rendered="#{teacherGradesController.studentSchedules != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
+
+                            <h:column>
+                                <f:facet name="header">Student Name</f:facet>
+                                #{schedule.student.profile.firstname}  #{schedule.student.profile.lastname}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Student ID</f:facet>
+                                #{schedule.student.studentid}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Grade Level</f:facet>
+                                #{schedule.gradeLevel.gradelevel}
+                            </h:column>
+                            
+                             <h:column>
+                                <f:facet name="header">Final Score</f:facet>
+                                <h:inputText label="Final Score" value="#{schedule.scoreCard.finalscore}" required="true" maxlength="3"
+                                             converterMessage="Please enter digits only." style="width:60px"
+                                             >
+                                    <f:validateLongRange minimum="0" maximum="200" />
+                                </h:inputText>
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">Grade Letter</f:facet>
+                                <h:selectOneMenu style="width:100px;"
+                                            value="#{schedule.scoreCard.gradeletter}"
+                                            >
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItem itemLabel="A+" itemValue="A+" />
+                                    <f:selectItem itemLabel="A" itemValue="A" />
+                                    <f:selectItem itemLabel="B+" itemValue="B+" />
+                                    <f:selectItem itemLabel="B" itemValue="B" />
+                                    <f:selectItem itemLabel="C+" itemValue="C+" />
+                                    <f:selectItem itemLabel="C" itemValue="C" />
+                                </h:selectOneMenu>
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">Comments</f:facet>
+                                <h:inputTextarea label="Comments" value="#{schedule.scoreCard.comments}" style="width:175px; height:40px;">
+                                    <f:validateLength minimum="0" maximum="250"></f:validateLength>
+                                </h:inputTextarea>
+                            </h:column>
+
+                        </h:dataTable>
+                        
+                        <h:commandButton value="Save" action="#{teacherGradesController.saveScoreCards(teacherGradesController.studentSchedules)}" 
+                                         class="btn btn-medium btn-primary" 
+                                         style="float:right; clear:both; margin-top:20px;"
+                                         rendered="#{teacherGradesController.studentSchedules != null}"/>
+
+                </h:panelGrid>
+               </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
