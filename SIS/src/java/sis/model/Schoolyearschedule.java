@@ -42,14 +42,6 @@ public class Schoolyearschedule implements Serializable {
     @Column(name = "ENDDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enddate;
-    @OneToMany(mappedBy = "schoolyear")
-    private List<Period> periodList;
-    @OneToMany(mappedBy = "schoolyear")
-    private List<Studentgradelevel> studentgradelevelList;
-    @OneToMany(mappedBy = "schoolyear")
-    private List<Subjectschedule> subjectscheduleList;
-    @OneToMany(mappedBy = "schoolyear")
-    private List<Studentscorecard> studentscorecardList;
 
     public Schoolyearschedule() {
     }
@@ -80,38 +72,6 @@ public class Schoolyearschedule implements Serializable {
 
     public void setEnddate(Date enddate) {
         this.enddate = enddate;
-    }
-
-    public List<Period> getPeriodList() {
-        return periodList;
-    }
-
-    public void setPeriodList(List<Period> periodList) {
-        this.periodList = periodList;
-    }
-
-    public List<Studentgradelevel> getStudentgradelevelList() {
-        return studentgradelevelList;
-    }
-
-    public void setStudentgradelevelList(List<Studentgradelevel> studentgradelevelList) {
-        this.studentgradelevelList = studentgradelevelList;
-    }
-
-    public List<Subjectschedule> getSubjectscheduleList() {
-        return subjectscheduleList;
-    }
-
-    public void setSubjectscheduleList(List<Subjectschedule> subjectscheduleList) {
-        this.subjectscheduleList = subjectscheduleList;
-    }
-
-    public List<Studentscorecard> getStudentscorecardList() {
-        return studentscorecardList;
-    }
-
-    public void setStudentscorecardList(List<Studentscorecard> studentscorecardList) {
-        this.studentscorecardList = studentscorecardList;
     }
 
     @Override
