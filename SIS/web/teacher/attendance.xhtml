@@ -24,6 +24,10 @@
             margin-right: 25px;
             display: block;
           }
+          
+           td.center-text {
+                text-align: center;
+            }
         </style>
     </h:head>
     <h:body>
@@ -68,6 +72,7 @@
                     </div>
                     
                     <h:dataTable value="#{teacherAttendanceController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                 columnClasses="none,none,none,center-text"
                                  rendered="#{teacherAttendanceController.studentSchedules != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
