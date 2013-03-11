@@ -89,70 +89,49 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Admission Maintenance</h2>
+                    <h2 class="form-container-heading" align="center">Application Maintenance</h2>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty admissionCRUDController.admissions}" value="#{admissionCRUDController.admissions}" var="admission" border="1" width="100%">
-                            <h:column>        
+                        <h:dataTable rendered="#{not empty admissionCRUDController.admissionsteps}" value="#{admissionCRUDController.admissionsteps}" var="admissionstep" border="1" width="100%">
+                            <h:column>
                                 <f:facet name="header">            
-                                    <h:outputText value="Description" />
+                                    <h:outputText value="Name" />
                                 </f:facet>        
-                                <h:outputText value="${admission.description}" />    
+                                <h:outputText value="${admissionstep.admissionstepname}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Created Date" />
                                 </f:facet>        
-                                <h:outputText value="${admission.createddate}">
+                                <h:outputText value="${admissionstep.createddate}">
                                     <f:convertDateTime type="date" pattern="dd-MMM-yyyy"/>
                                 </h:outputText>
                             </h:column>
-                            <h:column>        
+                            <h:column width="80%">
                                 <f:facet name="header">            
-                                    <h:outputText value="Status" />
-                                </f:facet>        
-                                <h:outputText value="${admission.status}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Type" />
-                                </f:facet>        
-                                <h:outputText value="${admission.applicationtype}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Seeking year" />
-                                </f:facet>        
-                                <h:outputText value="${admission.admissionseekingyear}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Tracking #" />
-                                </f:facet>        
-                                <h:outputText value="${admission.admissionid}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Edit"/>
+                                    <h:outputText value="Comments History"/>
                                 </f:facet>
-                                <h:commandLink action="#{admissionCRUDController.editAdmission(admission)}">
-                                    <h:outputText value="Edit"/>
-                                </h:commandLink>
-                            </h:column>    
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Steps"/>
-                                </f:facet>
-                                <h:commandLink action="#{admissionCRUDController.retrieveAdmissonSteps(admission)}">
-                                    <h:outputText value="Steps"/>
-                                </h:commandLink>
+                                <h:dataTable rendered="#{not empty admissionstep.admissionstepcommentList}" value="#{admissionstep.admissionstepcommentList}" var="admissionstepcomment" border="0" width="100%">
+                                    <h:column>
+                                        <h:outputText value="["/>
+                                        <h:outputText value="${admissionstepcomment.entereddate}">
+                                            <f:convertDateTime type="date" pattern="dd-MMM-yyyy"/>
+                                        </h:outputText>
+                                        <h:outputText value="]:${admissionstepcomment.comments}"/>
+                                    </h:column>
+                                </h:dataTable>
                             </h:column>    
                         </h:dataTable>
-                        <h:panelGroup rendered="#{empty admissionCRUDController.admissions}">
-                            <p>There are no grade levels available. Please add new items.</p>
-                        </h:panelGroup>
-                        <br></br>
-                        <h:commandButton value="Submit new Application" action="#{admissionCRUDController.addAdmission}">
-                        </h:commandButton>
+                        <br/>
+                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="Comments:"></h:outputText>
+                            <h:inputTextarea label="Comments" required="true" rows="5" cols="100">
+                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                            </h:inputTextarea>
+                        </h:panelGrid>
+                        <br/>
+                        <h:commandButton value="Interview request" action="#"/>
+                        <h:commandButton value="Approve" action="#"/>
+                        <h:commandButton value="Reject" action="#"/>
                     </div>
                 </h:form>
             </h:panelGroup>

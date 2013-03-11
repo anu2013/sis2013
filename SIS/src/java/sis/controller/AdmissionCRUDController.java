@@ -16,6 +16,7 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import sis.model.Admission;
+import sis.model.Admissionstep;
 import sis.model.Parent;
 import sis.model.Previouseducation;
 import sis.model.Role;
@@ -46,6 +47,8 @@ public class AdmissionCRUDController {
     private Previouseducation previouseducation;
     @ManagedProperty(value = "#{parent}")
     private Parent parent;
+    
+    private List<Admissionstep> admissionsteps;
 
     @PostConstruct
     public void init() {
@@ -259,6 +262,17 @@ public class AdmissionCRUDController {
         
         return "/admin/admissionUpdate";
     }
+    
+    
+    public String retrieveAdmissonSteps(Admission argAdmission) {
+        this.admission = argAdmission;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        String queryString = "select ast from Admissionstep ast  where ast.admissionid.admissionid = :admissionid";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("admissionid", argAdmission.getAdmissionid());
+        this.setAdmissionsteps((List<Admissionstep>) query.getResultList());
+        return "/admin/admissionStepsCRUD";
+    }
 
     /**
      * @return the admissions
@@ -343,4 +357,20 @@ public class AdmissionCRUDController {
     public Parent getParent() {
         return parent;
     }
+
+    /**
+     * @return the admissionstps
+     */
+    public List<Admissionstep> getAdmissionsteps() {
+        return admissionsteps;
+    }
+
+    /**
+     * @param admissionstps the admissionstps to set
+     */
+    public void setAdmissionsteps(List<Admissionstep> admissionsteps) {
+        this.admissionsteps = admissionsteps;
+    }
+    
+    
 }

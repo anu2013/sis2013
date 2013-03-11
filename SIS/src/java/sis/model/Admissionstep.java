@@ -29,12 +29,13 @@ import javax.validation.constraints.Size;
  *
  * @author Anupama Karumudi
  */
- @ManagedBean
-  @Entity
+@ManagedBean
+@Entity
 @Table(name = "ADMISSIONSTEP")
 @NamedQueries({
     @NamedQuery(name = "Admissionstep.findAll", query = "SELECT a FROM Admissionstep a")})
 public class Admissionstep implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -166,5 +167,4 @@ public class Admissionstep implements Serializable {
     public String toString() {
         return "sis.model.Admissionstep[ admissionstepid=" + admissionstepid + " ]";
     }
-    
 }
