@@ -4,12 +4,27 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
       >
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
-        <style type="text/css"></style>
+        <style type="text/css">
+          .attendanceRadioGroup input {
+            float: left;
+            margin-left: 30px;
+            margin-top: 3px;
+          }
+
+          .attendanceRadioGroup label {
+            margin-left: 45px;
+            margin-right: 25px;
+            display: block;
+          }
+        </style>
     </h:head>
     <h:body>
         <ui:include src="teacherHeader.xhtml" />
@@ -18,48 +33,80 @@
             <ui:include src="teacherMenu.xhtml" />
 
             <h:panelGroup id="container" layout="block" class="center-align">
-                <h:panelGrid rows="2" class="center-align">
+               <h:form>
+                <h:panelGrid rows="2" class="center-align" width="850">
                     <div style="align: middle;">
-                        <h2><u>Attendance</u></h2>
+                        <h4><u>Attendance</u></h4>
+                        
+                        <h:panelGrid columns="3">
+                            <h:outputText value="Attendance Period:"/>
+                            <h:outputText value="Attendance Date:"/>
+                            <h:outputText value=""/>
+                            <h:selectOneMenu id="periodsList" class="right25" style="width:250px;"
+                                            value="#{teacherAttendanceController.selectedScheduleId}"
+                                            converter="javax.faces.Integer"
+                                            >
+                               <f:selectItem itemLabel="Select a period" itemValue="0" />
+                               <f:selectItems value="#{teacherAttendanceController.schedulesController.schedules}" var="schedule" itemLabel="#{schedule.subject.subjectname} (#{schedule.period.starttime} to #{schedule.period.endtime})" itemValue="#{schedule.subjectscheduleid}"/>
+                            </h:selectOneMenu>
+                            
+                            <a4j:outputPanel id="calendar" layout="block">
+                                <rich:calendar value="#{teacherAttendanceController.selectedDate}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
+                          
+                            <h:commandButton action="#{teacherAttendanceController.goButton}" value="Go" class="btn btn-medium btn-primary left25"></h:commandButton>
+                        </h:panelGrid>
+                        
+                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
-
-                    <h:form>
-                        <h:dataTable value="#{teacherSchedulesController.schedules}" var="schedule" cellpadding="7" border="1" width="100%">
+                    
+                    <h:dataTable value="#{teacherAttendanceController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                 rendered="#{teacherAttendanceController.studentSchedules != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
 
-                            <h:column width="10%">
-                                <f:facet name="header">Subject</f:facet>
-                                #{schedule.subject.subjectname}
+                            <h:column width="20%">
+                                <f:facet name="header">Student Name</f:facet>
+                                #{schedule.student.profile.firstname}  #{schedule.student.profile.lastname}
                             </h:column>
 
                             <h:column width="20%">
-                                <f:facet name="header">Period</f:facet>
-                                 #{schedule.period.starttime} to #{schedule.period.endtime}
+                                <f:facet name="header">Student ID</f:facet>
+                                #{schedule.student.studentid}
                             </h:column>
 
                             <h:column width="20%">
-                                <f:facet name="header">Schedule Days</f:facet>
-                                #{schedule.scheduledays}
+                                <f:facet name="header">Grade Level</f:facet>
+                                #{schedule.gradeLevel.gradelevel}
                             </h:column>
 
-                            <h:column width="20%">
-                                <f:facet name="header">Primary Teacher</f:facet>
-                                #{schedule.primaryTeacherName}
-                            </h:column>
-
-                            <h:column width="20%">
-                                <f:facet name="header">Secondary Teacher</f:facet>
-                                #{schedule.secondaryTeacherName}
-                            </h:column>
-
-                            <h:column width="10%">
-                                <h:commandButton value="Take Attendance" action="#{teacherSchedulesController.takeAttendance(schedule)}" class="btn btn-medium btn-primary" />
+                            <h:column width="40%">
+                                <f:facet name="header">Attendance</f:facet>
+                                <h:selectOneRadio value="#{schedule.selectedDayAttendance.attendanceflag}"
+                                                  layout="spread" 
+                                                  class="attendanceRadioGroup"
+                                                  converter="javax.faces.Short"
+                                                  >
+                                    <f:selectItem itemValue="1" itemLabel="Present" />
+                                    <f:selectItem itemValue="2" itemLabel="Absent" />
+                                </h:selectOneRadio>
                             </h:column>
                         </h:dataTable>
-                    </h:form>
+                        
+                        <h:commandButton value="Save" action="#{teacherAttendanceController.saveAttendance(teacherAttendanceController.studentSchedules)}" 
+                                         class="btn btn-medium btn-primary" 
+                                         style="float:right; clear:both; margin-top:20px;"
+                                         rendered="#{teacherAttendanceController.studentSchedules != null}"/>
 
                 </h:panelGrid>
+               </h:form>
             </h:panelGroup>
         </div>
     </h:body>
