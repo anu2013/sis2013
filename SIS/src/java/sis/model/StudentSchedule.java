@@ -46,6 +46,9 @@ public class StudentSchedule implements Serializable {
     
     @Transient
     private Attendancetracking selectedDayAttendance;
+    
+    @Transient
+    private Studentscorecard scoreCard;
    
     public StudentSchedule() {
     }
@@ -92,5 +95,13 @@ public class StudentSchedule implements Serializable {
 
     public void setSelectedDayAttendance(Attendancetracking selectedDayAttendance) {
         this.selectedDayAttendance = selectedDayAttendance;
+    }
+            
+    public Studentscorecard getScoreCard() {
+        return scoreCard;
+    }
+
+    public void setScoreCard(Studentscorecard card) {
+        this.scoreCard = card;
     }
 }
