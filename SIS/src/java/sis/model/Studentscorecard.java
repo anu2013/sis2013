@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -59,6 +60,12 @@ public class Studentscorecard implements Serializable {
     @Column(name = "SCHOOLYEAR")
     private Integer schoolyear;
 
+    @Transient
+    private Integer percentage;
+    
+    @Transient
+    private String cssClass;
+      
     public Studentscorecard() {
     }
 
@@ -128,5 +135,39 @@ public class Studentscorecard implements Serializable {
 
     public void setSchoolyear(Integer schoolyear) {
         this.schoolyear = schoolyear;
+    }
+    
+    public Integer getPercentage() {
+        if(null == percentage) {
+            try{
+                double dVal = Double.parseDouble(this.finalscore);
+                return ((int)dVal);
+            }catch(Exception e){}    
+        }
+        return percentage;
+    }
+
+    public void setPercentage(Integer value) {
+        this.percentage = value;
+    }
+    
+    public String getCssClass() {
+        if(null == cssClass){
+            try{
+                Integer p =  getPercentage();
+                if(p >= 80){
+                    return "progress-info";
+                }else if(p >= 70){
+                    return "progress-warning";
+                } else {
+                    return "progress-danger";
+                }
+            }catch(Exception e){}
+        }
+        return cssClass;
+    }
+
+    public void setCssClass(String value) {
+        this.cssClass = value;
     }
 }
