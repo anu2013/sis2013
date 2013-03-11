@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+     <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            td.center-text {
+                text-align: center;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <ui:include src="studentHeader.xhtml" />
+
+        <div id="content">
+            <ui:include src="studentMenu.xhtml" />
+
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:panelGrid rows="2" class="center-align">
+                    <div style="align: middle;">
+                        <h4><u>Progress and Grades</u></h4>
+                        
+                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                    </div>
+
+                    <h:form>
+                        <h:dataTable value="#{studentGradesController.schedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                      columnClasses="none,none,center-text,center-text"
+                                      rendered="#{studentGradesController.schedules != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
+
+                            <h:column>
+                                <f:facet name="header">Subject</f:facet>
+                                #{schedule.schedule.subject.subjectname}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Teacher</f:facet>
+                                 #{schedule.schedule.primaryTeacherName}
+                            </h:column>
+
+                            <h:column footerClass="center-text">
+                                <f:facet name="header">Score</f:facet>
+                                  <div class="progress #{schedule.scoreCard.cssClass}">
+                                    <div class="bar" style="width: #{schedule.scoreCard.percentage}%">#{schedule.scoreCard.finalscore}%</div>
+                                 </div>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Grade</f:facet>
+                                #{schedule.scoreCard.gradeletter}
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:form>
+
+                </h:panelGrid>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
