@@ -123,18 +123,20 @@
                             </h:column>    
                         </h:dataTable>
                         <br/>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
+                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign" width="75%"> 
                             <h:outputText value="Comments:"></h:outputText>
-                            <h:inputTextarea label="Comments" value="#{admissionCRUDController.comments}" required="true" rows="5" cols="100">
+                            <h:inputTextarea label="Comments" value="#{admissionCRUDController.comments}" required="true" rows="5" cols="200">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
                         </h:panelGrid>
                         <br/>
                         <h:inputHidden value="#{admissionCRUDController.admission.admissionid}"></h:inputHidden>
-                        <h:commandButton value="Update Comments" action="#{admissionCRUDController.updateComments(admissionCRUDController.admission)}"/>
-                        <h:commandButton value="Interview request" action="#{admissionCRUDController.requestForInterview(admissionCRUDController.admission)}"/>
-                        <h:commandButton value="Approve" action="#"/>
-                        <h:commandButton value="Reject" action="#"/>
+                        <h:inputHidden value="#{admissionCRUDController.admission.status}"></h:inputHidden>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('comment',admissionCRUDController.admission)}" value="Update Comments" action="#{admissionCRUDController.updateComments(admissionCRUDController.admission)}"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('interview',admissionCRUDController.admission)}" value="Interview request" action="#{admissionCRUDController.requestForInterview(admissionCRUDController.admission)}"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('approve',admissionCRUDController.admission)}" value="Approve" action="#{admissionCRUDController.approve(admissionCRUDController.admission)}"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('reject',admissionCRUDController.admission)}" value="Reject" action="#{admissionCRUDController.reject(admissionCRUDController.admission)}"/>
+                        
                     </div>
                 </h:form>
             </h:panelGroup>
