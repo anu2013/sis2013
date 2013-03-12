@@ -90,11 +90,11 @@ public class TeacherAttendanceController implements Serializable{
                 return;
             }
             
-            Calendar cal = new GregorianCalendar();
+            Calendar cal = Calendar.getInstance();
             cal.setTime(selectedDate);
             int day = cal.get(Calendar.DAY_OF_WEEK);
-            if(day == 0 || day == 6){
-                setErrorMessage("Please select a valid date. The selected date is not a week day.");
+            if(day == 1 || day == 7){
+                setErrorMessage("Please select a valid date. The selected date is not a week day, you can not take attendance in week ends.");
                 return;
             }
 
