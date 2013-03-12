@@ -79,14 +79,14 @@ thead{
 
 .navigation{
     padding-right: 20px;
-    font-size: 16px;
+    font-size: 12px;
     color: white;
     font-weight: bold;
     text-decoration: underline;
 }
 
-.navigation.hover{
-    color: red;
+.navigation:hover{
+    color: #00ff00;
 }
 
 .errorMsg{
