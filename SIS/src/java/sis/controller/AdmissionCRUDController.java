@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -17,6 +18,7 @@ import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import sis.model.Admission;
 import sis.model.Admissionstep;
+import sis.model.Admissionstepcomment;
 import sis.model.Parent;
 import sis.model.Previouseducation;
 import sis.model.Role;
@@ -47,8 +49,8 @@ public class AdmissionCRUDController {
     private Previouseducation previouseducation;
     @ManagedProperty(value = "#{parent}")
     private Parent parent;
-    
     private List<Admissionstep> admissionsteps;
+    private String comments;
 
     @PostConstruct
     public void init() {
@@ -75,19 +77,46 @@ public class AdmissionCRUDController {
             e.printStackTrace();
         }
     }
-    
+
     public String createAdmission(String argApplicationType) {
         String returnURL = "";
         try {
+            UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
+            Users loggedInUser = userController.getUser();
+
             EntityManager entityManager = null;
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             Admission ad = getAdmission();
-            ad.setApplicationtype(argApplicationType);
             ad.setCreateddate(new Date());
             ad.setStatus("In-progress");
+            ad.setApplicationtype(argApplicationType);
+            ad.setCreatedby(loggedInUser.getUserid());
             entityManager.persist(ad);
             userTransaction.commit();
+
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            Admissionstep admissionStep = new Admissionstep();
+            admissionStep.setAdmissionid(ad);
+            admissionStep.setAdmissionstepname("Initial Review");
+            admissionStep.setCreateddate(new Date());
+            admissionStep.setCreatedby(loggedInUser.getUserid());
+            entityManager.persist(admissionStep);
+            userTransaction.commit();
+            //entityManager.refresh(admissionStep);
+
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            Admissionstepcomment admissionStepComment = new Admissionstepcomment();
+            admissionStepComment.setAdmissionid(ad);
+            admissionStepComment.setAdmissionstepid(admissionStep);
+            admissionStepComment.setComments("Application received.");
+            admissionStepComment.setEntereddate(new Date());
+            admissionStepComment.setEnteredby(loggedInUser.getUserid());
+            entityManager.persist(admissionStepComment);
+            userTransaction.commit();
+            //entityManager.refresh(admissionStepComment);
 
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
@@ -95,6 +124,8 @@ public class AdmissionCRUDController {
             Role role = new Role();
             role.setRoleid(3);
             u.setRole(role);
+            u.setCreatedby(loggedInUser.getUserid());
+            u.setCreateddate(new Date());
             entityManager.persist(u);
             userTransaction.commit();
 
@@ -108,7 +139,6 @@ public class AdmissionCRUDController {
             Student st = getStudent();
             st.setStudentid(u.getUserid());
             st.setAdmissionid(ad.getAdmissionid());
-
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(st);
@@ -134,6 +164,7 @@ public class AdmissionCRUDController {
                 retrieveAdmissions();
                 returnURL = "/admin/admissionCRUD";
             }
+            retrieveAdmissions();
             return returnURL;
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,9 +228,9 @@ public class AdmissionCRUDController {
             pa.setParentcontactzip(this.parent.getParentcontactzip());
             pa.setParentcontactcountry(this.parent.getParentcontactcountry());
             pa.setRelationshipwithstudent(this.parent.getRelationshipwithstudent());
-            
+
             Previouseducation pe = em.find(Previouseducation.class, this.previouseducation.getPreviousschoolid());
-            pe.setLastattendedgradelevel(this.previouseducation.getLastattendedgradelevel());         
+            pe.setLastattendedgradelevel(this.previouseducation.getLastattendedgradelevel());
             pe.setPreviousschoolname(this.previouseducation.getPreviousschoolname());
             pe.setPreviousschooladdress1(this.previouseducation.getPreviousschooladdress1());
             pe.setPreviousschooladdress2(this.previouseducation.getPreviousschooladdress2());
@@ -207,7 +238,7 @@ public class AdmissionCRUDController {
             pe.setPreviousschoolstate(this.previouseducation.getPreviousschoolstate());
             pe.setPreviousschoolzip(this.previouseducation.getPreviousschoolzip());
             pe.setPreviousschoolcountry(this.previouseducation.getPreviousschoolcountry());
-            
+
             userTransaction.commit();
             retrieveAdmissions();
             return "/admin/admissionCRUD";
@@ -247,31 +278,133 @@ public class AdmissionCRUDController {
         query.setParameter("userid", s.getStudentid());
         Userprofile up = (Userprofile) query.getSingleResult();
         this.userprofile = up;
-        
+
         queryString = "select pa from Parent pa  where pa.studentid.studentid = :studentid";
         query = entityManager.createQuery(queryString);
         query.setParameter("studentid", s.getStudentid());
         Parent pa = (Parent) query.getSingleResult();
         this.parent = pa;
-        
+
         queryString = "select pe from Previouseducation pe  where pe.studentid.studentid = :studentid";
         query = entityManager.createQuery(queryString);
         query.setParameter("studentid", s.getStudentid());
         Previouseducation pe = (Previouseducation) query.getSingleResult();
         this.previouseducation = pe;
-        
+
         return "/admin/admissionUpdate";
     }
-    
-    
+
     public String retrieveAdmissonSteps(Admission argAdmission) {
         this.admission = argAdmission;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String queryString = "select ast from Admissionstep ast  where ast.admissionid.admissionid = :admissionid";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("admissionid", argAdmission.getAdmissionid());
-        this.setAdmissionsteps((List<Admissionstep>) query.getResultList());
+        List<Admissionstep> adSteps = (List<Admissionstep>) query.getResultList();
+        for (Admissionstep currentStep : adSteps) {
+            String queryString1 = "select astpcmt from Admissionstepcomment astpcmt  where astpcmt.admissionid.admissionid = :admissionid and astpcmt.admissionstepid.admissionstepid = :admissionstepid";
+            Query query1 = entityManager.createQuery(queryString1);
+            query1.setParameter("admissionid", argAdmission.getAdmissionid());
+            query1.setParameter("admissionstepid", currentStep.getAdmissionstepid());
+            List<Admissionstepcomment> adStepComments = (List<Admissionstepcomment>) query1.getResultList();
+            currentStep.setAdmissionstepcommentList(adStepComments);
+        }
+        this.setAdmissionsteps(adSteps);
         return "/admin/admissionStepsCRUD";
+    }
+
+    public String updateComments(Admission argAdmission) {
+        this.admission = argAdmission;
+        try {
+            UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
+            Users loggedInUser = userController.getUser();
+
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select ast from Admissionstep ast where ast.admissionid.admissionid = :admissionid order by ast.admissionstepid";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("admissionid", argAdmission.getAdmissionid());
+            List<Admissionstep> adSteps = (List<Admissionstep>) query.getResultList();
+            Admissionstep theLatestStep = adSteps.get(adSteps.size() - 1);
+
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            Admissionstepcomment admissionStepComment = new Admissionstepcomment();
+            admissionStepComment.setAdmissionid(argAdmission);
+            admissionStepComment.setAdmissionstepid(theLatestStep);
+            admissionStepComment.setComments(getComments());
+            admissionStepComment.setEntereddate(new Date());
+            admissionStepComment.setEnteredby(loggedInUser.getUserid());
+            entityManager.persist(admissionStepComment);
+            userTransaction.commit();
+
+            entityManager = entityManagerFactory.createEntityManager();
+            queryString = "select ast from Admissionstep ast where ast.admissionid.admissionid = :admissionid order by ast.admissionstepid";
+            query = entityManager.createQuery(queryString);
+            query.setParameter("admissionid", argAdmission.getAdmissionid());
+            adSteps = (List<Admissionstep>) query.getResultList();
+            for (Admissionstep currentStep : adSteps) {
+                String queryString1 = "select astpcmt from Admissionstepcomment astpcmt  where astpcmt.admissionid.admissionid = :admissionid and astpcmt.admissionstepid.admissionstepid = :admissionstepid";
+                Query query1 = entityManager.createQuery(queryString1);
+                query1.setParameter("admissionid", argAdmission.getAdmissionid());
+                query1.setParameter("admissionstepid", currentStep.getAdmissionstepid());
+                List<Admissionstepcomment> adStepComments = (List<Admissionstepcomment>) query1.getResultList();
+                currentStep.setAdmissionstepcommentList(adStepComments);
+            }
+            this.setAdmissionsteps(adSteps);
+            return "/admin/admissionStepsCRUD";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    public String requestForInterview(Admission argAdmission) {
+        this.admission = argAdmission;
+        try {
+            UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
+            Users loggedInUser = userController.getUser();
+
+            EntityManager entityManager = null;
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            Admissionstep admissionStep = new Admissionstep();
+            admissionStep.setAdmissionid(argAdmission);
+            admissionStep.setAdmissionstepname("Interview Requested");
+            admissionStep.setCreateddate(new Date());
+            admissionStep.setCreatedby(loggedInUser.getUserid());
+            entityManager.persist(admissionStep);
+            userTransaction.commit();
+
+            userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
+            Admissionstepcomment admissionStepComment = new Admissionstepcomment();
+            admissionStepComment.setAdmissionid(argAdmission);
+            admissionStepComment.setAdmissionstepid(admissionStep);
+            admissionStepComment.setComments(getComments());
+            admissionStepComment.setEntereddate(new Date());
+            admissionStepComment.setEnteredby(loggedInUser.getUserid());
+            entityManager.persist(admissionStepComment);
+            userTransaction.commit();
+
+            entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select ast from Admissionstep ast where ast.admissionid.admissionid = :admissionid order by ast.admissionstepid";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("admissionid", argAdmission.getAdmissionid());
+            List<Admissionstep> adSteps = (List<Admissionstep>) query.getResultList();
+            for (Admissionstep currentStep : adSteps) {
+                String queryString1 = "select astpcmt from Admissionstepcomment astpcmt  where astpcmt.admissionid.admissionid = :admissionid and astpcmt.admissionstepid.admissionstepid = :admissionstepid";
+                Query query1 = entityManager.createQuery(queryString1);
+                query1.setParameter("admissionid", argAdmission.getAdmissionid());
+                query1.setParameter("admissionstepid", currentStep.getAdmissionstepid());
+                List<Admissionstepcomment> adStepComments = (List<Admissionstepcomment>) query1.getResultList();
+                currentStep.setAdmissionstepcommentList(adStepComments);
+            }
+            this.setAdmissionsteps(adSteps);
+            return "/admin/admissionStepsCRUD";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
     }
 
     /**
@@ -371,6 +504,18 @@ public class AdmissionCRUDController {
     public void setAdmissionsteps(List<Admissionstep> admissionsteps) {
         this.admissionsteps = admissionsteps;
     }
-    
-    
+
+    /**
+     * @return the comments
+     */
+    public String getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 }

@@ -119,17 +119,20 @@
                                         <h:outputText value="]:${admissionstepcomment.comments}"/>
                                     </h:column>
                                 </h:dataTable>
+                                
                             </h:column>    
                         </h:dataTable>
                         <br/>
                         <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
                             <h:outputText value="Comments:"></h:outputText>
-                            <h:inputTextarea label="Comments" required="true" rows="5" cols="100">
+                            <h:inputTextarea label="Comments" value="#{admissionCRUDController.comments}" required="true" rows="5" cols="100">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
                         </h:panelGrid>
                         <br/>
-                        <h:commandButton value="Interview request" action="#"/>
+                        <h:inputHidden value="#{admissionCRUDController.admission.admissionid}"></h:inputHidden>
+                        <h:commandButton value="Update Comments" action="#{admissionCRUDController.updateComments(admissionCRUDController.admission)}"/>
+                        <h:commandButton value="Interview request" action="#{admissionCRUDController.requestForInterview(admissionCRUDController.admission)}"/>
                         <h:commandButton value="Approve" action="#"/>
                         <h:commandButton value="Reject" action="#"/>
                     </div>
