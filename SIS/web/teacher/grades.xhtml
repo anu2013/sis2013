@@ -63,10 +63,8 @@
                             
                              <h:column>
                                 <f:facet name="header">Final Score</f:facet>
-                                <h:inputText label="Final Score" value="#{schedule.scoreCard.finalscore}" required="true" maxlength="3"
-                                             converterMessage="Please enter digits only." style="width:60px"
-                                             >
-                                    <f:validateLongRange minimum="0" maximum="200" />
+                                <h:inputText label="Final Score" value="#{schedule.scoreCard.finalscore}" 
+                                             maxlength="3" style="width:60px">
                                 </h:inputText>
                             </h:column>
                             
