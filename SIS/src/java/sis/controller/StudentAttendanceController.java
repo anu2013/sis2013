@@ -111,10 +111,13 @@ public class StudentAttendanceController implements Serializable {
                                 }
                                 if(subjectIndex >= 0){
                                     String val = "";
-                                    if( attendance.getAttendanceflag() == 1)
-                                        val = "<div class='present'></div>";
-                                    else if( attendance.getAttendanceflag() == 2)
-                                        val = "<div class='absent'></div>";
+                                    Short flag = attendance.getAttendanceflag();
+                                    if(null != flag){
+                                        if( flag == 1)
+                                                val = "<div class='present'></div>";
+                                        else if( flag == 2)
+                                                val = "<div class='absent'></div>";
+                                    }
                                     row.set(subjectIndex+1, val);
                                 }
                             }
