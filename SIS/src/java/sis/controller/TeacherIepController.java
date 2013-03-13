@@ -5,6 +5,8 @@
 package sis.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -58,42 +60,66 @@ public class TeacherIepController implements Serializable{
         try{
             setStudentSchedules(null);
        
+            List<TeacherSchedule> tsList = schedulesController.getSchedules();
+            Integer[] subjectScheduleIds = new Integer[tsList.size()];
+            
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = (selectedScheduleId > 0) ? "select ss from StudentSchedule ss where ss.schedule.subjectscheduleid = :ssid and ss.student.iepneeded = 1" : "select ss from StudentSchedule ss where ss.student.iepneeded = 1 and ss.schedule.subjectscheduleid in (select ts.subjectscheduleid from TeacherSchedule ts where (ts.primaryteacher.teacherid = :uid or ts.secondaryteacher.teacherid = :uid) and ts.schoolyear.schoolyear = :sy)";
+            String queryString = "";
+            if(selectedScheduleId > 0) {
+                queryString = "select ss from StudentSchedule ss where ss.schedule.subjectscheduleid = :ssid and ss.student.iepneeded = 1";
+            }else{
+                queryString = "select ss from StudentSchedule ss where ss.student.iepneeded = 1 and ss.schedule.subjectscheduleid IN :ssids";
+                for(int i=0; i<tsList.size(); ++i) {
+                    subjectScheduleIds[i] = tsList.get(i).getSubjectscheduleid();
+                }
+            }
             Query query = entityManager.createQuery(queryString);
             if(selectedScheduleId > 0){
                 query.setParameter("ssid", getSelectedSchedule().getSubjectscheduleid());
             }else{
-                query.setParameter("uid", userController.getUser().getUserid());
-                query.setParameter("sy", userController.getCurrentSchoolYear());
+                query.setParameter("ssids", Arrays.asList(subjectScheduleIds));
             }
 
+            List<StudentSchedule> iepStudentSchedules = new ArrayList<StudentSchedule>();
             List<StudentSchedule> records = query.getResultList();
             if(records != null && records.size() > 0){
                 for(StudentSchedule ss : records){
-                    // Get Grade Level
-                    queryString = "select sgl from Studentgradelevel sgl where sgl.student.studentid = :studentid and sgl.schoolyear.schoolyear = :schoolyear";
-                    query = entityManager.createQuery(queryString);
-                    query.setParameter("studentid", ss.getStudent().getStudentid());
-                    query.setParameter("schoolyear", userController.getCurrentSchoolYear());
-                    query.setMaxResults(1);
-                    Studentgradelevel sgl = null;
-                    try{
-                        sgl = (Studentgradelevel)query.getSingleResult();
-                    }catch(Exception e) {
-                        e.printStackTrace();
+                    if(!isStudentScheduleRecordExists(iepStudentSchedules, ss)){
+                        // Get Grade Level
+                        queryString = "select sgl from Studentgradelevel sgl where sgl.student.studentid = :studentid and sgl.schoolyear.schoolyear = :schoolyear";
+                        query = entityManager.createQuery(queryString);
+                        query.setParameter("studentid", ss.getStudent().getStudentid());
+                        query.setParameter("schoolyear", userController.getCurrentSchoolYear());
+                        query.setMaxResults(1);
+                        Studentgradelevel sgl = null;
+                        try{
+                            sgl = (Studentgradelevel)query.getSingleResult();
+                        }catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                        if(null == sgl) sgl = new Studentgradelevel();
+
+                        ss.setGradeLevel(sgl.getGradelevel());
+                        iepStudentSchedules.add(ss);
                     }
-                    if(null == sgl) sgl = new Studentgradelevel();
-                    
-                    ss.setGradeLevel(sgl.getGradelevel());
                 }
-                setStudentSchedules(records);
+                setStudentSchedules(iepStudentSchedules);
             }else{
                 setErrorMessage("There are no IEP students found.");
             }
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    private boolean isStudentScheduleRecordExists( List<StudentSchedule> records, StudentSchedule searchRecord){
+        if(null != records && null != searchRecord){
+            for(StudentSchedule ss : records){
+                if(ss.getStudent().getStudentid() == searchRecord.getStudent().getStudentid())
+                    return true;
+            }
+        }
+        return false;
     }
     
     public String goButton(){
