@@ -125,7 +125,7 @@ public class StudentCRUDController {
     public String editStudent(Student argStudent) {
         
         this.student = argStudent;
-        this.userprofile = argStudent.getUserprofile();
+        this.userprofile = argStudent.getProfile();
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         String queryString = "select pa from Parent pa  where pa.studentid.studentid = :studentid";
