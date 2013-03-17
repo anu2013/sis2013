@@ -4,7 +4,6 @@
  */
 package sis.controller;
 
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -31,11 +30,6 @@ public class StudentCRUDController {
     private EntityManagerFactory entityManagerFactory;
     @Resource
     private UserTransaction userTransaction;
-    private Integer studentid;
-    private String studentfirstname;
-    private String studentlastname;
-    private Date studentdateofbirth;
-    private Integer gradelevelid;
     private List<Student> students;
     @ManagedProperty(value = "#{student}")
     private Student student;
@@ -61,49 +55,6 @@ public class StudentCRUDController {
             e.printStackTrace();
         }
     }
-
-//    public List getStudents() {
-//        List<Student> students = new ArrayList<Student>();
-//        try {
-//            EntityManager entityManager = entityManagerFactory.createEntityManager();
-//
-////            int emptyCount = 0;
-////            if (this.studentid == null) {
-////                emptyCount = emptyCount + 1;
-////            }
-////            if ("".equalsIgnoreCase(this.studentfirstname)) {
-////                emptyCount = emptyCount + 1;
-////            }
-////            if ("".equalsIgnoreCase(this.studentlastname)) {
-////                emptyCount = emptyCount + 1;
-////            }
-////
-////            if (emptyCount == 3) {
-////                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Either Student Id or First Name or Last Name should be entered."));
-////                return null;
-////            }
-//            String queryString = "";
-//            if (this.studentid != null) {
-//                queryString = "select s from Student s where s.studentid = :studentid and s.userprofile.firstname like :firstname and s.userprofile.lastname like :lastname";
-//            } else {
-//                queryString = "select s from Student s where s.userprofile.firstname like :firstname and s.userprofile.lastname like :lastname";
-//            }
-//            Query query = entityManager.createQuery(queryString);
-//            if (this.studentid != null) {
-//                query.setParameter("studentid", this.studentid);
-//            }
-//            query.setParameter("firstname", this.studentfirstname + "%");
-//            query.setParameter("lastname", this.studentlastname + "%");
-//            //query.setParameter("dateofbirth", this.studentdateofbirth);
-//            students = query.getResultList();
-//            return students;
-//            //return "/admin/studentCRUD";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            //return "error";
-//            return null;
-//        }
-//    }
     public String updateStudent() {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
@@ -172,10 +123,8 @@ public class StudentCRUDController {
     }
 
     public String editStudent(Student argStudent) {
-        System.out.println("HAI === " + argStudent.getStudentid());
         
         this.student = argStudent;
-        System.out.println("HAI === " + this.student.getStudentid());
         this.userprofile = argStudent.getUserprofile();
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -183,13 +132,13 @@ public class StudentCRUDController {
         Query query = entityManager.createQuery(queryString);
         query.setParameter("studentid", argStudent.getStudentid());
         Parent pa = null;
-        try{
-            int cont =  query.getResultList().size();
-            System.out.println("Count == "+cont);
-            if (cont != 0){
+        try {
+            int cont = query.getResultList().size();
+            System.out.println("Count == " + cont);
+            if (cont != 0) {
                 pa = (Parent) query.getSingleResult();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.parent = pa;
@@ -198,13 +147,13 @@ public class StudentCRUDController {
         query = entityManager.createQuery(queryString);
         query.setParameter("studentid", argStudent.getStudentid());
         Previouseducation pe = null;
-        try{
-            int cont =  query.getResultList().size();
-            System.out.println("Count == "+cont);
-            if (cont != 0){
+        try {
+            int cont = query.getResultList().size();
+            System.out.println("Count == " + cont);
+            if (cont != 0) {
                 pe = (Previouseducation) query.getSingleResult();;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.previouseducation = pe;
@@ -212,20 +161,6 @@ public class StudentCRUDController {
         return "/admin/studentUpdate";
 
 
-    }
-
-    /**
-     * @return the students
-     */
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    /**
-     * @param students the students to set
-     */
-    public void setStudents(List<Student> students) {
-        this.students = students;
     }
 
     /**
@@ -257,76 +192,6 @@ public class StudentCRUDController {
     }
 
     /**
-     * @return the studentid
-     */
-    public Integer getStudentid() {
-        return studentid;
-    }
-
-    /**
-     * @param studentid the studentid to set
-     */
-    public void setStudentid(Integer studentid) {
-        this.studentid = studentid;
-    }
-
-    /**
-     * @return the studentfirstname
-     */
-    public String getStudentfirstname() {
-        return studentfirstname;
-    }
-
-    /**
-     * @param studentfirstname the studentfirstname to set
-     */
-    public void setStudentfirstname(String studentfirstname) {
-        this.studentfirstname = studentfirstname;
-    }
-
-    /**
-     * @return the studentlastname
-     */
-    public String getStudentlastname() {
-        return studentlastname;
-    }
-
-    /**
-     * @param studentlastname the studentlastname to set
-     */
-    public void setStudentlastname(String studentlastname) {
-        this.studentlastname = studentlastname;
-    }
-
-    /**
-     * @return the studentdateofbirth
-     */
-    public Date getStudentdateofbirth() {
-        return studentdateofbirth;
-    }
-
-    /**
-     * @param studentdateofbirth the studentdateofbirth to set
-     */
-    public void setStudentdateofbirth(Date studentdateofbirth) {
-        this.studentdateofbirth = studentdateofbirth;
-    }
-
-    /**
-     * @return the gradelevelid
-     */
-    public Integer getGradelevelid() {
-        return gradelevelid;
-    }
-
-    /**
-     * @param gradelevelid the gradelevelid to set
-     */
-    public void setGradelevelid(Integer gradelevelid) {
-        this.gradelevelid = gradelevelid;
-    }
-
-    /**
      * @return the previouseducation
      */
     public Previouseducation getPreviouseducation() {
@@ -353,4 +218,21 @@ public class StudentCRUDController {
     public Parent getParent() {
         return parent;
     }
+
+    /**
+     * @return the students
+     */
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    /**
+     * @param students the students to set
+     */
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+    
+    
+    
 }
