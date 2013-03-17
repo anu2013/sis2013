@@ -5,6 +5,7 @@
 package sis.model;
 
 import java.io.Serializable;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -22,10 +21,9 @@ import javax.validation.constraints.Size;
  *
  * @author Anupama Karumudi
  */
+@ManagedBean
 @Entity
 @Table(name = "STUDENTGRADELEVEL")
-@NamedQueries({
-    @NamedQuery(name = "Studentgradelevel.findAll", query = "SELECT s FROM Studentgradelevel s")})
 public class Studentgradelevel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -33,18 +31,22 @@ public class Studentgradelevel implements Serializable {
     @Basic(optional = false)
     @Column(name = "STUDENTGRADELEVELID")
     private Integer studentgradelevelid;
+    
     @Size(max = 100)
     @Column(name = "STATUS")
     private String status;
+    
     @JoinColumn(name = "STUDENTID", referencedColumnName = "STUDENTID")
     @ManyToOne
-    private Student studentid;
+    private Student student;
+    
     @JoinColumn(name = "SCHOOLYEAR", referencedColumnName = "SCHOOLYEAR")
     @ManyToOne
     private Schoolyearschedule schoolyear;
+    
     @JoinColumn(name = "GRADELEVELID", referencedColumnName = "GRADELEVELID")
     @ManyToOne
-    private Gradelevel gradelevelid;
+    private Gradelevel gradelevel;
 
     public Studentgradelevel() {
     }
@@ -69,12 +71,12 @@ public class Studentgradelevel implements Serializable {
         this.status = status;
     }
 
-    public Student getStudentid() {
-        return studentid;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentid(Student studentid) {
-        this.studentid = studentid;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public Schoolyearschedule getSchoolyear() {
@@ -85,37 +87,11 @@ public class Studentgradelevel implements Serializable {
         this.schoolyear = schoolyear;
     }
 
-    public Gradelevel getGradelevelid() {
-        return gradelevelid;
+    public Gradelevel getGradelevel() {
+        return gradelevel;
     }
 
-    public void setGradelevelid(Gradelevel gradelevelid) {
-        this.gradelevelid = gradelevelid;
+    public void setGradelevel(Gradelevel gradelevel) {
+        this.gradelevel = gradelevel;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (studentgradelevelid != null ? studentgradelevelid.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Studentgradelevel)) {
-            return false;
-        }
-        Studentgradelevel other = (Studentgradelevel) object;
-        if ((this.studentgradelevelid == null && other.studentgradelevelid != null) || (this.studentgradelevelid != null && !this.studentgradelevelid.equals(other.studentgradelevelid))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "sis.model.Studentgradelevel[ studentgradelevelid=" + studentgradelevelid + " ]";
-    }
-    
 }

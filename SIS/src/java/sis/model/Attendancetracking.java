@@ -6,16 +6,13 @@ package sis.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,10 +21,9 @@ import javax.persistence.TemporalType;
  *
  * @author Anupama Karumudi
  */
+@ManagedBean
 @Entity
 @Table(name = "ATTENDANCETRACKING")
-@NamedQueries({
-    @NamedQuery(name = "Attendancetracking.findAll", query = "SELECT a FROM Attendancetracking a")})
 public class Attendancetracking implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,18 +31,25 @@ public class Attendancetracking implements Serializable {
     @Basic(optional = false)
     @Column(name = "ATTENDANCEID")
     private Integer attendanceid;
+    
     @Column(name = "SCHOOLYEAR")
     private Integer schoolyear;
+    
     @Column(name = "ATTENDANCEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date attendancedate;
+    
     @Column(name = "ATTENDANCEFLAG")
     private Short attendanceflag;
+    
     @Column(name = "ATTENDANCETAKENBY")
-    private Integer attendancetakenby;
-    @JoinColumn(name = "STUDENTID", referencedColumnName = "STUDENTID")
-    @ManyToOne
-    private Student studentid;
+    private String attendancetakenby;
+    
+    @Column(name = "SUBJECTSCHEDULEID")
+    private Integer subjectScheduleId;
+    
+    @Column(name = "STUDENTID")
+    private Integer studentId;
 
     public Attendancetracking() {
     }
@@ -87,45 +90,27 @@ public class Attendancetracking implements Serializable {
         this.attendanceflag = attendanceflag;
     }
 
-    public Integer getAttendancetakenby() {
+    public String getAttendancetakenby() {
         return attendancetakenby;
     }
 
-    public void setAttendancetakenby(Integer attendancetakenby) {
+    public void setAttendancetakenby(String attendancetakenby) {
         this.attendancetakenby = attendancetakenby;
     }
 
-    public Student getStudentid() {
-        return studentid;
+    public void setSubjectScheduleId(Integer subjectScheduleId) {
+        this.subjectScheduleId = subjectScheduleId;
     }
 
-    public void setStudentid(Student studentid) {
-        this.studentid = studentid;
+    public Integer getSubjectScheduleId() {
+        return subjectScheduleId;
+    }
+            
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (attendanceid != null ? attendanceid.hashCode() : 0);
-        return hash;
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Attendancetracking)) {
-            return false;
-        }
-        Attendancetracking other = (Attendancetracking) object;
-        if ((this.attendanceid == null && other.attendanceid != null) || (this.attendanceid != null && !this.attendanceid.equals(other.attendanceid))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "sis.model.Attendancetracking[ attendanceid=" + attendanceid + " ]";
-    }
-    
 }

@@ -41,11 +41,7 @@ public class Subject implements Serializable {
     @Size(max = 255)
     @Column(name = "DESCRIPTION")
     private String description;
-    @OneToMany(mappedBy = "subjectid")
-    private List<Subjectschedule> subjectscheduleList;
-    @OneToMany(mappedBy = "subjectid")
-    private List<Studentscorecard> studentscorecardList;
-
+   
     public Subject() {
     }
 
@@ -75,22 +71,6 @@ public class Subject implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Subjectschedule> getSubjectscheduleList() {
-        return subjectscheduleList;
-    }
-
-    public void setSubjectscheduleList(List<Subjectschedule> subjectscheduleList) {
-        this.subjectscheduleList = subjectscheduleList;
-    }
-
-    public List<Studentscorecard> getStudentscorecardList() {
-        return studentscorecardList;
-    }
-
-    public void setStudentscorecardList(List<Studentscorecard> studentscorecardList) {
-        this.studentscorecardList = studentscorecardList;
     }
 
     @Override
