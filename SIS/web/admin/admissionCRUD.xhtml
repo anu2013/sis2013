@@ -74,7 +74,7 @@
                         <div class="nav-collapse collapse">
                             <ul class="nav">
                                 <!--<li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>-->
-                                <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
+                                <li><a href="/SIS/faces/admin/admissionCRUD.xhtml">GradeLevel</a></li>
                                 <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
                                 <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
@@ -89,21 +89,70 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Grade Level</h2>
+                    <h2 class="form-container-heading" align="center">Admission Maintenance</h2>
                     <div align="center">
-                        <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Grade Level:"></h:outputText>
-                            <h:inputText label="Grade Level" value="#{gradelevel.gradelevel}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{gradelevel.description}" required="true" rows="5" cols="50">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputTextarea>
-                        </h:panelGrid>
-                        <br/>
-                        <h:commandButton action="#{gradelevelCRUDController.createGradelevel}" value="  Save  "></h:commandButton>
+                        <h:dataTable rendered="#{not empty admissionCRUDController.admissions}" value="#{admissionCRUDController.admissions}" var="admission" border="1" width="100%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Description" />
+                                </f:facet>        
+                                <h:outputText value="${admission.description}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Created Date" />
+                                </f:facet>        
+                                <h:outputText value="${admission.createddate}">
+                                    <f:convertDateTime type="date" pattern="dd-MMM-yyyy"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Status" />
+                                </f:facet>        
+                                <h:outputText value="${admission.status}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Type" />
+                                </f:facet>        
+                                <h:outputText value="${admission.applicationtype}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Seeking year" />
+                                </f:facet>        
+                                <h:outputText value="${admission.admissionseekingyear}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Tracking #" />
+                                </f:facet>        
+                                <h:outputText value="${admission.admissionid}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                                <h:commandLink action="#{admissionCRUDController.editAdmission(admission)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>    
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Steps"/>
+                                </f:facet>
+                                <h:commandLink action="#{admissionCRUDController.retrieveAdmissonSteps(admission)}">
+                                    <h:outputText value="Steps"/>
+                                </h:commandLink>
+                            </h:column>    
+                        </h:dataTable>
+                        <h:panelGroup rendered="#{empty admissionCRUDController.admissions}">
+                            <p>There are no grade levels available. Please add new items.</p>
+                        </h:panelGroup>
+                        <br></br>
+                        <h:commandButton value="Submit new Application" action="#{admissionCRUDController.addAdmission}">
+                        </h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

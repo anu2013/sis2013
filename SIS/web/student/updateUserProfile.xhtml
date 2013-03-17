@@ -47,7 +47,75 @@
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
                             <h:outputText value="First Name:"></h:outputText>
                             <h:inputText label="First Name" value="#{userProfileController.userprofile.firstname}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                                <f:validateLength minimum="3" maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Last Name:"></h:outputText>
+                            <h:inputText label="Last Name" value="#{userProfileController.userprofile.lastname}" required="true" size="60">
+                                <f:validateLength minimum="3" maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Middle Name:"></h:outputText>
+                            <h:inputText label="Middle Name" value="#{userProfileController.userprofile.middlename}" size="60">
+                                <f:validateLength maximum="10"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current Address 1:"></h:outputText>
+                            <h:inputText label="Current Address 1" value="#{userProfileController.userprofile.currentaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current Address 2:"></h:outputText>
+                            <h:inputText label="Current Address 2" value="#{userProfileController.userprofile.currentaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current City:"></h:outputText>
+                            <h:inputText label="Current City" value="#{userProfileController.userprofile.currentcity}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current State:"></h:outputText>
+                            <h:inputText label="Current State" value="#{userProfileController.userprofile.currentstate}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Current Zip:"></h:outputText>
+                            <h:inputText label="Current Zip" value="#{userProfileController.userprofile.currentzip}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing Address 1:"></h:outputText>
+                            <h:inputText label="Mailing Address 1" value="#{userProfileController.userprofile.mailingaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing Address 2:"></h:outputText>
+                            <h:inputText label="Mailing Address 2" value="#{userProfileController.userprofile.mailingaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing City:"></h:outputText>
+                            <h:inputText label="Mailing City" value="#{userProfileController.userprofile.mailingcity}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing State:"></h:outputText>
+                            <h:inputText label="Mailing State" value="#{userProfileController.userprofile.mailingstate}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mailing Zip:"></h:outputText>
+                            <h:inputText label="Mailing Zip" value="#{userProfileController.userprofile.mailingzip}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Email 1:"></h:outputText>
+                            <h:inputText label="Email 1" value="#{userProfileController.userprofile.email1}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Email 2:"></h:outputText>
+                            <h:inputText label="Email 2" value="#{userProfileController.userprofile.email2}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Home Phone:"></h:outputText>
+                            <h:inputText label="Home Phone" value="#{userProfileController.userprofile.homephone}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Mobile Phone:"></h:outputText>
+                            <h:inputText label="Mobile Phone" value="#{userProfileController.userprofile.mobilephone}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Work Phone:"></h:outputText>
+                            <h:inputText label="Work Phone" value="#{userProfileController.userprofile.workphone}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                         </h:panelGrid>
                         <h:inputHidden value="#{userProfileController.userprofile.userid}"></h:inputHidden>

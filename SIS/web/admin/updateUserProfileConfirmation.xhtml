@@ -43,10 +43,13 @@
                     </th>
                     <th align="right" valign="top">
                         <h:form>
-                            <div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>
+                            <!--<div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>-->
                             <a href="index.xhtml" class="navigation">Home</a>
-                            <h:commandLink action="#{userProfileController.editProfile()}" class="navigation">
+                            <h:commandLink action="#{userProfileController.editProfile}" class="navigation">
                                 <h:outputText value="Update Profile"/>
+                            </h:commandLink>
+                            <h:commandLink action="#{userProfileController.editPassword}" class="navigation">
+                                <h:outputText value="Change Password"/>
                             </h:commandLink>
                             <h:commandLink action="#{userController.logout}" class="navigation">
                                 <h:outputText value="Logout"/>
@@ -65,15 +68,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>
+                        <!--<a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>-->
                         <div class="nav-collapse collapse">
                             <ul class="nav">
-                                <li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>
+                                <!--<li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>-->
                                 <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
                                 <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
                                 <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
                                 <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
-                                <li><a href="/SIS/faces/admin/admissionCreate.xhtml">Application Submission</a></li>
+                                <li><a href="/SIS/faces/admin/admissionCRUD.xhtml">Application Submission</a></li>
+                                <li><a href="/SIS/faces/admin/teacherCRUD.xhtml">Teacher</a></li>
+                                <li><a href="/SIS/faces/admin/studentCRUD.xhtml">Student</a></li>
                             </ul>
                         </div>
                     </div>
@@ -82,7 +87,7 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    
+
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="1" columnClasses="rightAlign,leftAlign">

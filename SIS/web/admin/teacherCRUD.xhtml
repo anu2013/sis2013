@@ -86,29 +86,70 @@
                     </div>
                 </div>
             </div>
-
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Grade level Maintenance</h2>
+                    <h2 class="form-container-heading" align="center">Teacher Maintenance</h2>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty gradelevelCRUDController.gradelevels}" value="#{gradelevelCRUDController.gradelevels}" var="gradelevel" border="1" width="50%">
+                        <h:dataTable rendered="#{not empty teacherCRUDController.teachers}" value="#{teacherCRUDController.teachers}" var="teacher" border="1" width="100%">
                             <h:column>        
                                 <f:facet name="header">            
-                                    <h:outputText value="Gradelevel" />
+                                    <h:outputText value="First Name" />
                                 </f:facet>        
-                                <h:outputText value="${gradelevel.gradelevel}" />    
+                                <h:outputText value="${teacher.profile.firstname}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
-                                    <h:outputText value="Description" />
+                                    <h:outputText value="Last Name" />
                                 </f:facet>        
-                                <h:outputText value="${gradelevel.description}" />    
+                                <h:outputText value="${teacher.profile.lastname}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Gender" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.profile.gender}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Email Address" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.profile.email1}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Work Phone" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.profile.workphone}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Mobile Phone" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.profile.mobilephone}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Educational Qualification" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.educationalqualification}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Years of experience" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.yearsofexperience}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Specialization" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.specialization}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Edit"/>
                                 </f:facet>
-                                <h:commandLink action="#{gradelevelCRUDController.editGradelevel(gradelevel)}">
+                                <h:commandLink action="#{teacherCRUDController.editTeacher(teacher)}">
                                     <h:outputText value="Edit"/>
                                 </h:commandLink>
                             </h:column>        
@@ -116,16 +157,19 @@
                                 <f:facet name="header">            
                                     <h:outputText value="Delete"/>
                                 </f:facet>
-                                <h:commandLink action="#{gradelevelCRUDController.deleteGradelevel(gradelevel)}">
+                                <h:commandLink action="#{teacherCRUDController.deleteTeacher(teacher)}">
                                     <h:outputText value="Delete"/>
                                 </h:commandLink>
                             </h:column>        
                         </h:dataTable>
-                        <h:panelGroup rendered="#{empty gradelevelCRUDController.gradelevels}">
-                            <p>There are no grade levels available. Please add new items.</p>
+
+                        <h:panelGroup rendered="#{empty teacherCRUDController.teacher}">
+                            <p>There are no teachers available. Please add new teachers.</p>
                         </h:panelGroup>
-                        <br></br>
-                        <h:commandButton value="Add Gradelevel" action="#{gradelevelCRUDController.addGradelevel}">
+
+                        <br/>
+
+                        <h:commandButton value="Add Teacher" action="#{teacherCRUDController.addTeacher}">
                         </h:commandButton>
                     </div>
                 </h:form>

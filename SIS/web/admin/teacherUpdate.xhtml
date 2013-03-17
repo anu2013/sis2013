@@ -87,95 +87,106 @@
 
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update Profile</h2>
+                    <h2 class="form-container-heading" align="center">Update Teacher</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign">
                             <h:outputText value="First Name:"></h:outputText>
-                            <h:inputText label="First Name" value="#{userProfileController.userprofile.firstname}" required="true" size="60">
+                            <h:inputText label="First Name" value="#{teacherCRUDController.userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Last Name:"></h:outputText>
-                            <h:inputText label="Last Name" value="#{userProfileController.userprofile.lastname}" required="true" size="60">
+                            <h:inputText label="Last Name" value="#{teacherCRUDController.userprofile.lastname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Middle Name:"></h:outputText>
-                            <h:inputText label="Middle Name" value="#{userProfileController.userprofile.middlename}" size="60">
+                            <h:inputText label="Middle Name" value="#{teacherCRUDController.userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Date of Birth(MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Date of Birth" value="#{userProfileController.userprofile.dateofbirth}" size="60">
+                            <h:inputText label="Date of Birth" value="#{teacherCRUDController.userprofile.dateofbirth}" size="60">
                                 <f:convertDateTime pattern="MM-dd-yyyy" />
                             </h:inputText>
                             <h:outputText value="Gender:"></h:outputText>
-                            <h:selectOneMenu value="#{userProfileController.userprofile.gender}">
+                            <h:selectOneMenu value="#{teacherCRUDController.userprofile.gender}">
                                 <f:selectItem itemValue="Male" itemLabel="Male" />
                                 <f:selectItem itemValue="Female" itemLabel="Female" />
                             </h:selectOneMenu>
                             <h:outputText value="Current Address 1:"></h:outputText>
-                            <h:inputText label="Current Address 1" value="#{userProfileController.userprofile.currentaddress1}" size="60">
+                            <h:inputText label="Current Address 1" value="#{teacherCRUDController.userprofile.currentaddress1}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current Address 2:"></h:outputText>
-                            <h:inputText label="Current Address 2" value="#{userProfileController.userprofile.currentaddress1}" size="60">
+                            <h:inputText label="Current Address 2" value="#{teacherCRUDController.userprofile.currentaddress2}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current City:"></h:outputText>
-                            <h:inputText label="Current City" value="#{userProfileController.userprofile.currentcity}" size="60">
+                            <h:inputText label="Current City" value="#{teacherCRUDController.userprofile.currentcity}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current State:"></h:outputText>
-                            <h:inputText label="Current State" value="#{userProfileController.userprofile.currentstate}" size="60">
+                            <h:inputText label="Current State" value="#{teacherCRUDController.userprofile.currentstate}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current Zip:"></h:outputText>
-                            <h:inputText label="Current Zip" value="#{userProfileController.userprofile.currentzip}" size="60">
+                            <h:inputText label="Current Zip" value="#{teacherCRUDController.userprofile.currentzip}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing Address 1:"></h:outputText>
-                            <h:inputText label="Mailing Address 1" value="#{userProfileController.userprofile.mailingaddress1}" size="60">
+                            <h:inputText label="Mailing Address 1" value="#{teacherCRUDController.userprofile.mailingaddress1}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing Address 2:"></h:outputText>
-                            <h:inputText label="Mailing Address 2" value="#{userProfileController.userprofile.mailingaddress1}" size="60">
+                            <h:inputText label="Mailing Address 2" value="#{teacherCRUDController.userprofile.mailingaddress2}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing City:"></h:outputText>
-                            <h:inputText label="Mailing City" value="#{userProfileController.userprofile.mailingcity}" size="60">
+                            <h:inputText label="Mailing City" value="#{teacherCRUDController.userprofile.mailingcity}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing State:"></h:outputText>
-                            <h:inputText label="Mailing State" value="#{userProfileController.userprofile.mailingstate}" size="60">
+                            <h:inputText label="Mailing State" value="#{teacherCRUDController.userprofile.mailingstate}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing Zip:"></h:outputText>
-                            <h:inputText label="Mailing Zip" value="#{userProfileController.userprofile.mailingzip}" size="60">
+                            <h:inputText label="Mailing Zip" value="#{teacherCRUDController.userprofile.mailingzip}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Email 1:"></h:outputText>
-                            <h:inputText label="Email 1" value="#{userProfileController.userprofile.email1}" size="60">
+                            <h:inputText label="Email 1" value="#{teacherCRUDController.userprofile.email1}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Email 2:"></h:outputText>
-                            <h:inputText label="Email 2" value="#{userProfileController.userprofile.email2}" size="60">
+                            <h:inputText label="Email 2" value="#{teacherCRUDController.userprofile.email2}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Home Phone:"></h:outputText>
-                            <h:inputText label="Home Phone" value="#{userProfileController.userprofile.homephone}" size="60">
+                            <h:inputText label="Home Phone" value="#{teacherCRUDController.userprofile.homephone}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mobile Phone:"></h:outputText>
-                            <h:inputText label="Mobile Phone" value="#{userProfileController.userprofile.mobilephone}" size="60">
+                            <h:inputText label="Mobile Phone" value="#{teacherCRUDController.userprofile.mobilephone}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Work Phone:"></h:outputText>
-                            <h:inputText label="Work Phone" value="#{userProfileController.userprofile.workphone}" size="60">
+                            <h:inputText label="Work Phone" value="#{teacherCRUDController.userprofile.workphone}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
+                            <h:outputText value="Educational quaification:"></h:outputText>
+                            <h:inputText label="Educational quaification" value="#{teacherCRUDController.teacher.educationalqualification}" size="60">
+                                <f:validateLength maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Specialization:"></h:outputText>
+                            <h:inputText label="Specialization" value="#{teacherCRUDController.teacher.specialization}">
+                                <f:validateLength maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Years of experience:"></h:outputText>
+                            <h:inputText label="YearsOfExperience" value="#{teacherCRUDController.teacher.yearsofexperience}">
+                                <f:validateLength maximum="2"></f:validateLength>
+                            </h:inputText>
                         </h:panelGrid>
-                        <h:inputHidden value="#{userProfileController.userprofile.userid}"></h:inputHidden>
+                        <h:inputHidden value="#{teacherCRUDController.teacher.teacherid}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{userProfileController.updateProfile}" value="Save"></h:commandButton>
+                        <h:commandButton action="#{teacherCRUDController.updateTeacher}" value="Save"></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

@@ -6,6 +6,7 @@ package sis.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ import javax.validation.constraints.Size;
  *
  * @author Anupama Karumudi
  */
+@ManagedBean
 @Entity
 @Table(name = "ADMISSIONSTEPCOMMENT")
 @NamedQueries({
