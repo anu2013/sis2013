@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      >
+     <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css"></style>
+    </h:head>
+    <h:body>
+        <ui:include src="studentHeader.xhtml" />
+
+        <div id="content">
+            <ui:include src="studentMenu.xhtml" />
+
+            <h:panelGroup id="container" layout="block" class="center-align">
+               <h:form>
+                <h:panelGrid rows="2" class="center-align" width="850">
+                    <div style="align: middle;">
+                        <h4><u>Attendance</u></h4>
+                        
+                        <h:panelGrid columns="3">
+                            <h:outputText value="From Date:"/>
+                            <h:outputText value="To Date:"/>
+                            <h:outputText value=""/>
+                            <a4j:outputPanel id="fromCalendar" layout="block">
+                                <rich:calendar value="#{studentAttendanceController.fromDate}"
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:130px; margin-right:25px;"/>
+                            </a4j:outputPanel>
+                            
+                            <a4j:outputPanel id="toCalendar" layout="block">
+                                <rich:calendar value="#{studentAttendanceController.toDate}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:130px"/>
+                            </a4j:outputPanel>
+                          
+                            <h:commandButton action="#{studentAttendanceController.goButton}" value="Go" class="btn btn-medium btn-primary left25" style="margin-top: -10px;"></h:commandButton>
+                        </h:panelGrid>
+                        
+                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                    </div>
+                    
+                    <h:panelGroup binding="#{studentAttendanceController.dataTableGroup}"
+                                  rendered="#{studentAttendanceController.dataTableGroup != null}"/>
+                   
+                </h:panelGrid>
+               </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>

@@ -2,94 +2,65 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-    <h:head>
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
-        <style type="text/css">
-            .form-container {
-                max-width: 500px;
-                padding: 19px 29px 29px;
-                margin: 0 auto 20px;
-                margin-top: 150px;
-                background-color: #fff;
-                border: 1px solid #e5e5e5;
-                -webkit-border-radius: 5px;
-                -moz-border-radius: 5px;
-                border-radius: 5px;
-                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            }
-            .form-container .form-container-heading{
-                font-size: 20px;
-                height: auto;
-                margin-bottom: 15px;
-                padding: 2px 9px;
-            }
-        </style>
-
+        <style type="text/css"></style>
     </h:head>
     <h:body>
+        <ui:include src="studentHeader.xhtml" />
 
-        <h:panelGroup id="header" layout="block">
-            <table width="100%">
-                <tr>
-                    <th align="left">
-                        <div id="logo"></div>
-                    </th>
-                    <th align="left">
-                        <div id="app-title">Student Information System</div>
-                    </th>
-                    <th align="right" valign="top">
-                        <h:form>
-                            <div class="navigation" style="display:inline-block; text-decoration: none;">Student</div>
-                            <a href="index.xhtml" class="navigation">Home</a>
-                            <h:commandLink action="#{userProfileController.editProfile()}" class="navigation">
-                                <h:outputText value="Update Profile"/>
-                            </h:commandLink>
-                            <h:commandLink action="#{userController.logout}" class="navigation">
-                                <h:outputText value="Logout"/>
-                            </h:commandLink>
-                        </h:form>
-                    </th>
-                </tr>
-            </table>
-        </h:panelGroup>
+         <div id="content">
+            <ui:include src="studentMenu.xhtml" />
 
-        <div id="content">
-            <div class="navbar navbar-inverse">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="brand" href="#">Student</a>
-                        <div class="nav-collapse collapse">
-                            <ul class="nav">
-                                <li class="active"><a href="#">Home</a></li>
-                                <li><a href="#">Link 1</a></li>
-                                <li><a href="#">Link 2</a></li>
-                                <li><a href="#">Link 3</a></li>
-                                <li><a href="#">Link 4</a></li>
-                                <li><a href="#">Link 5</a></li>
-                            </ul>
-                        </div>
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:panelGrid rows="2" class="center-align">
+                    <div style="align: middle;">
+                        <h4><u>Schedules</u></h4>
+                        
+                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
-                </div>
-            </div>
 
-            <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading">Student / Parent Home</h2>
-                    <div>This is student's home page.  </div>
-                </h:form>
+                    <h:form>
+                        <h:dataTable value="#{studentSchedulesController.schedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                      rendered="#{studentSchedulesController.schedules != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
+
+                            <h:column>
+                                <f:facet name="header">Subject</f:facet>
+                                #{schedule.schedule.subject.subjectname}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Period</f:facet>
+                                 #{schedule.schedule.period.starttime} to #{schedule.schedule.period.endtime}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Schedule Days</f:facet>
+                                #{schedule.schedule.scheduledays}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Primary Teacher</f:facet>
+                                #{schedule.schedule.primaryTeacherName}
+                            </h:column>
+
+                            <h:column >
+                                <f:facet name="header">Secondary Teacher</f:facet>
+                                #{schedule.schedule.secondaryTeacherName}
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:form>
+
+                </h:panelGrid>
             </h:panelGroup>
         </div>
-
     </h:body>
 </html>
-

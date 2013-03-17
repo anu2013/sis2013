@@ -149,7 +149,7 @@ public class TeacherCRUDController {
 
     public String editTeacher(Teacher argTeacher) {
         this.teacher = argTeacher;
-        this.userprofile = argTeacher.getUserprofile();
+        this.userprofile = argTeacher.getProfile();
         return "/admin/teacherUpdate";
     }
 

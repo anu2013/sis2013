@@ -73,23 +73,72 @@ body{
 
 thead{
     font-size: 16px;
-    background-color: #4e4e4e;
+    background-color: #306192;
     color: white;
 }
 
 .navigation{
     padding-right: 20px;
-    font-size: 16px;
+    font-size: 12px;
     color: white;
     font-weight: bold;
     text-decoration: underline;
 }
 
-.navigation.hover{
-    color: red;
+.navigation:hover{
+    color: #00ff00;
 }
 
 .errorMsg{
     color:red;
     font-weight:bold;
+    margin: 0 auto;
+}
+
+.infoMsg{
+    color:blue;
+    font-weight:bold;
+    margin: 0 auto;
+}
+
+.center-align {
+    margin: 0 auto;
+}
+
+.reset-cursor {
+    cursor: auto;
+    cursor: pointer;
+}
+
+.calendar-icon{
+    background-image:url('../images/calendarIcon.png');
+    width: 20px; 
+    height: 20px;
+}
+
+.present {
+    background-image:url('../images/img-check.png');
+    width: 16px; 
+    height: 16px;
+    margin: 0 auto;
+}
+
+.absent {
+    background-image:url('../images/img-x.png');
+    width: 16px; 
+    height: 16px;
+    margin: 0 auto;
+}
+
+.left25 {
+    margin-left: 25px;
+}
+
+.right25 {
+    margin-right: 25px;
+}
+
+.hand-cursor {
+    cursor: hand;
+    cursor: pointer;
 }
