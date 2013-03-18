@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
+import sis.model.Previousworkhistory;
 import sis.model.Role;
 import sis.model.Teacher;
 import sis.model.Userprofile;
@@ -35,6 +36,8 @@ public class TeacherCRUDController {
     private Teacher teacher;
     @ManagedProperty(value = "#{userprofile}")
     private Userprofile userprofile;
+    @ManagedProperty(value = "#{previousworkhistory}")
+    private Previousworkhistory previousworkhistory;
 
     @PostConstruct
     public void init() {
@@ -63,22 +66,41 @@ public class TeacherCRUDController {
             u.setRole(role);
             entityManager.persist(u);
             userTransaction.commit();
+            entityManager.refresh(u);
 
             userTransaction.begin();
             Userprofile up = getUserprofile();
             up.setUserid(u.getUserid());
+//            up.getUsers().setUserloginname(u.getUserid()+"");
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(up);
-            entityManager.flush();
             userTransaction.commit();
 
             userTransaction.begin();
             Teacher t = getTeacher();
-            t.setTeacherid(u.getUserid());
+            t.setTeacherid(up.getUserid());
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(t);
             userTransaction.commit();
             entityManager.refresh(t);
+
+            userTransaction.begin();
+            Previousworkhistory pwh = getPreviousworkhistory();
+            pwh.setTeacherid(t);
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.persist(pwh);
+            userTransaction.commit();
+            
+            
+//            System.out.println("updateUserLogin 111=="+u.getUserid());
+//            Users updateUserLogin = entityManager.find(Users.class, u.getUserid());
+//            updateUserLogin.setUserloginname(up.getLastname() + "_" + up.getFirstname().substring(0, 1) + "_" + u.getUserid());
+//            updateUserLogin.setPassword("password");
+//            userTransaction.begin();
+//            entityManager = entityManagerFactory.createEntityManager();
+//            entityManager.persist(updateUserLogin);
+//            userTransaction.commit();
+
             retrieveTeachers();
             return "/admin/teacherCRUD";
         } catch (Exception e) {
@@ -100,6 +122,7 @@ public class TeacherCRUDController {
             Teacher t = em.find(Teacher.class, this.teacher.getTeacherid());
             t.setEducationalqualification(this.teacher.getEducationalqualification());
             t.setSpecialization(this.teacher.getSpecialization());
+            t.setYearsofexperience(this.teacher.getYearsofexperience());
             em.persist(t);
 
             Userprofile up = em.find(Userprofile.class, this.teacher.getTeacherid());
@@ -123,6 +146,18 @@ public class TeacherCRUDController {
             up.setHomephone(this.userprofile.getEmail2());
             up.setMobilephone(this.userprofile.getMobilephone());
             up.setHomephone(this.userprofile.getHomephone());
+            em.persist(up);
+
+            Previousworkhistory pwh = em.find(Previousworkhistory.class, this.previousworkhistory.getPreviousworkid());
+            pwh.setPreviousschoolname(this.previousworkhistory.getPreviousschoolname());
+            pwh.setPreviousschooladdress1(this.previousworkhistory.getPreviousschooladdress1());
+            pwh.setPreviousschooladdress2(this.previousworkhistory.getPreviousschooladdress2());
+            pwh.setPreviousschoolcity(this.previousworkhistory.getPreviousschoolcity());
+            pwh.setPreviousschoolstate(this.previousworkhistory.getPreviousschoolstate());
+            pwh.setPreviousschoolzip(this.previousworkhistory.getPreviousschoolzip());
+            pwh.setPreviousschoolcountry(this.previousworkhistory.getPreviousschoolcountry());
+            em.persist(pwh);
+            
             userTransaction.commit();
             retrieveTeachers();
             return "/admin/teacherCRUD";
@@ -150,6 +185,22 @@ public class TeacherCRUDController {
     public String editTeacher(Teacher argTeacher) {
         this.teacher = argTeacher;
         this.userprofile = argTeacher.getProfile();
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        String queryString = "select pwh from Previousworkhistory pwh  where pwh.teacherid.teacherid = :teacherid";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("teacherid", argTeacher.getTeacherid());
+        Previousworkhistory pwh = null;
+        try {
+            int cont = query.getResultList().size();
+            if (cont != 0) {
+                pwh = (Previousworkhistory) query.getSingleResult();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.previousworkhistory = pwh;
+
         return "/admin/teacherUpdate";
     }
 
@@ -193,5 +244,19 @@ public class TeacherCRUDController {
      */
     public void setUserprofile(Userprofile userprofile) {
         this.userprofile = userprofile;
+    }
+
+    /**
+     * @return the previousworkhistory
+     */
+    public Previousworkhistory getPreviousworkhistory() {
+        return previousworkhistory;
+    }
+
+    /**
+     * @param previousworkhistory the previousworkhistory to set
+     */
+    public void setPreviousworkhistory(Previousworkhistory previousworkhistory) {
+        this.previousworkhistory = previousworkhistory;
     }
 }

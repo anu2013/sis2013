@@ -93,7 +93,7 @@
                                 <f:selectItem itemValue="Female" itemLabel="Female" />
                             </h:selectOneMenu>
                             <h:outputText value="Current Address 1:"></h:outputText>
-                            <h:inputText label="Current Address 1" value="#{userprofile.currentaddress1}" size="60">
+                            <h:inputText label="Current Address 1" value="#{userprofile.currentaddress1}" required="true" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current Address 2:"></h:outputText>
@@ -101,19 +101,19 @@
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current City:"></h:outputText>
-                            <h:inputText label="Current City" value="#{userprofile.currentcity}" size="60">
+                            <h:inputText label="Current City" value="#{userprofile.currentcity}" required="true" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current State:"></h:outputText>
-                            <h:inputText label="Current State" value="#{userprofile.currentstate}" size="60">
+                            <h:inputText label="Current State" value="#{userprofile.currentstate}" required="true" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current Zip:"></h:outputText>
-                            <h:inputText label="Current Zip" value="#{userprofile.currentzip}" size="60">
+                            <h:inputText label="Current Zip" value="#{userprofile.currentzip}" required="true" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Current Country:"></h:outputText>
-                            <h:inputText label="Current Country" value="#{userprofile.currentcountry}" size="60">
+                            <h:inputText label="Current Country" value="#{userprofile.currentcountry}" required="true" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing Address 1:"></h:outputText>
@@ -149,7 +149,7 @@
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Home Phone:"></h:outputText>
-                            <h:inputText label="Home Phone" value="#{userprofile.homephone}" size="60">
+                            <h:inputText label="Home Phone" value="#{userprofile.homephone}" size="60" required="true">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mobile Phone:"></h:outputText>
@@ -164,45 +164,13 @@
                             <h:inputText label="Ethnicity" value="#{student.ethnicity}" size="60">
                                 <f:validateLength maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Previous School Name:"></h:outputText>
-                            <h:inputText label="Previous School Name" value="#{previouseducation.previousschoolname}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Previous School Address 1:"></h:outputText>
-                            <h:inputText label="Previous School Address 1" value="#{previouseducation.previousschooladdress1}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Previous School Address 2:"></h:outputText>
-                            <h:inputText label="Previous School Address 2" value="#{previouseducation.previousschooladdress2}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Previous School City:"></h:outputText>
-                            <h:inputText label="Previous School City" value="#{previouseducation.previousschoolcity}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Previous School State:"></h:outputText>
-                            <h:inputText label="Previous School State" value="#{previouseducation.previousschoolstate}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Previous School Zip:"></h:outputText>
-                            <h:inputText label="Previous School Zip" value="#{previouseducation.previousschoolzip}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Previous School Country:"></h:outputText>
-                            <h:inputText label="Previous School Country" value="#{previouseducation.previousschoolcountry}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Last Grade Attended:"></h:outputText>
-                            <h:inputText label="Last Grade Attended" value="#{previouseducation.lastattendedgradelevel}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
                             <h:outputText value="Parent First Name:"></h:outputText>
-                            <h:inputText label="Parent First Name" value="#{parent.parentfirstname}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
+                            <h:inputText label="Parent First Name" value="#{parent.parentfirstname}" size="60" required="true">
+                                <f:validateLength minimum="5" maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Parent Last Name:"></h:outputText>
-                            <h:inputText label="Parent Last Name" value="#{parent.parentlastname}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
+                            <h:inputText label="Parent Last Name" value="#{parent.parentlastname}" size="60" required="true">
+                                <f:validateLength minimum="5" maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Parent Education:"></h:outputText>
                             <h:inputText label="Parent Education" value="#{parent.parenteducation}" size="60">
@@ -233,7 +201,39 @@
                                 <f:validateLength  maximum="10"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Relationship with student:"></h:outputText>
-                            <h:inputText label="Relationship with student" value="#{parent.relationshipwithstudent}" size="60">
+                            <h:inputText label="Relationship with student" value="#{parent.relationshipwithstudent}" size="60" required="true">
+                                <f:validateLength  minimum="5" maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School Name:"></h:outputText>
+                            <h:inputText label="Previous School Name" value="#{previouseducation.previousschoolname}" size="60" required="true">
+                                <f:validateLength minimum="5" maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School Address 1:"></h:outputText>
+                            <h:inputText label="Previous School Address 1" value="#{previouseducation.previousschooladdress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School Address 2:"></h:outputText>
+                            <h:inputText label="Previous School Address 2" value="#{previouseducation.previousschooladdress2}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School City:"></h:outputText>
+                            <h:inputText label="Previous School City" value="#{previouseducation.previousschoolcity}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School State:"></h:outputText>
+                            <h:inputText label="Previous School State" value="#{previouseducation.previousschoolstate}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School Zip:"></h:outputText>
+                            <h:inputText label="Previous School Zip" value="#{previouseducation.previousschoolzip}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Previous School Country:"></h:outputText>
+                            <h:inputText label="Previous School Country" value="#{previouseducation.previousschoolcountry}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Last Grade Attended:"></h:outputText>
+                            <h:inputText label="Last Grade Attended" value="#{previouseducation.lastattendedgradelevel}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                         </h:panelGrid>
