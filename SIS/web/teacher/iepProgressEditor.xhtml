@@ -36,24 +36,47 @@
                         </h:panelGrid>
                     </div>
                     
-                    <div class="well span9" style="margin-left: 0px;">
+                    <div class="well span8" style="margin-left: 0px;">
                         <div class="row">
                             
-                            <div class="span3">
-                                
-                            </div>
-                            
-                            <div class="span1"></div>
-                            
-                            <div class="span5">
+                            <div class="span8">
                                 <label>Progress Details</label>
-                                <h:inputTextarea value="#{teacherIepProgressController.currentIepProgress.progressdetails}" class="input-xlarge span5" rows="10">
+                                <h:inputTextarea value="#{teacherIepProgressController.currentIepProgress.progressdetails}" class="input-xlarge span8" rows="10">
                                     <f:validateLength minimum="0" maximum="250"></f:validateLength>
                                 </h:inputTextarea>
                             </div>
+                            
+                            <div class="span6">
+                                <h:panelGrid columns="2" class="span6" style="margin-left: 0px;">
+                                  <h:outputText value="IEP Resources (you can provide upto 5 resource urls)"/>
+                              </h:panelGrid>
+                            </div>
+                            
+                            <div class="span8">
+                                <h:dataTable value="#{teacherIepProgressController.currentIepProgress.resources}" var="iepres" cellpadding="7" border="1" class="span8" style="margin-left: 0px;"
+                                        rendered="#{teacherIepProgressController.currentIepProgress.resources != null}">
+                                   <f:facet name="header"></f:facet>
+                                   <f:facet name="footer"></f:facet>
 
-                            <h:commandButton value="Save" action="#{teacherIepProgressController.saveIepProgress(teacherIepProgressController.currentIepProgress)}" class="btn btn-primary pull-right left25" />
-                            <h:commandButton value="Cancel" action="#{teacherIepProgressController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                                   <h:column>
+                                       <f:facet name="header">Name</f:facet>
+                                       <h:inputText value="#{iepres.resourcename}">
+                                        </h:inputText>
+                                   </h:column>
+                                   
+                                   <h:column>
+                                       <f:facet name="header">Url</f:facet>
+                                       <h:inputText value="#{iepres.resourceurl}">
+                                        </h:inputText>
+                                   </h:column>
+
+                               </h:dataTable>
+                            </div>
+                            
+                            <div class="span8" style="margin-top: 20px;">
+                                <h:commandButton value="Save" action="#{teacherIepProgressController.saveIepProgress(teacherIepProgressController.currentIepProgress)}" class="btn btn-primary pull-right left25" />
+                                <h:commandButton value="Cancel" action="#{teacherIepProgressController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                            </div>
                         </div>
                     </div>
 
