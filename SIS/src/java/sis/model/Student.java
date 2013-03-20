@@ -152,5 +152,5 @@ public class Student implements Serializable {
 
     public void setProfile(Userprofile profile) {
         this.profile = profile;
-    }
+    }  
 }

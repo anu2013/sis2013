@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            .form-container {
+                max-width: 1000px;
+                padding: 19px 29px 29px;
+                margin: 0 auto 20px;
+                margin-top: 20px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            }
+            .form-container .form-container-heading{
+                font-size: 20px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 2px 9px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <ui:include src="adminHeader.xhtml" />
+        <div id="content">
+            <ui:include src="adminMenu.xhtml" />
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:form>
+
+                    <div align="center">
+                        <h3>View Ad-hoc Reports</h3>
+                        <h:panelGrid columns="2" border="1">
+                            <a href="/SIS/faces/admin/admissionStatusReport.xhtml">Admission/Application Status Report</a>
+                            <h:outputText value="This report is used to view the various details about the application and admission process."/>
+                            <a href="/SIS/faces/admin/studentGradeReport.xhtml">Student Grade Report</a>
+                            <h:outputText value="This report is used to view grades of the student based on grade level, student first name and last name."/>
+                            <a href="/SIS/faces/admin/teacherScheduleReport.xhtml">Teacher Schedule Report</a>                     
+                            <h:outputText value="This report is used to view the schedules of the teachers based on teacher's first name and last name."/>
+                        </h:panelGrid>
+                    </div>
+
+                </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+
