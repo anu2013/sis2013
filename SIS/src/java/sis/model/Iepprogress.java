@@ -9,11 +9,13 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -49,7 +51,11 @@ public class Iepprogress implements Serializable {
     
     @Column(name = "IEPGOALID")
     private Integer iepgoalid;
-
+    
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "IEPPROGRESSID")
+    private List<Iepprogressresources> resources;
+     
     public Iepprogress() {
     }
 
@@ -95,5 +101,13 @@ public class Iepprogress implements Serializable {
 
     public void setIepgoalid(Integer iepgoalid) {
         this.iepgoalid = iepgoalid;
+    }
+    
+    public List<Iepprogressresources> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<Iepprogressresources> items) {
+        this.resources = items;
     }
 }
