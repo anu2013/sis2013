@@ -124,6 +124,13 @@ public class TeacherIepProgressController implements Serializable{
             query.setParameter("gid", this.currentIepGoal.getIepgoalid());
             List<Iepprogress> records = query.getResultList();
             if(null != records && records.size() > 0) {
+                for(int i=0; i<records.size(); ++i){
+                    queryString = "select ipr from Iepprogressresources ipr where ipr.iepprogressid = :pid";
+                    query = entityManager.createQuery(queryString);
+                    query.setParameter("pid", records.get(i).getIepprogressid());
+                    List<Iepprogressresources> resporces = query.getResultList();
+                    records.get(i).setResources(resporces);
+                }
                 setIepProgressList(records);
             }else{
                 setErrorMessage("There are no records found! You can create one by clicking on the 'Add Progress' button.");
@@ -221,16 +228,19 @@ public class TeacherIepProgressController implements Serializable{
     public String loadCurrentIepProgress(){
         try{
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Integer pid = Integer.parseInt(request.getParameter("pid"));
-            if(pid > 0) {
-                EntityManager entityManager = entityManagerFactory.createEntityManager();
-                Iepprogress record = entityManager.find(Iepprogress.class, pid);
-                if(null != record) {
-                    if(null == record.getResources()){
-                        record.setResources(new ArrayList<Iepprogressresources>());
+            String strPid = request.getParameter("pid");
+            if(null != strPid){
+                Integer pid = Integer.parseInt(strPid);
+                if(pid > 0) {
+                    EntityManager entityManager = entityManagerFactory.createEntityManager();
+                    Iepprogress record = entityManager.find(Iepprogress.class, pid);
+                    if(null != record) {
+                        if(null == record.getResources()){
+                            record.setResources(new ArrayList<Iepprogressresources>());
+                        }
+                        setCurrentIepProgress(record);
+                        setErrorMessage(null);
                     }
-                    setCurrentIepProgress(record);
-                    setErrorMessage(null);
                 }
             }
         }catch(Exception e){
