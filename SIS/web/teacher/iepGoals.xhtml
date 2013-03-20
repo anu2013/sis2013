@@ -11,7 +11,19 @@
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
-        <style type="text/css"></style>
+        <style type="text/css">
+            .col1 {
+                width: 270px;
+            }
+            .col2 {
+                width: 350px;
+            }
+            .col3 {
+                width: 225px;
+                text-align: center;
+                margin: 0 auto;
+            }
+        </style>
     </h:head>
     <h:body>
           <ui:include src="teacherHeader.xhtml" />
@@ -19,26 +31,68 @@
         <div id="content">
             <ui:include src="teacherMenu.xhtml" />
 
-            <h:panelGroup id="container" layout="block" class="center-align">
-               <h:form>
-                <h:panelGrid rows="2" class="center-align" width="850">
+            <h:form>
+                <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
                     <div style="align: middle;">
-                        <h4><u>IEP Student Goals</u></h4>
-                        
-                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
-                    </div>
-                    
-                    <table width="850" cellpadding="7" border="1">
-                    <thead>
-                            <tr>
-                                    <th><h4>Under development!</h4></th>
-                            </tr>
-                    </thead>
-                    </table>
+                        <h4><u>IEP Goals</u></h4>
 
-                </h:panelGrid>
-               </h:form>
-            </h:panelGroup>
+                        <h:panelGrid columns="4">
+                            <h:outputText value="Student:"/>
+                            <h:outputText value="#{teacherIepGoalsController.student.profile.firstname} #{teacherIepGoalsController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
+
+                            <h:outputText value="Grade Level:" class="left25"/>
+                            <h:outputText value="#{teacherIepGoalsController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
+
+                        </h:panelGrid>
+                        
+                        <h:panelGrid columns="1"> 
+                            <h:commandButton value="Add New Goal" action="#{teacherIepGoalsController.addIepGoal()}" class="btn btn-medium btn-primary" style="margin-top: 10px; margin-bottom: 10px;"/>
+                        </h:panelGrid> 
+                        
+                    </div>
+
+                    <h:dataTable value="#{teacherIepGoalsController.iepGoalsList}" var="goal" cellpadding="7" border="1" width="850"
+                                 columnClasses="col1,col2,col3"
+                                 rendered="#{teacherIepGoalsController.iepGoalsList != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
+
+                            <h:column>
+                                <f:facet name="header">Goal Title</f:facet>
+                                <h:outputText value="#{goal.goaltitle}" style="font-size: 12px;" />
+                                <div style="margin-top: 10px; font-size: 11px; color: red;">
+                                    <h:outputFormat value="Start Date: {0, date, MMM d, yyyy}">
+                                        <f:param value="#{goal.startdate}" />
+                                    </h:outputFormat>
+                                </div>
+                                <div style="font-size: 11px; color: red;">
+                                    <h:outputFormat value="End Date: {0, date, MMM d, yyyy}">
+                                        <f:param value="#{goal.enddate}" />
+                                    </h:outputFormat>
+                                </div>
+                                 <div style="font-size: 11px; color: red;">
+                                   <h:outputText value="Status: #{goal.status}" />
+                                </div>
+
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Description</f:facet>
+                                <h:outputText value="#{goal.goaldescription}" style="font-size: 12px;" />
+                            </h:column>
+
+                            <h:column>
+                                <h:commandButton value="Progress" action="#{teacherIepGoalsController.showIepGoalProgress(goal)}" class="btn btn-medium btn-primary" />
+                                <h:commandButton value="Edit" action="#{teacherIepGoalsController.editIepGoal(goal)}" class="btn btn-medium btn-primary" style="margin-left: 10px; margin-right: 10px;" />
+                                <h:commandButton value="Delete" action="#{teacherIepGoalsController.deleteIepGoal(goal)}" class="btn btn-medium btn-primary" />
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:panelGroup>
+                    
+                    <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                </h:form>
         </div>
     </h:body>
 </html>
+
