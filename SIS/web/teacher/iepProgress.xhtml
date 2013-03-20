@@ -67,7 +67,13 @@
                                         <f:param value="#{rec.lastupdateddate}" />
                                     </h:outputFormat>
                                 </div>
-                                <h:outputText value="#{rec.progressdetails}" style="margin-top: 10px; font-size: 12px;" />
+                                <h:outputText value="#{rec.progressdetails}" style="margin-top: 20px; margin-bottom: 20px; font-size: 12px;" />
+                                
+                                <ui:repeat var="iepres" value="#{rec.resources}" varStatus="status">
+                                    <div style="font-size: 11px; margin-top: 5px;">
+                                       <h:outputLink value="#{iepres.resourceurl}" target="_blank">#{iepres.resourcename}</h:outputLink>
+                                    </div>
+                                </ui:repeat>
 
                             </h:column>
 
