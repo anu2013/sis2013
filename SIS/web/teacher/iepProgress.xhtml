@@ -11,7 +11,16 @@
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
-        <style type="text/css"></style>
+        <style type="text/css">
+            .col1 {
+                width: 700px;
+            }
+            .col2 {
+                width: 150px;
+                text-align: center;
+                margin: 0 auto;
+            }
+        </style>
     </h:head>
     <h:body>
           <ui:include src="teacherHeader.xhtml" />
@@ -19,26 +28,60 @@
         <div id="content">
             <ui:include src="teacherMenu.xhtml" />
 
-            <h:panelGroup id="container" layout="block" class="center-align">
-               <h:form>
-                <h:panelGrid rows="2" class="center-align" width="850">
+            <h:form>
+                <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
                     <div style="align: middle;">
-                        <h4><u>IEP Student Progress</u></h4>
-                        
-                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
-                    </div>
-                    
-                    <table width="850" cellpadding="7" border="1">
-                    <thead>
-                            <tr>
-                                    <th><h4>Under development!</h4></th>
-                            </tr>
-                    </thead>
-                    </table>
+                        <h4><u>IEP Progress</u></h4>
 
-                </h:panelGrid>
-               </h:form>
-            </h:panelGroup>
+                        <h:panelGrid columns="4">
+                            <h:outputText value="Student:"/>
+                            <h:outputText value="#{teacherIepProgressController.student.profile.firstname} #{teacherIepProgressController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
+
+                            <h:outputText value="Grade Level:" class="left25"/>
+                            <h:outputText value="#{teacherIepProgressController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
+
+                        </h:panelGrid>
+                        
+                        <h:panelGrid columns="2">
+                            <h:outputText value="IEP Goal:"/>
+                            <h:outputText value="#{teacherIepProgressController.currentIepGoal.goaltitle}" class="left25 right25" style="color: blue;" />
+                        </h:panelGrid>
+                        
+                        <h:panelGrid columns="1"> 
+                            <h:commandButton value="Add Progress" action="#{teacherIepProgressController.addIepProgress()}" class="btn btn-medium btn-primary" style="margin-top: 10px; margin-bottom: 10px;"/>
+                        </h:panelGrid> 
+                        
+                    </div>
+
+                    <h:dataTable value="#{teacherIepProgressController.iepProgressList}" var="rec" cellpadding="7" border="1" width="850"
+                                 columnClasses="col1,col2"
+                                 rendered="#{teacherIepProgressController.iepProgressList != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
+
+                            <h:column>
+                                <f:facet name="header">Progress</f:facet>
+                                <div style="font-size: 11px; color: red;">
+                                    <h:outputText value="Posted By: #{rec.lastupdatedby}"/>
+                                    <h:outputFormat value=" on {0, date, MMM d, yyyy}">
+                                        <f:param value="#{rec.lastupdateddate}" />
+                                    </h:outputFormat>
+                                </div>
+                                <h:outputText value="#{rec.progressdetails}" style="margin-top: 10px; font-size: 12px;" />
+
+                            </h:column>
+
+                            <h:column>
+                                <h:commandButton value="Edit" action="#{teacherIepProgressController.editIepProgress(rec)}" class="btn btn-medium btn-primary" style="margin-left: 10px; margin-right: 10px;" />
+                                <h:commandButton value="Delete" action="#{teacherIepProgressController.deleteIepProgress(rec)}" class="btn btn-medium btn-primary" />
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:panelGroup>
+                    
+                    <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                </h:form>
         </div>
     </h:body>
 </html>
+
