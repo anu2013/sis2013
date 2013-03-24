@@ -164,7 +164,9 @@
                         <h:inputHidden value="#{teacherCRUDController.teacher.teacherid}"></h:inputHidden>
                         <h:inputHidden value="#{teacherCRUDController.previousworkhistory.previousworkid}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{teacherCRUDController.updateTeacher}" value="Save"></h:commandButton>
+                        <h:commandButton action="#{teacherCRUDController.updateTeacher}" value="Save"
+                                         class="btn btn-medium btn-primary">
+                        </h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

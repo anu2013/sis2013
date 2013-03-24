@@ -223,7 +223,11 @@
                             </h:inputText>
                         </h:panelGrid>
                         <br/>
-                        <h:commandButton action="#{admissionCRUDController.createAdmission('Paper')}" value="  Save  "></h:commandButton>
+                        <h:commandButton action="#{admissionCRUDController.createAdmission('Paper')}" 
+                                         value="  Save  "
+                                         class="btn btn-medium btn-primary" 
+                                         style="margin-top: -10px;">
+                        </h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

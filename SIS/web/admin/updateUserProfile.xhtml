@@ -126,7 +126,10 @@
                         </h:panelGrid>
                         <h:inputHidden value="#{userProfileController.userprofile.userid}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{userProfileController.updateProfile}" value="Save"></h:commandButton>
+                        <h:commandButton action="#{userProfileController.updateProfile}" 
+                                         value="Save"
+                                         class="btn btn-medium btn-primary">
+                        </h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

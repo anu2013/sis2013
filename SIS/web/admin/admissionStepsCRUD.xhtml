@@ -84,10 +84,22 @@
                         <h:inputHidden value="#{admissionCRUDController.admission.admissionid}"></h:inputHidden>
                         <h:inputHidden value="#{admissionCRUDController.student.studentid}"></h:inputHidden>
                         <h:inputHidden value="#{admissionCRUDController.admission.status}"></h:inputHidden>
-                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('comment',admissionCRUDController.admission)}" value="Update Comments" action="#{admissionCRUDController.updateComments(admissionCRUDController.admission)}"/>
-                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('interview',admissionCRUDController.admission)}" value="Interview request" action="#{admissionCRUDController.requestForInterview(admissionCRUDController.admission)}"/>
-                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('approve',admissionCRUDController.admission)}" value="Approve" action="#{admissionCRUDController.approve(admissionCRUDController.admission)}"/>
-                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('reject',admissionCRUDController.admission)}" value="Reject" action="#{admissionCRUDController.reject(admissionCRUDController.admission)}"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('comment',admissionCRUDController.admission)}" 
+                                         value="Update Comments" 
+                                         action="#{admissionCRUDController.updateComments(admissionCRUDController.admission)}"
+                                         class="btn btn-medium btn-primary"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('interview',admissionCRUDController.admission)}" 
+                                         value="Interview request" 
+                                         action="#{admissionCRUDController.requestForInterview(admissionCRUDController.admission)}"
+                                         class="btn btn-medium btn-primary"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('approve',admissionCRUDController.admission)}" 
+                                         value="Approve" 
+                                         action="#{admissionCRUDController.approve(admissionCRUDController.admission)}"
+                                         class="btn btn-medium btn-primary"/>
+                        <h:commandButton disabled="#{admissionCRUDController.isDisabled('reject',admissionCRUDController.admission)}" 
+                                         value="Reject" 
+                                         action="#{admissionCRUDController.reject(admissionCRUDController.admission)}"
+                                         class="btn btn-medium btn-primary"/>
                         
                     </div>
                 </h:form>

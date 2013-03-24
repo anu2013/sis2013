@@ -36,10 +36,27 @@
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-            <h:panelGroup id="container" layout="block"> 
-                <h:form class="form-container">
-                    <h2 class="form-container-heading">Admin Home</h2>
-                    <div>This is administrator's home page. Administrator can be able to maintain teachers, students, schedules, periods, subjects and reports etc... </div>
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:form>
+                    <div align="center" width="80%">
+                        <h3>Administrator Home</h3>
+                        <h:panelGrid columns="2" border="1" width="80%">
+                            <a href="/SIS/faces/admin/sisdataCRUD.xhtml">SIS Data Maintenance</a>
+                            <h:outputText value="SIS Data Maintenance module provides the capabilities for administrator 
+                                          users to maintain the master data needed for SIS system such as Grade Level, Period, School Year and Subjects."/>
+                            <a href="/SIS/faces/admin/admissionCRUD.xhtml">Admission</a>
+                            <h:outputText value="Admission module provides the capabilities for administrator 
+                                          users to maintain admission workflow."/>
+                            <a href="/SIS/faces/admin/teacherCRUD.xhtml">Teacher</a>                     
+                            <h:outputText value="Teacher module provides the capabilities for administrator 
+                                          users to maintain teacher records."/>
+                            <a href="/SIS/faces/admin/studentCRUD.xhtml">Student</a>                     
+                            <h:outputText value="Report module provides the capabilities for administrator 
+                                          users to maintain student records and enrollment."/>
+                            <a href="/SIS/faces/admin/reports.xhtml">Reports</a>                     
+                            <h:outputText value="Report module provides the capabilities for administrator users to generate various reports."/>
+                        </h:panelGrid>
+                    </div>
                 </h:form>
             </h:panelGroup>
         </div>

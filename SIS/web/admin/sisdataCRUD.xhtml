@@ -31,31 +31,26 @@
             }
         </style>
     </h:head>
-
     <h:body>
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-            <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update Subject</h2>
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:form>
                     <div align="center">
-                        <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="Subject Name:"></h:outputText>
-                            <h:inputText label="Subject Name" value="#{subjectCRUDController.subject.subjectname}" required="true" size="60">
-                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{subjectCRUDController.subject.description}" required="true" rows="5" cols="50">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputTextarea>
+                        <h3>SIS Data Maintenance</h3>
+                        <h:panelGrid columns="2" border="1">
+                            <a href="/SIS/faces/admin/gradelevelCRUD.xhtml">Grade Level</a>
+                            <h:outputText value="This maintenance screen is used to maintain grade levels."/>
+                            <a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a>
+                            <h:outputText value="This maintenance screen is used to maintain periods."/>
+                            <a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">School year schedule</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain school year schedule."/>
+                            <a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain subjects."/>
+                            <a href="/SIS/faces/admin/subjectScheduleCRUD.xhtml">Subject schedules</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain subjects and its schedules."/>
                         </h:panelGrid>
-                        <h:inputHidden value="#{subjectCRUDController.subject.subjectid}"></h:inputHidden>
-                        <br/>
-                        <h:commandButton action="#{subjectCRUDController.updateSubject}" 
-                                         value="Save"
-                                         class="btn btn-medium btn-primary"></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

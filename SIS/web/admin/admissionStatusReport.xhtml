@@ -63,7 +63,12 @@
                                     <f:selectItems value="#{admissionStatusReportController.gradelevels}" var="gradelevel" itemLabel="#{gradelevel.gradelevel}" itemValue="#{gradelevel.gradelevelid}"/>
                                 </h:selectOneMenu>
                                 <h:outputText value="" />
-                                <h:commandButton action="#{admissionStatusReportController.generateReport}" value="Generate Report" class="btn btn-medium btn-primary" style="margin-top: -10px;"></h:commandButton>
+                                <h:commandButton 
+                                    action="#{admissionStatusReportController.generateReport}" 
+                                    value="Generate Report" 
+                                    class="btn btn-medium btn-primary" 
+                                    style="margin-top: -10px;">
+                                </h:commandButton>
                             </h:panelGrid>
                             <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                         </div>
@@ -73,7 +78,7 @@
                                          var="admission" cellpadding="7" 
                                          border="1" width="80%"
                                          columnClasses="none,none,none,center-text"
-                                         rendered="#{admissionStatusReportController.admissions != null}">>
+                                         rendered="#{admissionStatusReportController.admissions != null}">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
                                 <h:column>
@@ -86,12 +91,19 @@
                                 </h:column>
 
                                 <h:column>
-                                    <f:facet name="header">Year</f:facet>
-                                    #{admission.admissionseekingyear}
+                                    <f:facet name="header">Status</f:facet>
+                                    #{admission.status}
                                 </h:column>
                             </h:dataTable>
                         </div>
                     </h:panelGrid>
+                    <div align="center">
+                        <h:outputLink value="/SIS/admin/admissionStatusReport_Excel.jsp"
+                                      rendered="#{admissionStatusReportController.admissions != null}"
+                                      class="btn btn-medium btn-primary">
+                            Export to excel
+                        </h:outputLink>
+                    </div>
                 </h:form>
             </h:panelGroup>
         </div>

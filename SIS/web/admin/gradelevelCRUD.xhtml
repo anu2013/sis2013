@@ -56,6 +56,12 @@
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
+                                    <h:outputText value="Sort Order" />
+                                </f:facet>        
+                                <h:outputText value="${gradelevel.sortorder}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
                                     <h:outputText value="Edit"/>
                                 </f:facet>
                                 <h:commandLink action="#{gradelevelCRUDController.editGradelevel(gradelevel)}">
@@ -75,7 +81,10 @@
                             <p>There are no grade levels available. Please add new items.</p>
                         </h:panelGroup>
                         <br></br>
-                        <h:commandButton value="Add Gradelevel" action="#{gradelevelCRUDController.addGradelevel}">
+                        <h:commandButton value="Add Gradelevel" 
+                                         action="#{gradelevelCRUDController.addGradelevel}"
+                                         class="btn btn-medium btn-primary" 
+                                         style="margin-top: -10px;">
                         </h:commandButton>
                     </div>
                 </h:form>

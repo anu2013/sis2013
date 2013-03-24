@@ -229,7 +229,9 @@
                         <h:inputHidden value="#{studentCRUDController.parent.parentid}"></h:inputHidden>
                         <h:inputHidden value="#{studentCRUDController.previouseducation.previousschoolid}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{studentCRUDController.updateStudent}" value="Save"></h:commandButton>
+                        <h:commandButton action="#{studentCRUDController.updateStudent}" 
+                                         class="btn btn-medium btn-primary" 
+                                         value="Save"></h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>
