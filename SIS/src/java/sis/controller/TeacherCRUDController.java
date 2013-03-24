@@ -58,48 +58,50 @@ public class TeacherCRUDController {
     public String createTeacher() {
         EntityManager entityManager = null;
         try {
-            userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
+            userTransaction.begin();
             Users u = new Users();
             Role role = new Role();
             role.setRoleid(2);
             u.setRole(role);
             entityManager.persist(u);
+            entityManager.flush();
             userTransaction.commit();
             entityManager.refresh(u);
 
+            entityManager = entityManagerFactory.createEntityManager();
+            userTransaction.begin();
+            Users updateUserLogin = entityManager.find(Users.class, u.getUserid());
+            updateUserLogin.setUserloginname(getUserprofile().getLastname() + "_" + getUserprofile().getFirstname().substring(0, 1) + "_" + u.getUserid());
+            updateUserLogin.setPassword("password");
+            entityManager.persist(updateUserLogin);
+            entityManager.flush();
+            userTransaction.commit();
+            entityManager.refresh(updateUserLogin);
+
+            entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Userprofile up = getUserprofile();
             up.setUserid(u.getUserid());
-//            up.getUsers().setUserloginname(u.getUserid()+"");
-            entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(up);
+            entityManager.flush();
             userTransaction.commit();
+            entityManager.refresh(up);
 
+            entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Teacher t = getTeacher();
             t.setTeacherid(up.getUserid());
-            entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(t);
             userTransaction.commit();
             entityManager.refresh(t);
 
+            entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Previousworkhistory pwh = getPreviousworkhistory();
             pwh.setTeacherid(t);
-            entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(pwh);
             userTransaction.commit();
-            
-            
-//            System.out.println("updateUserLogin 111=="+u.getUserid());
-//            Users updateUserLogin = entityManager.find(Users.class, u.getUserid());
-//            updateUserLogin.setUserloginname(up.getLastname() + "_" + up.getFirstname().substring(0, 1) + "_" + u.getUserid());
-//            updateUserLogin.setPassword("password");
-//            userTransaction.begin();
-//            entityManager = entityManagerFactory.createEntityManager();
-//            entityManager.persist(updateUserLogin);
-//            userTransaction.commit();
 
             retrieveTeachers();
             return "/admin/teacherCRUD";
@@ -157,7 +159,7 @@ public class TeacherCRUDController {
             pwh.setPreviousschoolzip(this.previousworkhistory.getPreviousschoolzip());
             pwh.setPreviousschoolcountry(this.previousworkhistory.getPreviousschoolcountry());
             em.persist(pwh);
-            
+
             userTransaction.commit();
             retrieveTeachers();
             return "/admin/teacherCRUD";
