@@ -4,7 +4,6 @@
  */
 package sis.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -19,7 +18,6 @@ import javax.transaction.UserTransaction;
 import sis.model.Admission;
 import sis.model.Gradelevel;
 import sis.model.Schoolyearschedule;
-import sis.model.Student;
 
 /**
  *
@@ -79,10 +77,12 @@ public class AdmissionStatusReportController {
                 selectQuery.setParameter("gradelevelapplyingfor", this.selectedGradeLevelId + "");
                 selectQuery.setParameter("admissionseekingyear", this.selectedSchoolYear + "");
                 List<Admission> adm = (List<Admission>) selectQuery.getResultList();
+                
                 if (adm == null || adm.size() == 0) {
                     setInfoMessage("There are no matching admissions exist.");
                 } else {
                     this.setAdmissions(adm);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("admissions", adm);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -72,6 +72,7 @@ public class GradelevelCRUDController {
             Gradelevel s = em.find(Gradelevel.class, this.gradelevel.getGradelevelid());
             s.setGradelevel(this.gradelevel.getGradelevel());
             s.setDescription(this.gradelevel.getDescription());
+            s.setSortorder(this.gradelevel.getSortorder());
             em.persist(s);
             userTransaction.commit();
             retrieveGradelevels();
