@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            .form-container {
+                max-width: 1000px;
+                padding: 19px 29px 29px;
+                margin: 0 auto 20px;
+                margin-top: 20px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            }
+            .form-container .form-container-heading{
+                font-size: 20px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 2px 9px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <ui:include src="adminHeader.xhtml" />
+        <div id="content">
+            <ui:include src="adminMenu.xhtml" />
+            <h:panelGroup id="container" layout="block">
+                <h:form class="form-container">
+                    <h2 class="form-container-heading" align="center">Teacher Schedule Maintenance</h2>
+                    <div align="center">
+                        <h:dataTable rendered="#{not empty teacherScheduleCRUDController.teacherSchedules}" 
+                                     value="#{teacherScheduleCRUDController.teacherSchedules}" 
+                                     var="teacherSchedule" border="1" width="90%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Schedule Name" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.schedulename}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="School Year" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.schoolyear.schoolyear}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Period" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.period.description}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Start Time" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.period.starttime}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="End Time" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.period.endtime}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Primary Teacher" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.primaryTeacherName}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Secondary Teacher" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.secondaryTeacherName}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Subject Name" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.subject.description}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Schedule Days" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.scheduledays}" />    
+                            </h:column>
+                            <!--<h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                                <h:commandLink action="#{teacherScheduleCRUDController.editTeacherSchedule(teacherSchedule)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>-->        
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Delete"/>
+                                </f:facet>
+                                <h:commandLink action="#{teacherScheduleCRUDController.deleteTeacherSchedule(teacherSchedule)}">
+                                    <h:outputText value="Delete"/>
+                                </h:commandLink>
+                            </h:column>        
+                        </h:dataTable>
+                        <h:panelGroup rendered="#{empty teacherScheduleCRUDController.teacherSchedules}">
+                            <p>There are no teacher schedules available. Please add new items.</p>
+                        </h:panelGroup>
+                        <br></br>
+                        <h:commandButton value="Add Teacher Schedule" 
+                                         action="#{teacherScheduleCRUDController.addTeacherSchedule}"
+                                         class="btn btn-medium btn-primary" 
+                                         style="margin-top: -10px;">
+                        </h:commandButton>
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+
