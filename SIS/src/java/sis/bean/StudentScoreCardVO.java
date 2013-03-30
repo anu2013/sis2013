@@ -5,8 +5,6 @@
 package sis.bean;
 
 import javax.faces.bean.ManagedBean;
-import javax.persistence.Column;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -17,10 +15,10 @@ public class StudentScoreCardVO {
     private Integer studentid;
     private String firstName;
     private String lastName;
-    private String finalscore;
-    private String comments;
-    private String status;
-    private String gradeletter;
+    private String finalscore="";
+    private String comments="";
+    private String status="";
+    private String gradeletter="";
 
     /**
      * @return the studentid

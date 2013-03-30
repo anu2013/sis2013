@@ -44,33 +44,21 @@
 
                         <div align="center">
                             <h4>Student Grades Report</h4>
-                            <h:panelGrid columns="7">
+                            <h:panelGrid columns="4">
                                 <h:outputText value="Admission Year:"/>
                                 <h:selectOneMenu id="admissionyear" style="width:175px;"
-                                                 value="#{studentGradeReportController.selectedSchoolYear}"
+                                                 value="#{teacherScheduleReportController.selectedSchoolYear}"
                                                  converter="javax.faces.Integer"
                                                  >
                                     <f:selectItem itemLabel="Select School Year" itemValue="0" />
-                                    <f:selectItems value="#{studentGradeReportController.schoolyearschedules}" 
+                                    <f:selectItems value="#{teacherScheduleReportController.schoolyearschedules}" 
                                                    var="schoolyearschedule" 
                                                    itemLabel="#{schoolyearschedule.schoolyear}" 
                                                    itemValue="#{schoolyearschedule.schoolyear}"/>
                                 </h:selectOneMenu>
                                 <h:outputText value="" />
-                                <h:outputText value="Grade Level:"/>
-                                <h:selectOneMenu id="gradelevel" 
-                                                 style="width:175px;"
-                                                 value="#{studentGradeReportController.selectedGradeLevelId}"
-                                                 converter="javax.faces.Integer">
-                                    <f:selectItem itemLabel="Select Grade Level" itemValue="0" />
-                                    <f:selectItems value="#{studentGradeReportController.gradelevels}" 
-                                                   var="gradelevel" 
-                                                   itemLabel="#{gradelevel.gradelevel}" 
-                                                   itemValue="#{gradelevel.gradelevelid}"/>
-                                </h:selectOneMenu>
-                                <h:outputText value="" />
                                 <h:commandButton 
-                                    action="#{studentGradeReportController.generateReport}" 
+                                    action="#{teacherScheduleReportController.generateReport}" 
                                     value="Generate Report" 
                                     class="btn btn-medium btn-primary" 
                                     style="margin-top: -10px;">
@@ -80,39 +68,39 @@
                         </div>
                         
                         <div align="center">
-                            <h:dataTable id="report" value="#{studentGradeReportController.studentscorecardVOs}" 
-                                         var="studentScoreCardVO" cellpadding="7" 
+                            <h:dataTable id="report" value="#{teacherScheduleReportController.teacherSchedules}" 
+                                         var="teacherSchedule" cellpadding="7" 
                                          border="1" width="80%"
                                          columnClasses="none,none,none,center-text"
-                                         rendered="#{studentGradeReportController.studentscorecardVOs != null}">
+                                         rendered="#{teacherScheduleReportController.teacherSchedules != null}">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
                                 <h:column>
-                                    <f:facet name="header">First Name</f:facet>
-                                    #{studentScoreCardVO.firstName}
+                                    <f:facet name="header">Primary Teacher</f:facet>
+                                    #{teacherSchedule.primaryTeacherName}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Last Name</f:facet>
-                                    #{studentScoreCardVO.lastName}
+                                    <f:facet name="header">Secondary Teacher</f:facet>
+                                    #{teacherSchedule.secondaryTeacherName}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Final Score</f:facet>
-                                    #{studentScoreCardVO.finalscore}
+                                    <f:facet name="header">Period</f:facet>
+                                    #{teacherSchedule.period.description}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Grade Letter</f:facet>
-                                    #{studentScoreCardVO.gradeletter}
+                                    <f:facet name="header">Start</f:facet>
+                                    #{teacherSchedule.period.starttime}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Status</f:facet>
-                                    #{studentScoreCardVO.status}
+                                    <f:facet name="header">End</f:facet>
+                                    #{teacherSchedule.period.endtime}
                                 </h:column>
                             </h:dataTable>
                         </div>
                     </h:panelGrid>
                     <div align="center">
-                        <h:outputLink value="/SIS/admin/studentGradesReport_Excel.jsp"
-                                      rendered="#{studentGradeReportController.studentscorecardVOs != null}"
+                        <h:outputLink value="/SIS/admin/teacherScheduleReport_Excel.jsp"
+                                      rendered="#{teacherScheduleReportController.teacherSchedules != null}"
                                       class="btn btn-medium btn-primary">
                             Export to excel
                         </h:outputLink>
