@@ -34,6 +34,8 @@ public class Gradelevel implements Serializable {
     @Size(max = 255)
     @Column(name = "DESCRIPTION")
     private String description;
+    @Column(name = "sortorder")
+    private Integer sortorder;
 
     public Gradelevel() {
     }
@@ -88,6 +90,20 @@ public class Gradelevel implements Serializable {
     @Override
     public String toString() {
         return "sis.model.Gradelevel[ gradelevelid=" + gradelevelid + " ]";
+    }
+
+    /**
+     * @return the sortorder
+     */
+    public Integer getSortorder() {
+        return sortorder;
+    }
+
+    /**
+     * @param sortorder the sortorder to set
+     */
+    public void setSortorder(Integer sortorder) {
+        this.sortorder = sortorder;
     }
     
 }

@@ -2,7 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
@@ -32,60 +35,9 @@
     </h:head>
 
     <h:body>
-        <h:panelGroup id="header" layout="block">
-            <table width="100%">
-                <tr>
-                    <th align="left">
-                        <div id="logo"></div>
-                    </th>
-                    <th align="left">
-                        <div id="app-title">Student Information System</div>
-                    </th>
-                    <th align="right" valign="top">
-                        <h:form>
-                            <!--<div class="navigation" style="display:inline-block; text-decoration: none;">Administrator</div>-->
-                            <a href="index.xhtml" class="navigation">Home</a>
-                            <h:commandLink action="#{userProfileController.editProfile}" class="navigation">
-                                <h:outputText value="Update Profile"/>
-                            </h:commandLink>
-                            <h:commandLink action="#{userProfileController.editPassword}" class="navigation">
-                                <h:outputText value="Change Password"/>
-                            </h:commandLink>
-                            <h:commandLink action="#{userController.logout}" class="navigation">
-                                <h:outputText value="Logout"/>
-                            </h:commandLink>
-                        </h:form>
-                    </th>
-                </tr>
-            </table>
-        </h:panelGroup>
-
+        <ui:include src="adminHeader.xhtml" />
         <div id="content">
-            <div class="navbar navbar-inverse">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <!--<a class="brand" href="/SIS/faces/admin/index.xhtml">Admin</a>-->
-                        <div class="nav-collapse collapse">
-                            <ul class="nav">
-                                <!--<li class="active"><a href="/SIS/faces/admin/index.xhtml">Home</a></li>-->
-                                <li><a href="/SIS/faces/admin/gradelevelCRUD.xhtml">GradeLevel</a></li>
-                                <li><a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a></li>
-                                <li><a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">SchoolYear</a></li>
-                                <li><a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a></li>
-                                <li><a href="/SIS/faces/admin/admissionCRUD.xhtml">Application Submission</a></li>
-                                <li><a href="/SIS/faces/admin/teacherCRUD.xhtml">Teacher</a></li>
-                                <li><a href="/SIS/faces/admin/studentCRUD.xhtml">Student</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
                     <h2 class="form-container-heading" align="center">Update School Year Schedule</h2>
@@ -94,18 +46,35 @@
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
                             <h:outputText value="Schoolyear : #{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:outputText>
                             <h:outputText></h:outputText>
-                            <h:outputText value="Start Date (MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Start Date" value="#{schoolyearscheduleCRUDController.schoolyearschedule.startdate}" required="true">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
-                            <h:outputText value="End Date (MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="End Date" value="#{schoolyearscheduleCRUDController.schoolyearschedule.enddate}" required="true">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
+                            <h:outputText value="Start Date:"></h:outputText>
+                            <a4j:outputPanel id="calendar_start" layout="block">
+                                <rich:calendar value="#{schoolyearscheduleCRUDController.schoolyearschedule.startdate}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
+                            <h:outputText value="End Date:"></h:outputText>
+                            <a4j:outputPanel id="calendar_end" layout="block">
+                                <rich:calendar value="#{schoolyearscheduleCRUDController.schoolyearschedule.enddate}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
                         </h:panelGrid>
                         <h:inputHidden value="#{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:inputHidden>
                         <br/>
-                        <h:commandButton action="#{schoolyearscheduleCRUDController.updateSchoolyearschedule}" value="Save"></h:commandButton>
+                        <h:commandButton action="#{schoolyearscheduleCRUDController.updateSchoolyearschedule}" 
+                                         value=" Save "
+                                         class="btn btn-medium btn-primary">
+                        </h:commandButton>
                     </div>
                 </h:form>
             </h:panelGroup>

@@ -39,68 +39,90 @@
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Period Maintenance</h2>
+                    <h2 class="form-container-heading" align="center">Teacher Schedule Maintenance</h2>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty periodCRUDController.periods}" value="#{periodCRUDController.periods}" var="period" border="1" width="100%">
+                        <h:dataTable rendered="#{not empty teacherScheduleCRUDController.teacherSchedules}" 
+                                     value="#{teacherScheduleCRUDController.teacherSchedules}" 
+                                     var="teacherSchedule" border="1" width="90%">
                             <h:column>        
                                 <f:facet name="header">            
-                                    <h:outputText value="Description" />
+                                    <h:outputText value="Schedule Name" />
                                 </f:facet>        
-                                <h:outputText value="${period.description}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Period Code" />
-                                </f:facet>        
-                                <h:outputText value="${period.periodcode}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Sort Order" />
-                                </f:facet>        
-                                <h:outputText value="${period.sortorder}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Start Time" />
-                                </f:facet>        
-                                <h:outputText value="${period.starttime}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="End Time" />
-                                </f:facet>        
-                                <h:outputText value="${period.endtime}" />    
+                                <h:outputText value="${teacherSchedule.schedulename}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="School Year" />
                                 </f:facet>        
-                                <h:outputText value="${period.schoolyear.schoolyear}" />    
+                                <h:outputText value="${teacherSchedule.schoolyear.schoolyear}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
+                                    <h:outputText value="Period" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.period.description}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Start Time" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.period.starttime}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="End Time" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.period.endtime}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Primary Teacher" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.primaryTeacherName}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Secondary Teacher" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.secondaryTeacherName}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Subject Name" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.subject.description}" />    
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Schedule Days" />
+                                </f:facet>        
+                                <h:outputText value="${teacherSchedule.scheduledays}" />    
+                            </h:column>
+                            <!--<h:column>        
+                                <f:facet name="header">            
                                     <h:outputText value="Edit"/>
                                 </f:facet>
-                                <h:commandLink action="#{periodCRUDController.editPeriod(period)}">
+                                <h:commandLink action="#{teacherScheduleCRUDController.editTeacherSchedule(teacherSchedule)}">
                                     <h:outputText value="Edit"/>
                                 </h:commandLink>
-                            </h:column>        
+                            </h:column>-->        
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Delete"/>
                                 </f:facet>
-                                <h:commandLink action="#{periodCRUDController.deletePeriod(period)}">
+                                <h:commandLink action="#{teacherScheduleCRUDController.deleteTeacherSchedule(teacherSchedule)}">
                                     <h:outputText value="Delete"/>
                                 </h:commandLink>
                             </h:column>        
                         </h:dataTable>
-                        <h:panelGroup rendered="#{empty periodCRUDController.periods}">
-                            <p>There are no periods available. Please add new items.</p>
+                        <h:panelGroup rendered="#{empty teacherScheduleCRUDController.teacherSchedules}">
+                            <p>There are no teacher schedules available. Please add new items.</p>
                         </h:panelGroup>
-                        <br/>
-                        <h:commandButton value="Add Period" action="#{periodCRUDController.addPeriod}"
-                                         class="btn btn-medium btn-primary">
+                        <br></br>
+                        <h:commandButton value="Add Teacher Schedule" 
+                                         action="#{teacherScheduleCRUDController.addTeacherSchedule}"
+                                         class="btn btn-medium btn-primary" 
+                                         style="margin-top: -10px;">
                         </h:commandButton>
                     </div>
                 </h:form>

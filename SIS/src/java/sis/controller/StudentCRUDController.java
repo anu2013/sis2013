@@ -114,6 +114,7 @@ public class StudentCRUDController {
             pe.setPreviousschoolzip(this.previouseducation.getPreviousschoolzip());
             pe.setPreviousschoolcountry(this.previouseducation.getPreviousschoolcountry());
             userTransaction.commit();
+            retrieveStudents();
             return "/admin/studentCRUD";
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +135,6 @@ public class StudentCRUDController {
         Parent pa = null;
         try {
             int cont = query.getResultList().size();
-            System.out.println("Count == " + cont);
             if (cont != 0) {
                 pa = (Parent) query.getSingleResult();
             }
@@ -149,7 +149,6 @@ public class StudentCRUDController {
         Previouseducation pe = null;
         try {
             int cont = query.getResultList().size();
-            System.out.println("Count == " + cont);
             if (cont != 0) {
                 pe = (Previouseducation) query.getSingleResult();;
             }

@@ -31,19 +31,25 @@
             }
         </style>
     </h:head>
-
     <h:body>
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-
-            <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:form>
                     <div align="center">
-                        <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="1" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="User profile has been updated successfully."></h:outputText>
+                        <h3>SIS Data Maintenance</h3>
+                        <h:panelGrid columns="2" border="1">
+                            <a href="/SIS/faces/admin/gradelevelCRUD.xhtml">Grade Level</a>
+                            <h:outputText value="This maintenance screen is used to maintain grade levels."/>
+                            <a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a>
+                            <h:outputText value="This maintenance screen is used to maintain periods."/>
+                            <a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">School year schedule</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain school year schedule."/>
+                            <a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain subjects."/>
+                            <a href="/SIS/faces/admin/teacherScheduleCRUD.xhtml">Teacher schedules</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain teachers and their period, subject assignments."/>
                         </h:panelGrid>
                     </div>
                 </h:form>

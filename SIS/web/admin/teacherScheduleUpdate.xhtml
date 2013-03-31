@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            .form-container {
+                max-width: 1000px;
+                padding: 19px 29px 29px;
+                margin: 0 auto 20px;
+                margin-top: 20px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            }
+            .form-container .form-container-heading{
+                font-size: 20px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 2px 9px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <ui:include src="adminHeader.xhtml" />
+        <div id="content">
+            <ui:include src="adminMenu.xhtml" />
+            <h:panelGroup id="container" layout="block">
+                <h:form class="form-container">
+                    <h2 class="form-container-heading" align="center">Update Teacher Schedule</h2>
+                    <div align="center">
+                        <h:messages style="color:red;font-weight:bold;"></h:messages>
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                            <h:outputText value="Schedule Name:"></h:outputText>
+                            <h:inputText label="Schedule Name" value="#{teacherScheduleCRUDController.teacherSchedule.schedulename}" 
+                                         required="true" size="60">
+                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="School Year:"></h:outputText>
+                            <h:selectOneMenu value="#{teacherScheduleCRUDController.schoolYear}">
+                                <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="sy"
+                                               itemLabel="#{sy.schoolyear}" 
+                                               itemValue="#{sy.schoolyear}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Period:"></h:outputText>
+                            <h:selectOneMenu value="#{teacherScheduleCRUDController.periodId}">
+                                <f:selectItems value="#{periodCRUDController.periods}" var="p"
+                                               itemLabel="#{p.description}" 
+                                               itemValue="#{p.periodid}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Subject:"></h:outputText>
+                            <h:selectOneMenu value="#{teacherScheduleCRUDController.subjectId}">
+                                <f:selectItems value="#{subjectCRUDController.subjects}" var="s"
+                                               itemLabel="#{s.description}" 
+                                               itemValue="#{s.subjectid}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Primary Teacher:"></h:outputText>
+                            <h:selectOneMenu value="#{teacherScheduleCRUDController.primaryTeacherId}">
+                                <f:selectItems value="#{teacherCRUDController.teachers}" var="pt"
+                                               itemLabel="#{pt.profile.firstname} - #{pt.profile.lastname}" 
+                                               itemValue="#{pt.teacherid}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Secondary Teacher:"></h:outputText>
+                            <h:selectOneMenu value="#{teacherScheduleCRUDController.secondaryTeacherId}">
+                                <f:selectItems value="#{teacherCRUDController.teachers}" var="st"
+                                               itemLabel="#{st.profile.firstname} - #{st.profile.lastname}" 
+                                               itemValue="#{st.teacherid}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="Schedule Days:"></h:outputText>
+                            <h:inputText label="Schedule Days" value="#{teacherScheduleCRUDController.teacherSchedule.scheduledays}" 
+                                         required="true" size="60">
+                                <f:validateLength minimum="1" maximum="4"></f:validateLength>
+                            </h:inputText>
+                        </h:panelGrid>
+                        <h:inputHidden value="#{teacherScheduleCRUDController.teacherSchedule.subjectscheduleid}"></h:inputHidden>
+                        <br/>
+                        <h:commandButton action="#{teacherScheduleCRUDController.updateTeacherSchedule}" 
+                                         value=" Save "
+                                         class="btn btn-medium btn-primary" 
+                                         style="margin-top: -10px;">
+                        </h:commandButton>
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+

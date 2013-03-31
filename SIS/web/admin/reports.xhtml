@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
@@ -36,16 +37,21 @@
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-
-            <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
+            <h:panelGroup id="container" layout="block" class="center-align">
+                <h:form>
 
                     <div align="center">
-                        <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="1" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="User profile has been updated successfully."></h:outputText>
+                        <h3>View Ad-hoc Reports</h3>
+                        <h:panelGrid columns="2" border="1">
+                            <a href="/SIS/faces/admin/admissionStatusReport.xhtml">Admission/Application Status Report</a>
+                            <h:outputText value="This report is used to view the various details about the application and admission process."/>
+                            <a href="/SIS/faces/admin/studentGradesReport.xhtml">Student Grade Report</a>
+                            <h:outputText value="This report is used to view grades of the student based on grade level, student first name and last name."/>
+                            <a href="/SIS/faces/admin/teacherScheduleReport.xhtml">Teacher Schedule Report</a>                     
+                            <h:outputText value="This report is used to view the schedules of the teachers based on teacher's first name and last name."/>
                         </h:panelGrid>
                     </div>
+
                 </h:form>
             </h:panelGroup>
         </div>
