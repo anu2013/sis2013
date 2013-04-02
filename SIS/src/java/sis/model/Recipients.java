@@ -33,16 +33,17 @@ public class Recipients implements Serializable {
     @Basic(optional = false)
     @Column(name = "RECIPIENTSROWID")
     private Integer recipientsrowid;
+    
     @Column(name = "MESSAGEREADDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date messagereaddate;
     
     @JoinColumn(name = "RECIPIENTID", referencedColumnName = "USERID")
     @ManyToOne
-    private Users recipientid;
+    private Users recipient;
 
-    @Column(name = "MESSAGEID")
-    private Integer messageid;
+    @Column(name = "CONVERSATIONID")
+    private Integer conversationId;
 
     public Recipients() {
     }
@@ -67,19 +68,19 @@ public class Recipients implements Serializable {
         this.messagereaddate = messagereaddate;
     }
 
-    public Users getRecipientid() {
-        return recipientid;
+    public Users getRecipient() {
+        return recipient;
     }
 
-    public void setRecipientid(Users recipientid) {
-        this.recipientid = recipientid;
+    public void setRecipient(Users recipient) {
+        this.recipient = recipient;
     }
 
-    public Integer getMessageid() {
-        return messageid;
+    public Integer getConversationId() {
+        return conversationId;
     }
 
-    public void setMessageid(Integer messageid) {
-        this.messageid = messageid;
+    public void setConversationId(Integer id) {
+        this.conversationId = id;
     }
 }
