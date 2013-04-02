@@ -1,30 +1,32 @@
-<%@page import="sis.bean.StudentScoreCardVO"%>
+<%@page import="sis.bean.TeacherScheduleVO"%>
 <%@page import="java.util.List"%>
 
 <%@ page contentType="application/vnd.ms-excel" %>
 
 <%-- Set the content disposition header --%>
 <%
-    response.setHeader("Content-Disposition", "inline; filename=\"studentScoreReport.xls\"");
-    List<StudentScoreCardVO> studentScoreCardVOs = (List<StudentScoreCardVO>) session.getAttribute("studentscorecardVOs");
+    response.setHeader("Content-Disposition", "inline; filename=\"teacherScheduleReport.xls\"");
+    List<TeacherScheduleVO> teacherScheduleVOs = (List<TeacherScheduleVO>) session.getAttribute("teacherScheduleVOs");
 %>
 <table border="1">
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Final Score</th>
-        <th>Grade Letter</th>
-        <th>Status</th
+        <th>Name</th>
+        <th>Schedule Type</th>
+        <th>Period Name</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Schedule Days</th>
     </tr>
-    <% for (int index = 0; index < studentScoreCardVOs.size(); index++) { 
-       StudentScoreCardVO studentScoreCardVO = (StudentScoreCardVO) studentScoreCardVOs.get(index);
+    <% for (int index = 0; index < teacherScheduleVOs.size(); index++) { 
+       TeacherScheduleVO teacherScheduleVO = (TeacherScheduleVO) teacherScheduleVOs.get(index);
     %>
     <tr>
-        <td><%=studentScoreCardVO.getFirstName()%></td>
-        <td><%=studentScoreCardVO.getLastName()%></td>
-        <td><%=studentScoreCardVO.getFinalscore()%></td>
-        <td><%=studentScoreCardVO.getGradeletter()%></td>
-        <td><%=studentScoreCardVO.getStatus()%></td>
+        <td><%=teacherScheduleVO.getName()%></td>
+        <td><%=teacherScheduleVO.getScheduleType()%></td>
+        <td><%=teacherScheduleVO.getPeriodName()%></td>
+        <td><%=teacherScheduleVO.getPeriodStart()%></td>
+        <td><%=teacherScheduleVO.getPeriodEnd()%></td>
+        <td><%=teacherScheduleVO.getScheduleDays()%></td>
     </tr>
     <% }%>
 </table>

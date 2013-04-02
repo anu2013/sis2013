@@ -10,12 +10,12 @@ package sis.bean;
  */
 public class TeacherScheduleVO {
     private Integer teacherId;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String periodName;
     private String periodStart;
     private String periodEnd;
-    private boolean primary;
+    private String scheduleType;
+    private String scheduleDays;
 
     /**
      * @return the teacherId
@@ -32,32 +32,20 @@ public class TeacherScheduleVO {
     }
 
     /**
-     * @return the firstName
+     * @return the name
      */
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param firstName the firstName to set
+     * @param name the name to set
      */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    /**
-     * @return the lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * @param lastName the lastName to set
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+   
 
     /**
      * @return the periodName
@@ -102,18 +90,33 @@ public class TeacherScheduleVO {
     }
 
     /**
-     * @return the primary
+     * @return the scheduleType
      */
-    public boolean isPrimary() {
-        return primary;
+    public String getScheduleType() {
+        return scheduleType;
     }
 
     /**
-     * @param primary the primary to set
+     * @param scheduleType the scheduleType to set
      */
-    public void setPrimary(boolean primary) {
-        this.primary = primary;
+    public void setScheduleType(String scheduleType) {
+        this.scheduleType = scheduleType;
     }
+
+    /**
+     * @return the scheduleDays
+     */
+    public String getScheduleDays() {
+        return scheduleDays;
+    }
+
+    /**
+     * @param scheduleDays the scheduleDays to set
+     */
+    public void setScheduleDays(String scheduleDays) {
+        this.scheduleDays = scheduleDays;
+    }
+
     
     
 }

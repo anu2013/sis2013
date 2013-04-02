@@ -4,8 +4,11 @@
  */
 package sis.controller;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import sis.model.TeacherSchedule;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
@@ -41,6 +44,17 @@ public class TeacherScheduleCRUDController {
     private Integer subjectId;
     private Integer primaryTeacherId;
     private Integer secondaryTeacherId;
+    private static Map<String, Object> scheduleDaysMap;
+    private String[] scheduleDaysStringArray;
+
+    static {
+        scheduleDaysMap = new LinkedHashMap<String, Object>();
+        scheduleDaysMap.put("Monday", "M"); //label, value
+        scheduleDaysMap.put("Tuesday", "T");
+        scheduleDaysMap.put("Wednesday", "W");
+        scheduleDaysMap.put("Thursday", "TR");
+        scheduleDaysMap.put("Friday", "F");
+    }
 
     @PostConstruct
     public void init() {
@@ -61,14 +75,22 @@ public class TeacherScheduleCRUDController {
     public String createTeacherSchedule() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            
-            if (this.primaryTeacherId == this.secondaryTeacherId){
+
+            if (this.primaryTeacherId == this.secondaryTeacherId) {
                 setInfoMessage("Primary teacher and Secondary teacher should not be the same for the period.");
                 return null;
             }
             
+            String scheduleDays = "";
+            for (int index = 0; index < this.scheduleDaysStringArray.length; index++) {
+                scheduleDays = scheduleDays + scheduleDaysStringArray[index] + ",";
+            }
+            scheduleDays = scheduleDays.substring(0,scheduleDays.length()-1);
+            
+
             userTransaction.begin();
             TeacherSchedule tsch = getTeacherSchedule();
+            tsch.setScheduledays(scheduleDays);
 
             Period p = new Period();
             p.setPeriodid(periodId);
@@ -111,28 +133,7 @@ public class TeacherScheduleCRUDController {
             TeacherSchedule tsch = em.find(TeacherSchedule.class, this.teacherSchedule.getSubjectscheduleid());
             tsch.setSchedulename(this.teacherSchedule.getSchedulename());
             tsch.setScheduledays(this.teacherSchedule.getScheduledays());
-            System.out.println("Period = "+this.periodId);
             tsch.getPeriod().setPeriodid(this.periodId);
-
-//            Period p = new Period();
-//            p.setPeriodid(periodId);
-//            tsch.setPeriod(p);
-
-//            Schoolyearschedule sy = new Schoolyearschedule();
-//            sy.setSchoolyear(schoolYear);
-//            tsch.setSchoolyear(sy);
-//            Subject s = new Subject();
-//            s.setSubjectid(subjectId);
-//            tsch.setSubject(s);
-//            Teacher pt = new Teacher();
-//            pt.setTeacherid(primaryTeacherId);
-//            tsch.setPrimaryTeacher(pt);
-//            tsch.getPrimaryTeacher().setTeacherid(primaryTeacherId);
-//            Teacher st = new Teacher();
-//            st.setTeacherid(secondaryTeacherId);
-//            tsch.setSecondaryTeacher(st);
-//            tsch.getSecondaryTeacher().setTeacherid(secondaryTeacherId);
-
             em.persist(tsch);
             userTransaction.commit();
             retrieveTeacherSchedules();
@@ -265,7 +266,26 @@ public class TeacherScheduleCRUDController {
     public void setSecondaryTeacherId(Integer secondaryTeacherId) {
         this.secondaryTeacherId = secondaryTeacherId;
     }
+
+    public Map<String, Object> getScheduleDaysMap() {
+        return scheduleDaysMap;
+    }
+
     protected void setInfoMessage(String summary) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
+    }
+
+    /**
+     * @return the scheduleDaysStringArray
+     */
+    public String[] getScheduleDaysStringArray() {
+        return scheduleDaysStringArray;
+    }
+
+    /**
+     * @param scheduleDaysStringArray the scheduleDaysStringArray to set
+     */
+    public void setScheduleDaysStringArray(String[] scheduleDaysStringArray) {
+        this.scheduleDaysStringArray = scheduleDaysStringArray;
     }
 }
