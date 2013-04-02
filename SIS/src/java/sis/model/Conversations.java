@@ -47,8 +47,9 @@ public class Conversations implements Serializable {
     @ManyToOne
     private Users sentby;
     
-    @Column(name = "MESSAGEID")
-    private Integer messageid;
+    @JoinColumn(name = "MESSAGEID", referencedColumnName = "MESSAGEID")
+    @ManyToOne
+    private Messages message;
     
     @Column(name = "PARENTCONVERSATIONID")
     private Integer parentconversationid;
@@ -92,12 +93,12 @@ public class Conversations implements Serializable {
         this.sentby = sentby;
     }
 
-    public Integer getMessageid() {
-        return messageid;
+    public Messages getMessage() {
+        return message;
     }
 
-    public void setMessageid(Integer messageid) {
-        this.messageid = messageid;
+    public void setMessage(Messages value) {
+        this.message = value;
     }
 
     public Integer getParentconversationid() {
