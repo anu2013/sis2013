@@ -459,10 +459,11 @@ public class AdmissionCRUDController {
             entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Users u = entityManager.find(Users.class, this.student.getStudentid());
+            Student st = entityManager.find(Student.class, this.student.getStudentid());
             u.setActive(new Short("1"));
             u.setLastupdatedby(loggedInUser.getUserid());
             u.setLastupdateddate(new Date());
-            u.setUserloginname(s.getProfile().getLastname() + "_" + s.getProfile().getFirstname().substring(0, 1) + "_" + this.student.getStudentid());
+            u.setUserloginname(st.getProfile().getLastname() + "_" + st.getProfile().getFirstname().substring(0, 1) + "_" + this.student.getStudentid());
             u.setPassword("password");
             entityManager.persist(u);
             userTransaction.commit();

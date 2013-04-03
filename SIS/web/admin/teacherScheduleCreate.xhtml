@@ -59,7 +59,7 @@
                             <h:outputText value="Period:"></h:outputText>
                             <h:selectOneMenu id="period" value="#{teacherScheduleCRUDController.periodId}">
                                 <f:selectItems value="#{periodCRUDController.periods}" var="p"
-                                               itemLabel="#{p.description}" 
+                                               itemLabel="#{p.description} (#{p.starttime} - #{p.endtime})" 
                                                itemValue="#{p.periodid}" />
                             </h:selectOneMenu>
                             <h:outputText value="Subject:"></h:outputText>
