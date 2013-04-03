@@ -44,7 +44,7 @@ public class Recipients implements Serializable {
 
     @Column(name = "CONVERSATIONID")
     private Integer conversationId;
-
+    
     public Recipients() {
     }
 
@@ -80,7 +80,7 @@ public class Recipients implements Serializable {
         return conversationId;
     }
 
-    public void setConversationId(Integer id) {
-        this.conversationId = id;
+    public void setConversationId(Integer val) {
+        this.conversationId = val;
     }
 }
