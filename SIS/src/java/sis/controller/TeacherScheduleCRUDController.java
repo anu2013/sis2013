@@ -48,7 +48,7 @@ public class TeacherScheduleCRUDController {
 
     static {
         scheduleDaysMap = new LinkedHashMap<String, Object>();
-        scheduleDaysMap.put("Monday", "M"); //label, value
+        scheduleDaysMap.put("Monday", "M"); 
         scheduleDaysMap.put("Tuesday", "T");
         scheduleDaysMap.put("Wednesday", "W");
         scheduleDaysMap.put("Thursday", "TR");
@@ -99,10 +99,10 @@ public class TeacherScheduleCRUDController {
 
     private boolean isMatchFound(String[] argArray1, String[] argArray2) {
         boolean matchFound = false;
-        for (String a11 : argArray1) {
+        for (String array1Element : argArray1) {
             if (matchFound == false) {
-                for (String b11 : argArray2) {
-                    if (a11.equalsIgnoreCase(b11)) {
+                for (String array2Element : argArray2) {
+                    if (array1Element.equalsIgnoreCase(array2Element)) {
                         matchFound = true;
                     }
                 }
@@ -199,23 +199,23 @@ public class TeacherScheduleCRUDController {
         return "/admin/teacherScheduleCreate";
     }
 
-    public String updateTeacherSchedule() {
-        try {
-            EntityManager em = entityManagerFactory.createEntityManager();
-            userTransaction.begin();
-            TeacherSchedule tsch = em.find(TeacherSchedule.class, this.teacherSchedule.getSubjectscheduleid());
-            tsch.setSchedulename(this.teacherSchedule.getSchedulename());
-            tsch.setScheduledays(this.teacherSchedule.getScheduledays());
-            tsch.getPeriod().setPeriodid(this.periodId);
-            em.persist(tsch);
-            userTransaction.commit();
-            retrieveTeacherSchedules();
-            return "/admin/teacherScheduleCRUD";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
-    }
+//    public String updateTeacherSchedule() {
+//        try {
+//            EntityManager em = entityManagerFactory.createEntityManager();
+//            userTransaction.begin();
+//            TeacherSchedule tsch = em.find(TeacherSchedule.class, this.teacherSchedule.getSubjectscheduleid());
+//            tsch.setSchedulename(this.teacherSchedule.getSchedulename());
+//            tsch.setScheduledays(this.teacherSchedule.getScheduledays());
+//            tsch.getPeriod().setPeriodid(this.periodId);
+//            em.persist(tsch);
+//            userTransaction.commit();
+//            retrieveTeacherSchedules();
+//            return "/admin/teacherScheduleCRUD";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "error";
+//        }
+//    }
 
     public String deleteTeacherSchedule(TeacherSchedule argTeacherSchedule) {
         try {
@@ -232,15 +232,15 @@ public class TeacherScheduleCRUDController {
         }
     }
 
-    public String editTeacherSchedule(TeacherSchedule argTeacherSchedule) {
-        this.teacherSchedule = argTeacherSchedule;
-        this.schoolYear = argTeacherSchedule.getSchoolyear().getSchoolyear();
-        this.periodId = argTeacherSchedule.getPeriod().getPeriodid();
-        this.primaryTeacherId = argTeacherSchedule.getPrimaryTeacher().getTeacherid();
-        this.secondaryTeacherId = argTeacherSchedule.getSecondaryTeacher().getTeacherid();
-        this.subjectId = argTeacherSchedule.getSubject().getSubjectid();
-        return "/admin/teacherScheduleUpdate";
-    }
+//    public String editTeacherSchedule(TeacherSchedule argTeacherSchedule) {
+//        this.teacherSchedule = argTeacherSchedule;
+//        this.schoolYear = argTeacherSchedule.getSchoolyear().getSchoolyear();
+//        this.periodId = argTeacherSchedule.getPeriod().getPeriodid();
+//        this.primaryTeacherId = argTeacherSchedule.getPrimaryTeacher().getTeacherid();
+//        this.secondaryTeacherId = argTeacherSchedule.getSecondaryTeacher().getTeacherid();
+//        this.subjectId = argTeacherSchedule.getSubject().getSubjectid();
+//        return "/admin/teacherScheduleUpdate";
+//    }
 
     /**
      * @return the teacherSchedules
