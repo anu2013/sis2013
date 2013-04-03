@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 import sis.model.Conversations;
 import sis.model.Recipients;
 
@@ -35,21 +36,25 @@ public class ViewMessageDetailsController implements Serializable{
     private UserController userController;
     
     private List<Conversations> conversationsList;
+    private String subject;
     
     @PostConstruct
     public void init(){
-        populateInbox();
+        populateConversations();
     }
 
-    private void populateInbox(){
+    private void populateConversations(){
         try{
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Integer mid = Integer.parseInt(request.getParameter("mid"));
+            
             Integer[] conIds = null;
             
             setConversationsList(null);
 
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String rcpRueryString = "select r from Recipients r where r.recipient.userid = :userid";
-            String conQueryString = "select c from Conversations c where c.sentby.userid = :userid";
+            String conQueryString = "select c from Conversations c where c.message.messageid = :mid";
             Query query = entityManager.createQuery(rcpRueryString);
             query.setParameter("userid", userController.getUser().getUserid());
             List<Recipients> records = query.getResultList();
@@ -58,40 +63,35 @@ public class ViewMessageDetailsController implements Serializable{
                 for(int i=0; i<records.size(); ++i) {
                     conIds[i] = records.get(i).getConversationId();
                 }
-                conQueryString += " or c.conversationid IN :conids";
             }
-            conQueryString += " order by c.sentdate desc";
+            if(null != conIds){
+                conQueryString += " and (c.sentby.userid = :userid or c.conversationid IN :conids)";
+            }else{
+                conQueryString += " and c.sentby.userid = :userid";
+            }
+            conQueryString += " order by c.sentdate";
             
             query = entityManager.createQuery(conQueryString);
+            query.setParameter("mid", mid);
             query.setParameter("userid", userController.getUser().getUserid());
             if(conIds != null){
-                query.setParameter("conids", Arrays.asList(conIds));    
+                query.setParameter("conids", Arrays.asList(conIds));
             }
             
-            List<Conversations> uniqueConversations = new ArrayList<Conversations>();
-            List<Conversations> allConversations = query.getResultList();
-            if(allConversations != null && allConversations.size() > 0){
-                for(int i=0; i<allConversations.size(); ++i) {
-                    Conversations con = allConversations.get(i);
-                    if(!uniqueConversations.contains(con)){
-                        uniqueConversations.add(con);
-                    }
-                }
-                setConversationsList(uniqueConversations);
+            List<Conversations> conList = query.getResultList();
+            if(conList != null && conList.size() > 0){
+                setConversationsList(conList);
+                setSubject(conList.get(0).getMessage().getSubject());
             }else{
-                setErrorMessage("There are no messages found.");
+                setErrorMessage("There are no conversations found.");
             }
         }catch(Exception e){
             e.printStackTrace();
         }
     }
     
-    public String createNewMessage(){
-        return null;
-    }
-    
-    public String viewMessageDetails(Conversations con){
-        return null;
+    public String replyMessage(Conversations con){
+        return "composeMessage?faces-redirect=true&cid=" + con.getConversationid() + "&mid=" + con.getMessage().getMessageid();
     }
     
     protected void setInfoMessage(String summary) {
@@ -102,12 +102,21 @@ public class ViewMessageDetailsController implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null));
     }
     
+    
     public List<Conversations> getConversationsList() {
         return conversationsList;
     }
 
     public void setConversationsList(List<Conversations> list) {
         this.conversationsList = list;
+    }
+    
+     public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String val) {
+        this.subject = val;
     }
     
     public UserController getUserController() {
