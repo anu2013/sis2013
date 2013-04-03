@@ -64,9 +64,10 @@ public class InboxController implements Serializable{
             }
             conQueryString += " order by c.sentdate desc";
             
-            query = entityManager.createQuery(conQueryString);
-            //query.setParameter("userid", userController.getUser().getUserid());
             if(conIds != null){
+                query = entityManager.createQuery(conQueryString);
+                //query.setParameter("userid", userController.getUser().getUserid());
+
                 query.setParameter("conids", Arrays.asList(conIds));    
                 List<Conversations> uniqueConversations = new ArrayList<Conversations>();
                 List<Conversations> allConversations = query.getResultList();
