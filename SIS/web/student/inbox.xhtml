@@ -11,34 +11,56 @@
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
-        <style type="text/css"></style>
+        <style type="text/css">
+            .col1 {
+                width: 75%;
+            }
+            .col2 {
+                width: 25%;
+            }
+        </style>
     </h:head>
     <h:body>
-        <ui:include src="studentHeader.xhtml" />
+          <ui:include src="studentHeader.xhtml" />
 
         <div id="content">
             <ui:include src="studentMenu.xhtml" />
 
-            <h:panelGroup id="container" layout="block" class="center-align">
-                <h:panelGrid rows="2" class="center-align">
+            <h:form>
+                <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
                     <div style="align: middle;">
                         <h4><u>Message Center</u></h4>
-                       
+
+                        <h:panelGrid columns="1"> 
+                            <h:commandButton value="Compose New Message" action="#{inboxController.createNewMessage()}" class="btn btn-medium btn-primary" style="margin-top: 10px; margin-bottom: 10px;"/>
+                        </h:panelGrid> 
+                        
                     </div>
 
-                    <h:form>
-                        <table width="850" cellpadding="7" border="1">
-                        <thead>
-                                <tr>
-                                        <th><h4>Not yet implemented!</h4></th>
-                                </tr>
-                        </thead>
-                        </table>
-                        
-                    </h:form>
+                    <h:dataTable value="#{inboxController.conversationsList}" var="con" cellpadding="7" border="1" width="850"
+                                 columnClasses="col1,col2"
+                                 rendered="#{inboxController.conversationsList != null}">
+                            <f:facet name="header"></f:facet>
+                            <f:facet name="footer"></f:facet>
 
-                </h:panelGrid>
-            </h:panelGroup>
+                            <h:column>
+                                <f:facet name="header">Message Title</f:facet>
+                                 <h:commandLink id="link" action="#{inboxController.viewMessageDetails(con)}">
+                                    <h:outputText value="#{con.message.subject}" style="font-size: 12px;" />
+                                </h:commandLink>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputFormat value="{0, date, MMM d, yyyy hh:mm:ss aa}">
+                                    <f:param value="#{con.sentdate}" />
+                                </h:outputFormat>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+                    
+                    <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                </h:form>
         </div>
     </h:body>
 </html>
