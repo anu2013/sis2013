@@ -54,7 +54,12 @@ public class ComposeMessageController implements Serializable{
             if(null != newMessage && null != newConversation){
                 
                 if(null == newMessage.getSubject() || newMessage.getSubject().trim().length() < 1){
-                    setErrorMessage("Subject is required, please enter text in th subject line.");
+                    setErrorMessage("Message title is required, please enter text in th message title field.");
+                    return null;
+                }
+                
+                if(newMessage.getSubject().trim().length() > 254){
+                    setErrorMessage("Message title should not exceed more than 255 characters.");
                     return null;
                 }
                 
@@ -90,7 +95,9 @@ public class ComposeMessageController implements Serializable{
                     newConversation.setMessage(newMessage);
                     newConversation.setSentby(userController.getUser());
                     newConversation.setSentdate(new Date());
-                    entityManager.persist(newMessage);
+                    entityManager.persist(newConversation);
+                    entityManager.flush();
+                    entityManager.refresh(newConversation);
                     
                     for(int i=0; i<userList.size(); ++i) {
                         Recipients r = new Recipients();
