@@ -18,6 +18,8 @@
             .col2 {
                 width: 25%;
             }
+            tr.graybg td { background-color: #DDDDDD; }
+            tr.whitebg td { background-color: #FFFFFF; }
         </style>
     </h:head>
     <h:body>
@@ -38,7 +40,7 @@
                     </div>
 
                     <h:dataTable value="#{inboxController.conversationsList}" var="con" cellpadding="7" border="1" width="850"
-                                 columnClasses="col1,col2"
+                                 columnClasses="col1,col2" rowClasses="graybg,whitebg"
                                  rendered="#{inboxController.conversationsList != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
