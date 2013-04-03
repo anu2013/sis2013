@@ -20,26 +20,46 @@
         <div id="content">
             <ui:include src="teacherMenu.xhtml" />
 
-               <h:form>
+              <h:form>
                    <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
-                    <div style="align: middle;">
+                   <h:panelGroup rendered="#{composeMessageController.isReply}" layout="block">  
+                        <h4><u>Reply Message</u></h4>
+                   </h:panelGroup>
+                   <h:panelGroup rendered="#{!composeMessageController.isReply}" layout="block">  
                         <h4><u>Compose Message</u></h4>
-                    </div>
+                   </h:panelGroup>
                     
                     <div class="well span9" style="margin-left: 0px; margin-top:20px;">
-                        <div class="row">
+                        <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row" layout="block">  
                             <div class="span5">
                                 <label>Recipients</label>
                                 <h:inputText value="#{composeMessageController.toList}" class="span5" />
                             </div>
-                        </div>
+                         </h:panelGroup>
                         
-                        <div class="row">
+                        <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row" layout="block">  
                             <div class="span5">
                                 <label>Message Title</label>
                                 <h:inputText value="#{composeMessageController.newMessage.subject}" class="span5" />
                             </div>
-                        </div>
+                         </h:panelGroup>
+                        
+                        <h:panelGroup rendered="#{composeMessageController.isReply}" class="row" layout="block">
+                            <div class="span4">
+                                <h:outputText value="#{composeMessageController.prvConversation.sentby.userloginname}" style="font-size: 14px;color: red;" />
+                            </div>
+                            <div class="span5">
+                                 <h:outputFormat value="{0, date, MMM d, yyyy hh:mm:ss aa}" style="font-size: 14px;color: blue; float: right; margin-right: 20px;">
+                                    <f:param value="#{composeMessageController.prvConversation.sentdate}" />
+                                </h:outputFormat>
+                            </div>
+                        </h:panelGroup>
+                       
+                        <h:panelGroup rendered="#{composeMessageController.isReply}" class="row" style="margin-top: 10px; margin-bottom: 25px;" layout="block">
+                            <div class="span9">
+                                <h:outputText value="#{composeMessageController.prvConversation.conversationtext}" escape="false" style="font-size: 12px; margin-top: 20px;" />
+                            </div>
+                        </h:panelGroup>
                         
                         <div class="row">
                             <div class="span9">
