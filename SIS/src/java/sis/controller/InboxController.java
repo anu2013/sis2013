@@ -95,7 +95,7 @@ public class InboxController implements Serializable{
     }
     
     public String viewMessageDetails(Conversations con){
-        return "viewMessageDetails?faces-redirect=true";
+        return "viewMessageDetails?faces-redirect=true&mid=" + con.getMessage().getMessageid();
     }
     
     protected void setInfoMessage(String summary) {
