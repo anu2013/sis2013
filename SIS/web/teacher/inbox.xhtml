@@ -18,6 +18,8 @@
             .col2 {
                 width: 25%;
             }
+            tr.graybg td { background-color: #DDDDDD; }
+            tr.whitebg td { background-color: #FFFFFF; }
         </style>
     </h:head>
     <h:body>
@@ -26,7 +28,7 @@
         <div id="content">
             <ui:include src="teacherMenu.xhtml" />
 
-            <h:form>
+             <h:form>
                 <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
                     <div style="align: middle;">
                         <h4><u>Message Center</u></h4>
@@ -38,7 +40,7 @@
                     </div>
 
                     <h:dataTable value="#{inboxController.conversationsList}" var="con" cellpadding="7" border="1" width="850"
-                                 columnClasses="col1,col2"
+                                 columnClasses="col1,col2" rowClasses="graybg,whitebg"
                                  rendered="#{inboxController.conversationsList != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
@@ -52,7 +54,7 @@
 
                             <h:column>
                                 <f:facet name="header">Date</f:facet>
-                                 <h:outputFormat value="{0, date, MMM d, yyyy hh:mm:ss aa}">
+                                <h:outputFormat value="{0, date, MMM d, yyyy hh:mm:ss aa}">
                                     <f:param value="#{con.sentdate}" />
                                 </h:outputFormat>
                             </h:column>
@@ -64,4 +66,5 @@
         </div>
     </h:body>
 </html>
+
 
