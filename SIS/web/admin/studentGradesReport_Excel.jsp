@@ -12,6 +12,7 @@
     <tr>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>Subject</th>
         <th>Final Score</th>
         <th>Grade Letter</th>
     </tr>
@@ -21,6 +22,7 @@
     <tr>
         <td><%=studentScoreCardVO.getFirstName()%></td>
         <td><%=studentScoreCardVO.getLastName()%></td>
+        <td><%=studentScoreCardVO.getSubject()%></td>
         <td><%=studentScoreCardVO.getFinalscore()%></td>
         <td><%=studentScoreCardVO.getGradeletter()%></td>
     </tr>

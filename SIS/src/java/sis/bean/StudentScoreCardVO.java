@@ -16,9 +16,8 @@ public class StudentScoreCardVO {
     private String firstName;
     private String lastName;
     private String finalscore="";
-    private String comments="";
-    private String status="";
     private String gradeletter="";
+    private String subject;
 
     /**
      * @return the studentid
@@ -79,31 +78,18 @@ public class StudentScoreCardVO {
     /**
      * @return the comments
      */
-    public String getComments() {
-        return comments;
+    public String getSubject() {
+        return subject;
     }
 
     /**
      * @param comments the comments to set
      */
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    /**
-     * @return the status
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+   
     /**
      * @return the gradeletter
      */

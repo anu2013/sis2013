@@ -41,6 +41,7 @@ public class StudentEnrollmentController implements Serializable {
     private List<Schoolyearschedule> schoolyearschedules;
     private List<StudentVO> studentVOs;
     private List<StudentVO> modifyStudentVOs;
+    private List<StudentVO> allEnrolledStudentVOs;
     private Integer selectedGradeLevelId;
     private Integer selectedSchoolYear;
 
@@ -87,6 +88,7 @@ public class StudentEnrollmentController implements Serializable {
             //return null;
         }
         this.setModifyStudentVOs(null);
+        this.setAllEnrolledStudentVOs(null);
         return null;
     }
 
@@ -101,49 +103,25 @@ public class StudentEnrollmentController implements Serializable {
             //return null;
         }
         this.setStudentVOs(null);
+        this.setAllEnrolledStudentVOs(null);
         return null;
     }
 
-    private void populateEnrolledStudents() {
-        List<StudentVO> modifySVOs = null;
-        this.setModifyStudentVOs(modifySVOs);
-        List<Studentgradelevel> stgrdlvls = null;
-        try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select stgl from Studentgradelevel stgl where "
-                    + "stgl.schoolyear.schoolyear = :schoolyear and "
-                    + "stgl.gradelevel.gradelevelid = :gradelevelid";
-            Query query = entityManager.createQuery(queryString);
-            query.setParameter("schoolyear", this.selectedSchoolYear);
-            query.setParameter("gradelevelid", this.selectedGradeLevelId);
-            stgrdlvls = (List<Studentgradelevel>) query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public String retrieveAllEnrolledStudents() {
+        if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
+            setInfoMessage("Please select valid School year and Grade level.");
+            return null;
         }
-        modifySVOs = convertStudentGradeLevelToStudentVO(stgrdlvls);
-        this.setModifyStudentVOs(modifySVOs);
-    }
-
-    private List<StudentVO> convertStudentGradeLevelToStudentVO(List<Studentgradelevel> argStudentGradeLevels) {
-        List<StudentVO> studentVOs = null;
-        StudentVO sVO = null;
-        if (argStudentGradeLevels != null) {
-            if (!argStudentGradeLevels.isEmpty()) {
-                studentVOs = new ArrayList<StudentVO>();
-                for (Studentgradelevel st : argStudentGradeLevels) {
-                    sVO = new StudentVO();
-                    sVO.setStudentid(st.getStudent().getStudentid());
-                    sVO.setFirstName(st.getStudent().getProfile().getFirstname());
-                    sVO.setLastName(st.getStudent().getProfile().getLastname());
-                    sVO.setStudentgradelevelid(st.getStudentgradelevelid());
-                    sVO.setSelected(true);
-                    studentVOs.add(sVO);
-                }
-            }
+        populateAllEnrolledStudents();
+        if (this.getAllEnrolledStudentVOs() == null) {
+            setInfoMessage("There are no students enrolled yet.");
+            //return null;
         }
-        return studentVOs;
+        this.setStudentVOs(null);
+        this.setModifyStudentVOs(null);
+        return null;
     }
-
+    
     private void populateNewStudents() {
         List<StudentVO> studentVOs = null;
         this.setStudentVOs(studentVOs);
@@ -257,6 +235,66 @@ public class StudentEnrollmentController implements Serializable {
             }
         }
         return actualNewStudents;
+    }
+
+    private void populateEnrolledStudents() {
+        List<StudentVO> modifySVOs = null;
+        this.setModifyStudentVOs(modifySVOs);
+        List<Studentgradelevel> stgrdlvls = null;
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select stgl from Studentgradelevel stgl where "
+                    + "stgl.schoolyear.schoolyear = :schoolyear and "
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("schoolyear", this.selectedSchoolYear);
+            query.setParameter("gradelevelid", this.selectedGradeLevelId);
+            stgrdlvls = (List<Studentgradelevel>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modifySVOs = convertStudentGradeLevelToStudentVO(stgrdlvls);
+        this.setModifyStudentVOs(modifySVOs);
+    }
+
+    private void populateAllEnrolledStudents() {
+        List<StudentVO> allEnrolledSVOs = null;
+        this.setAllEnrolledStudentVOs(allEnrolledSVOs);
+        List<Studentgradelevel> stgrdlvls = null;
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select stgl from Studentgradelevel stgl where "
+                    + "stgl.schoolyear.schoolyear = :schoolyear and "
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("schoolyear", this.selectedSchoolYear);
+            query.setParameter("gradelevelid", this.selectedGradeLevelId);
+            stgrdlvls = (List<Studentgradelevel>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        allEnrolledSVOs = convertStudentGradeLevelToStudentVO(stgrdlvls);
+        this.setAllEnrolledStudentVOs(allEnrolledSVOs);
+    }
+    
+    private List<StudentVO> convertStudentGradeLevelToStudentVO(List<Studentgradelevel> argStudentGradeLevels) {
+        List<StudentVO> studentVOs = null;
+        StudentVO sVO = null;
+        if (argStudentGradeLevels != null) {
+            if (!argStudentGradeLevels.isEmpty()) {
+                studentVOs = new ArrayList<StudentVO>();
+                for (Studentgradelevel st : argStudentGradeLevels) {
+                    sVO = new StudentVO();
+                    sVO.setStudentid(st.getStudent().getStudentid());
+                    sVO.setFirstName(st.getStudent().getProfile().getFirstname());
+                    sVO.setLastName(st.getStudent().getProfile().getLastname());
+                    sVO.setStudentgradelevelid(st.getStudentgradelevelid());
+                    sVO.setSelected(true);
+                    studentVOs.add(sVO);
+                }
+            }
+        }
+        return studentVOs;
     }
 
     private List<StudentVO> convertStudentToStudentVO(List<Student> argStudents) {
@@ -415,4 +453,20 @@ public class StudentEnrollmentController implements Serializable {
     public void setModifyStudentVOs(List<StudentVO> modifyStudentVOs) {
         this.modifyStudentVOs = modifyStudentVOs;
     }
+
+    /**
+     * @return the allEnrolledStudentVOs
+     */
+    public List<StudentVO> getAllEnrolledStudentVOs() {
+        return allEnrolledStudentVOs;
+    }
+
+    /**
+     * @param allEnrolledStudentVOs the allEnrolledStudentVOs to set
+     */
+    public void setAllEnrolledStudentVOs(List<StudentVO> allEnrolledStudentVOs) {
+        this.allEnrolledStudentVOs = allEnrolledStudentVOs;
+    }
+    
+    
 }
