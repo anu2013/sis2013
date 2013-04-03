@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
  * @author Veekija
  */
 @ManagedBean
-public class StudentVO {
+public class StudentVO { 
     private Integer studentid;
     private Integer studentgradelevelid;
     private String firstName;

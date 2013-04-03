@@ -14,7 +14,6 @@
         <th>Last Name</th>
         <th>Final Score</th>
         <th>Grade Letter</th>
-        <th>Status</th
     </tr>
     <% for (int index = 0; index < studentScoreCardVOs.size(); index++) { 
        StudentScoreCardVO studentScoreCardVO = (StudentScoreCardVO) studentScoreCardVOs.get(index);
@@ -24,7 +23,6 @@
         <td><%=studentScoreCardVO.getLastName()%></td>
         <td><%=studentScoreCardVO.getFinalscore()%></td>
         <td><%=studentScoreCardVO.getGradeletter()%></td>
-        <td><%=studentScoreCardVO.getStatus()%></td>
     </tr>
     <% }%>
 </table>

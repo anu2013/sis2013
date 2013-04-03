@@ -351,7 +351,7 @@ public class TeacherScheduleCRUDController {
     /**
      * @return the scheduleDaysStringArray
      */
-    public String[] getScheduleDaysStringArray() {
+    public String[] getScheduleDaysStringArray() { 
         return scheduleDaysStringArray;
     }
 
