@@ -14,11 +14,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,8 +35,8 @@ public class Conversations implements Serializable {
     @Column(name = "CONVERSATIONID")
     private Integer conversationid;
     
-    @Size(max = 255)
-    @Column(name = "CONVERSATIONTEXT")
+    @Lob
+    @Column(name="CONVERSATIONTEXT") 
     private String conversationtext;
     
     @Column(name = "SENTDATE")
