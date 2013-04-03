@@ -74,7 +74,15 @@ public class InboxController implements Serializable{
                 if(allConversations != null && allConversations.size() > 0){
                     for(int i=0; i<allConversations.size(); ++i) {
                         Conversations con = allConversations.get(i);
-                        if(!uniqueConversations.contains(con)){
+                        Boolean isMsgExists = false;
+                        for(int j=0; j<uniqueConversations.size(); ++j) {
+                            Conversations uCon = uniqueConversations.get(j);    
+                            if(uCon.getMessage().getMessageid() == con.getMessage().getMessageid()){
+                                isMsgExists = true;
+                                break;
+                            }
+                        }
+                        if(!isMsgExists){
                             uniqueConversations.add(con);
                         }
                     }
