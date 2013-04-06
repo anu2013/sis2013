@@ -4,7 +4,7 @@
  */
 package sis.bean;
 
-import java.util.Date;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -18,6 +18,7 @@ public class StudentVO {
     private String firstName;
     private String lastName;
     private boolean selected;
+    private List<TeacherScheduleVO> subjectSchedules;
 
     /**
      * @return the studentid
@@ -33,20 +34,6 @@ public class StudentVO {
         this.studentid = studentid;
     }
 
-
-    /**
-     * @return the selected
-     */
-    public boolean isSelected() {
-        return selected;
-    }
-
-    /**
-     * @param selected the selected to set
-     */
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
 
     /**
      * @return the firstName
@@ -89,6 +76,36 @@ public class StudentVO {
     public void setStudentgradelevelid(Integer studentgradelevelid) {
         this.studentgradelevelid = studentgradelevelid;
     }
-    
+
+    /**
+     * @return the subjectSchedules
+     */
+    public List<TeacherScheduleVO> getSubjectSchedules() {
+        return subjectSchedules;
+    }
+
+    /**
+     * @param subjectSchedules the subjectSchedules to set
+     */
+    public void setSubjectSchedules(List<TeacherScheduleVO> subjectSchedules) {
+        this.subjectSchedules = subjectSchedules;
+    }
+
+    /**
+     * @return the selected
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * @param selected the selected to set
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+
+     
     
 }

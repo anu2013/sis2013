@@ -4,18 +4,24 @@
  */
 package sis.bean;
 
+import javax.faces.bean.ManagedBean;
+
 /**
  *
  * @author Veekija
  */
+@ManagedBean
 public class TeacherScheduleVO {
     private Integer teacherId;
+    private Integer subjectScheduleId;
     private String name;
+    private String scheduleName;
     private String periodName;
     private String periodStart;
     private String periodEnd;
     private String scheduleType;
     private String scheduleDays;
+    private boolean selected;
 
     /**
      * @return the teacherId
@@ -117,6 +123,47 @@ public class TeacherScheduleVO {
         this.scheduleDays = scheduleDays;
     }
 
-    
+    /**
+     * @return the subjectScheduleId
+     */
+    public Integer getSubjectScheduleId() {
+        return subjectScheduleId;
+    }
+
+    /**
+     * @param subjectScheduleId the subjectScheduleId to set
+     */
+    public void setSubjectScheduleId(Integer subjectScheduleId) {
+        this.subjectScheduleId = subjectScheduleId;
+    }
+
+    /**
+     * @return the selected
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * @param selected the selected to set
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    /**
+     * @return the scheduleName
+     */
+    public String getScheduleName() {
+        return scheduleName;
+    }
+
+    /**
+     * @param scheduleName the scheduleName to set
+     */
+    public void setScheduleName(String scheduleName) {
+        this.scheduleName = scheduleName;
+    }
+
     
 }
