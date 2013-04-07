@@ -20,16 +20,19 @@
         <div id="content">
             <ui:include src="studentMenu.xhtml" />
 
-              <h:form>
+               <h:form>
                    <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
                    <h:panelGroup rendered="#{composeMessageController.isReply}" layout="block">  
                         <h4><u>Reply Message</u></h4>
                    </h:panelGroup>
-                   <h:panelGroup rendered="#{!composeMessageController.isReply}" layout="block">  
-                        <h4><u>Compose Message</u></h4>
-                   </h:panelGroup>
                     
                     <div class="well span10" style="margin-left: 0px; margin-top:20px;">
+                        <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row table-header" layout="block" style="margin-left: -18px; margin-right: -18px;  margin-top: -18px; margin-bottom:20px; padding-top: 3px;">
+                            <div class="span10" style="margin-left:10px;">
+                               <h:outputText value="Compose Message"/>
+                            </div>
+                        </h:panelGroup>
+                        
                         <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row" layout="block">  
                             <div class="span5">
                                 <label>Recipients</label>
@@ -44,7 +47,7 @@
                             </div>
                          </h:panelGroup>
                         
-                        <h:panelGroup rendered="#{composeMessageController.isReply}" class="row table-header" layout="block" style="margin-left: -18px; margin-right: -17px;  margin-top: -17px; padding-top: 3px;">
+                        <h:panelGroup rendered="#{composeMessageController.isReply}" class="row table-header" layout="block" style="margin-left: -18px; margin-right: -18px;  margin-top: -18px; padding-top: 3px;">
                             <div class="span5" style="margin-left:10px;">
                                 <h:outputFormat value="{0, date, MMM d, yyyy hh:mm:ss aa}">
                                    <f:param value="#{composeMessageController.prvConversation.sentdate}" />
@@ -106,3 +109,4 @@
         </div>
     </h:body>
 </html>
+
