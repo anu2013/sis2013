@@ -142,13 +142,20 @@
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Race:"></h:outputText>
-                            <h:inputText label="Race" value="#{student.race}" size="60">
-                                <f:validateLength maximum="100"></f:validateLength>
-                            </h:inputText>
+                            <h:selectOneMenu label="Race" value="#{student.race}">
+                                <f:selectItem itemValue="None" itemLabel="Select Race" />
+                                <f:selectItem itemValue="American Indian or Alaska Native" itemLabel="American Indian or Alaska Native" />
+                                <f:selectItem itemValue="Asian" itemLabel="Asian" />
+                                <f:selectItem itemValue="Black or African American" itemLabel="Black or African American" />
+                                <f:selectItem itemValue="Native Hawaiian and Other Pacific Islander" itemLabel="Native Hawaiian and Other Pacific Islander" />
+                                <f:selectItem itemValue="White" itemLabel="White" />
+                            </h:selectOneMenu>
                             <h:outputText value="Ethnicity:"></h:outputText>
-                            <h:inputText label="Ethnicity" value="#{student.ethnicity}" size="60">
-                                <f:validateLength maximum="100"></f:validateLength>
-                            </h:inputText>
+                            <h:selectOneMenu label="Ethnicity" value="#{student.ethnicity}">
+                                <f:selectItem itemValue="None" itemLabel="Select Ethnicity" />
+                                <f:selectItem itemValue="Hispanic or Latino" itemLabel="Hispanic or Latino" />
+                                <f:selectItem itemValue="Not Hispanic or Latino" itemLabel="Not Hispanic or Latino" />
+                            </h:selectOneMenu>
                             <h:outputText value="Parent First Name:"></h:outputText>
                             <h:inputText label="Parent First Name" value="#{parent.parentfirstname}" required="true" size="60">
                                 <f:validateLength  minimum="5" maximum="100"></f:validateLength>

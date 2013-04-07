@@ -21,6 +21,7 @@ import sis.model.Gradelevel;
 import sis.model.Schoolyearschedule;
 import sis.model.Student;
 import sis.model.Studentscorecard;
+import sis.model.Subject;
 import sis.model.TeacherSchedule;
 
 /**
@@ -91,13 +92,15 @@ public class StudentGradeReportController {
                     for (Studentscorecard scorecard : scorecards){
                         scVO = new StudentScoreCardVO();
                         Student st = entityManager.find(Student.class, scorecard.getStudentId());
+                        Subject sub = entityManager.find(Subject.class,scorecard.getSubjectid());
                         scVO.setStudentid(scorecard.getStudentId());
                         scVO.setFirstName(st.getProfile().getFirstname());
                         scVO.setLastName(st.getProfile().getLastname());
                         scVO.setFinalscore(scorecard.getFinalscore());
                         scVO.setGradeletter(scorecard.getGradeletter());
-                        scVO.setComments(scorecard.getComments());
-                        scVO.setStatus(scorecard.getStatus());
+                        if (sub != null){
+                            scVO.setSubject(sub.getSubjectname());
+                        }
                         scVOs.add(scVO);
                     }
                     this.setStudentscorecardVOs(scVOs);

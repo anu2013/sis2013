@@ -129,13 +129,20 @@
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Race:"></h:outputText>
-                            <h:inputText label="Race" value="#{studentCRUDController.student.race}" size="60">
-                                <f:validateLength maximum="100"></f:validateLength>
-                            </h:inputText>
+                            <h:selectOneMenu label="Race" value="#{studentCRUDController.student.race}">
+                                <f:selectItem itemValue="None" itemLabel="Select Race" />
+                                <f:selectItem itemValue="American Indian or Alaska Native" itemLabel="American Indian or Alaska Native" />
+                                <f:selectItem itemValue="Asian" itemLabel="Asian" />
+                                <f:selectItem itemValue="Black or African American" itemLabel="Black or African American" />
+                                <f:selectItem itemValue="Native Hawaiian and Other Pacific Islander" itemLabel="Native Hawaiian and Other Pacific Islander" />
+                                <f:selectItem itemValue="White" itemLabel="White" />
+                            </h:selectOneMenu>
                             <h:outputText value="Ethnicity:"></h:outputText>
-                            <h:inputText label="Ethnicity" value="#{studentCRUDController.student.ethnicity}" size="60">
-                                <f:validateLength maximum="100"></f:validateLength>
-                            </h:inputText>
+                            <h:selectOneMenu label="Ethnicity" value="#{studentCRUDController.student.ethnicity}">
+                                <f:selectItem itemValue="None" itemLabel="Select Ethnicity" />
+                                <f:selectItem itemValue="Hispanic or Latino" itemLabel="Hispanic or Latino" />
+                                <f:selectItem itemValue="Not Hispanic or Latino" itemLabel="Not Hispanic or Latino" />
+                            </h:selectOneMenu>
                             <h:outputText value="Health Records Received:"></h:outputText>
                             <h:selectOneRadio value="#{studentCRUDController.student.healthrecordsreceived}">
                                 <f:selectItem itemValue="0" itemLabel="No" />

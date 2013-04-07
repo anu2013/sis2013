@@ -56,23 +56,9 @@
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
-                                    <h:outputText value="Gender" />
+                                    <h:outputText value="User Login name" />
                                 </f:facet>        
-                                <h:outputText value="${student.profile.gender}" />    
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Date of Birth" />
-                                </f:facet>        
-                                <h:outputText value="${student.profile.dateofbirth}">
-                                    <f:convertDateTime type="date" pattern="dd-MMM-yyyy"/>
-                                </h:outputText>
-                            </h:column>
-                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Email Address" />
-                                </f:facet>        
-                                <h:outputText value="${student.profile.email1}" />    
+                                <h:outputText value="${student.profile.users.userloginname}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            

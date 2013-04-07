@@ -40,11 +40,12 @@
 
             <h:panelGroup id="container" layout="block" class="center-align">
                 <h:form>
-                    <h:panelGrid class="center-align" width="80%">
+                    <h:panelGrid class="center-align" width="90%">
 
                         <div align="center">
-                            <h4>Student Grades Report</h4>
-                            <h:panelGrid columns="4">
+                            <h4>Teacher Schedule Report</h4>
+                            <h:messages style="color:red;font-weight:bold;"></h:messages>
+                            <h:panelGrid columns="7">
                                 <h:outputText value="Admission Year:"/>
                                 <h:selectOneMenu id="admissionyear" style="width:175px;"
                                                  value="#{teacherScheduleReportController.selectedSchoolYear}"
@@ -56,7 +57,18 @@
                                                    itemLabel="#{schoolyearschedule.schoolyear}" 
                                                    itemValue="#{schoolyearschedule.schoolyear}"/>
                                 </h:selectOneMenu>
-                                <h:outputText value="" />
+                                <h:outputText value="First Name:"></h:outputText>
+                                <h:inputText label="First Name" 
+                                             value="#{teacherScheduleReportController.enteredFirstName}" 
+                                             size="60">
+                                    <f:validateLength maximum="50"></f:validateLength>
+                                </h:inputText>
+                                <h:outputText value="Last Name:"></h:outputText>
+                                <h:inputText label="Last Name" 
+                                             value="#{teacherScheduleReportController.enteredLastName}" 
+                                             size="60">
+                                    <f:validateLength maximum="50"></f:validateLength>
+                                </h:inputText>
                                 <h:commandButton 
                                     action="#{teacherScheduleReportController.generateReport}" 
                                     value="Generate Report" 
@@ -66,41 +78,45 @@
                             </h:panelGrid>
                             <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                         </div>
-                        
+
                         <div align="center">
-                            <h:dataTable id="report" value="#{teacherScheduleReportController.teacherSchedules}" 
-                                         var="teacherSchedule" cellpadding="7" 
+                            <h:dataTable id="report" value="#{teacherScheduleReportController.teacherScheduleVOs}" 
+                                         var="teacherScheduleVO" cellpadding="7" 
                                          border="1" width="80%"
                                          columnClasses="none,none,none,center-text"
-                                         rendered="#{teacherScheduleReportController.teacherSchedules != null}">
+                                         rendered="#{teacherScheduleReportController.teacherScheduleVOs != null}">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
                                 <h:column>
-                                    <f:facet name="header">Primary Teacher</f:facet>
-                                    #{teacherSchedule.primaryTeacherName}
+                                    <f:facet name="header">Name</f:facet>
+                                    #{teacherScheduleVO.name}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Secondary Teacher</f:facet>
-                                    #{teacherSchedule.secondaryTeacherName}
+                                    <f:facet name="header">Schedule Type</f:facet>
+                                    #{teacherScheduleVO.scheduleType}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Period</f:facet>
-                                    #{teacherSchedule.period.description}
+                                    <f:facet name="header">Period Name</f:facet>
+                                    #{teacherScheduleVO.periodName}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Start</f:facet>
-                                    #{teacherSchedule.period.starttime}
+                                    <f:facet name="header">Start Time</f:facet>
+                                    #{teacherScheduleVO.periodStart}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">End</f:facet>
-                                    #{teacherSchedule.period.endtime}
+                                    <f:facet name="header">End Time</f:facet>
+                                    #{teacherScheduleVO.periodEnd}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Schedule Days</f:facet>
+                                    #{teacherScheduleVO.scheduleDays}
                                 </h:column>
                             </h:dataTable>
                         </div>
                     </h:panelGrid>
                     <div align="center">
                         <h:outputLink value="/SIS/admin/teacherScheduleReport_Excel.jsp"
-                                      rendered="#{teacherScheduleReportController.teacherSchedules != null}"
+                                      rendered="#{teacherScheduleReportController.teacherScheduleVOs != null}"
                                       class="btn btn-medium btn-primary">
                             Export to excel
                         </h:outputLink>

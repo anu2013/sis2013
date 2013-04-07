@@ -33,7 +33,7 @@ public class Studentsubjectschedule implements Serializable {
     
     @JoinColumn(name = "SUBJECTSCHEDULEID", referencedColumnName = "SUBJECTSCHEDULEID")
     @ManyToOne(optional = false)
-    private Subjectschedule subjectscheduleid;
+    private TeacherSchedule subjectscheduleid;
     
     @JoinColumn(name = "STUDENTID", referencedColumnName = "STUDENTID")
     @ManyToOne(optional = false)
@@ -54,11 +54,11 @@ public class Studentsubjectschedule implements Serializable {
         this.studentsubjectscheduleid = studentsubjectscheduleid;
     }
 
-    public Subjectschedule getSubjectscheduleid() {
+    public TeacherSchedule getSubjectscheduleid() {
         return subjectscheduleid;
     }
 
-    public void setSubjectscheduleid(Subjectschedule subjectscheduleid) {
+    public void setSubjectscheduleid(TeacherSchedule subjectscheduleid) {
         this.subjectscheduleid = subjectscheduleid;
     }
 

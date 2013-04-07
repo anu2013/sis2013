@@ -40,9 +40,9 @@
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
                     <h2 class="form-container-heading" align="center">Create Teacher Schedule</h2>
-                    <div align="center">
+                    <div align="center" width="90%">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
+                        <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign" width="80%"> 
                             <h:outputText value="Schedule Name:"></h:outputText>
                             <h:inputText label="Schedule Name" value="#{teacherSchedule.schedulename}" 
                                          required="true" size="60">
@@ -59,7 +59,7 @@
                             <h:outputText value="Period:"></h:outputText>
                             <h:selectOneMenu id="period" value="#{teacherScheduleCRUDController.periodId}">
                                 <f:selectItems value="#{periodCRUDController.periods}" var="p"
-                                               itemLabel="#{p.description}" 
+                                               itemLabel="#{p.description} (#{p.starttime} - #{p.endtime})" 
                                                itemValue="#{p.periodid}" />
                             </h:selectOneMenu>
                             <h:outputText value="Subject:"></h:outputText>
@@ -81,10 +81,11 @@
                                                itemValue="#{st.teacherid}" />
                             </h:selectOneMenu>
                             <h:outputText value="Schedule Days:"></h:outputText>
-                            <h:inputText label="Schedule Days" value="#{teacherSchedule.scheduledays}" 
-                                         required="true" size="60">
-                                <f:validateLength minimum="1" maximum="4"></f:validateLength>
-                            </h:inputText>
+                            <h:selectManyCheckbox label="Schedule Days" 
+                                                  value="#{teacherScheduleCRUDController.scheduleDaysStringArray}" 
+                                                  required="true">
+                                <f:selectItems value="#{teacherScheduleCRUDController.scheduleDaysMap}" />
+                            </h:selectManyCheckbox>
                         </h:panelGrid>
                         <br/>
                         <h:commandButton action="#{teacherScheduleCRUDController.createTeacherSchedule}" 
