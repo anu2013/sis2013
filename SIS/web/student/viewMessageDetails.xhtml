@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      >
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            .col1 {
+                width: 75%;
+            }
+            .col2 {
+                width: 25%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+          <ui:include src="studentHeader.xhtml" />
+
+        <div id="content">
+            <ui:include src="studentMenu.xhtml" />
+
+            <h:form>
+                <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
+                    <div style="align: middle;">
+                        <h4><u>Message Details</u></h4>
+
+                        <h:outputFormat value="#{viewMessageDetailsController.subject}" style="font-size: 20px;color: blue;text-align: left; margin-top:20px; margin-bottom: 10px;"/>
+                        
+                    </div>
+
+                        <ui:repeat var="con" value="#{viewMessageDetailsController.conversationsList}" varStatus="status"
+                                   rendered="#{viewMessageDetailsController.conversationsList != null}" >
+                            <div class="well span9" style="margin-left: 0px; margin-top:20px;">
+                                <div class="row">
+                                    <div class="span4">
+                                        <h:outputText value="From: #{con.sentby.userloginname}" style="font-size: 14px;color: red;" />
+                                    </div>
+                                    <div class="span5">
+                                         <h:outputFormat value="{0, date, MMM d, yyyy hh:mm:ss aa}" style="font-size: 14px;color: blue; float: right; margin-right: 20px;">
+                                            <f:param value="#{con.sentdate}" />
+                                        </h:outputFormat>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="span9">
+                                        <h:outputText value="#{con.conversationtext}" escape="false" style="font-size: 12px; margin-top: 20px;" />
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 5px;">
+                                    <div class="span9">
+                                         <h:commandButton value="Reply" action="#{viewMessageDetailsController.replyMessage(con)}" class="btn btn-primary"
+                                                          rendered="#{con.sentby.userid != viewMessageDetailsController.userController.user.userid}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </h:panelGroup>
+                    
+                    <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                </h:form>
+        </div>
+    </h:body>
+</html>
+

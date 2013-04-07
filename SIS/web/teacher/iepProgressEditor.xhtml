@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css"></style>
+    </h:head>
+    <h:body>
+          <ui:include src="teacherHeader.xhtml" />
+
+        <div id="content">
+            <ui:include src="teacherMenu.xhtml" />
+
+               <h:form>
+                   <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
+                    <div style="align: middle;">
+                        <h4><u>IEP Progress</u></h4>
+                        
+                        <h:panelGrid columns="4">
+                            <h:outputText value="Student:"/>
+                            <h:outputText value="#{teacherIepProgressController.student.profile.firstname} #{teacherIepProgressController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
+                            
+                            <h:outputText value="Grade Level:" class="left25"/>
+                            <h:outputText value="#{teacherIepProgressController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
+                        </h:panelGrid>
+                          
+                        <h:panelGrid columns="2" style="margin-bottom: 20px;">
+                            <h:outputText value="IEP Goal:"/>
+                            <h:outputText value="#{teacherIepProgressController.currentIepGoal.goaltitle}" class="left25 right25" style="color: blue;" />
+                        </h:panelGrid>
+                    </div>
+                    
+                    <div class="well span8" style="margin-left: 0px;">
+                        <div class="row">
+                            
+                            <div class="span8">
+                                <label>Progress Details</label>
+                                <h:inputTextarea value="#{teacherIepProgressController.currentIepProgress.progressdetails}" class="input-xlarge span8" rows="10">
+                                    <f:validateLength minimum="0" maximum="250"></f:validateLength>
+                                </h:inputTextarea>
+                            </div>
+                            
+                            <div class="span6">
+                                <h:panelGrid columns="2" class="span6" style="margin-left: 0px;">
+                                  <h:outputText value="IEP Resources (you can provide upto 5 resource urls)"/>
+                              </h:panelGrid>
+                            </div>
+                            
+                            <div class="span8">
+                                <h:dataTable value="#{teacherIepProgressController.currentIepProgress.resources}" var="iepres" cellpadding="7" border="1" class="span8" style="margin-left: 0px;"
+                                        rendered="#{teacherIepProgressController.currentIepProgress.resources != null}">
+                                   <f:facet name="header"></f:facet>
+                                   <f:facet name="footer"></f:facet>
+
+                                   <h:column>
+                                       <f:facet name="header">Name</f:facet>
+                                       <h:inputText value="#{iepres.resourcename}">
+                                        </h:inputText>
+                                   </h:column>
+                                   
+                                   <h:column>
+                                       <f:facet name="header">Url</f:facet>
+                                       <h:inputText value="#{iepres.resourceurl}">
+                                        </h:inputText>
+                                   </h:column>
+
+                               </h:dataTable>
+                            </div>
+                            
+                            <div class="span8" style="margin-top: 20px;">
+                                <h:commandButton value="Save" action="#{teacherIepProgressController.saveIepProgress(teacherIepProgressController.currentIepProgress)}" class="btn btn-primary pull-right left25" />
+                                <h:commandButton value="Cancel" action="#{teacherIepProgressController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                            </div>
+                        </div>
+                    </div>
+
+                   </h:panelGroup>
+                   <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+               </h:form>
+        </div>
+    </h:body>
+</html>
+
