@@ -48,12 +48,21 @@
                         <div id="app-title">Student Information System</div>
                     </th>
                     <th align="right" valign="top">
+                        <a href="index.xhtml" class="navigation">Home</a>
                         <a href="admissionCreate.xhtml" class="navigation">Submit Online Application</a>
                         <a href="trackApplicationStatus.xhtml" class="navigation">Track Application Status</a>
                     </th>
                 </tr>
             </table>
         </h:panelGroup>
+        <div id="content">
+            <h:panelGroup id="container" layout="block">
+                <h2 class="form-container-heading" align="center">Welcome to Prospective Students.</h2>
+                <div align="center">
+                    <h:outputText value="${settingsCRUDController.propsectiveStudentsText}" escape="false" style="font-size: 8px; margin-top: 20px;"/>    
+                </div>
+            </h:panelGroup>
+        </div>
     </h:body>
 </html>
 

@@ -40,31 +40,29 @@
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-
             <h:panelGroup id="container" layout="block">
                 <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Settings</h2>
+                    <h2 class="form-container-heading" align="center">Update Settings</h2>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign"> 
+                        <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign">
                             <h:outputText value="Content Page Name:"></h:outputText>
-                            <h:selectOneMenu label="Content Page" value="#{settings.settingName}">
-                                <f:selectItem itemValue="0" itemLabel="Select Content Page" />
-                                <f:selectItem itemValue="Prospective Students" itemLabel="Prospective Students Page" />
-                            </h:selectOneMenu>
+                            #{settingsCRUDController.settings.settingName}
                             <h:outputText value=""/>
-                            <h:commandButton action="#{settingsCRUDController.createSettings}" 
-                                             value="  Save  "
-                                             class="btn btn-medium btn-primary"></h:commandButton>
+                            <h:commandButton action="#{settingsCRUDController.updateSettings}" 
+                                             value=" Save "
+                                             class="btn btn-medium btn-primary"></h:commandButton>                            
                         </h:panelGrid>
                         <br/>
-                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Content Text:"></h:outputText>
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                            <h:outputText value="Content Page Text:"></h:outputText>
                             <rich:editor id="editor" lang="en"
-                                         value="#{settings.settingValue}" 
+                                         value="#{settingsCRUDController.settings.settingValue}" 
                                          toolbar="full" 
                                          style="height:520px; margin-left: 0px;"/>
+
                         </h:panelGrid>
+                        <h:inputHidden value="#{settingsCRUDController.settings.settingId}"></h:inputHidden>
                     </div>
                 </h:form>
             </h:panelGroup>
