@@ -98,7 +98,13 @@ public class TeacherAttendanceController implements Serializable{
                 return;
             }
 
-            String scheduleDays = getSelectedSchedule().getScheduledays();
+            TeacherSchedule selSchedule = getSelectedSchedule();
+            if(null == selSchedule){
+                setErrorMessage("You don't have any scheule for the selected day and period.");
+                return;
+            }
+            
+            String scheduleDays = selSchedule.getScheduledays();
             if(null == scheduleDays) scheduleDays = "";
             scheduleDays = scheduleDays.replace(" ", "");
             scheduleDays = scheduleDays.replaceAll("(?i)F", "5");
@@ -115,7 +121,7 @@ public class TeacherAttendanceController implements Serializable{
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select ss from StudentSchedule ss where ss.schedule.subjectscheduleid = :ssid";
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("ssid", getSelectedSchedule().getSubjectscheduleid());
+            query.setParameter("ssid", selSchedule.getSubjectscheduleid());
             List<StudentSchedule> records = query.getResultList();
             if(records != null && records.size() > 0){
                 for(StudentSchedule ss : records){
@@ -139,7 +145,7 @@ public class TeacherAttendanceController implements Serializable{
                     queryString = "select at from Attendancetracking at where at.studentId = :studentid and at.subjectScheduleId = :subjectScheduleId and at.attendancedate = :attendancedate  and at.schoolyear = :schoolyear";
                     query = entityManager.createQuery(queryString);
                     query.setParameter("studentid", ss.getStudent().getStudentid());
-                    query.setParameter("subjectScheduleId", getSelectedSchedule().getSubjectscheduleid());
+                    query.setParameter("subjectScheduleId", selSchedule.getSubjectscheduleid());
                     query.setParameter("attendancedate", selectedDate);
                     query.setParameter("schoolyear", userController.getCurrentSchoolYear());
                     query.setMaxResults(1);
@@ -155,7 +161,7 @@ public class TeacherAttendanceController implements Serializable{
                     if(null == at) {
                         at = new Attendancetracking();
                         at.setStudentId(ss.getStudent().getStudentid());
-                        at.setSubjectScheduleId(getSelectedSchedule().getSubjectscheduleid());
+                        at.setSubjectScheduleId(selSchedule.getSubjectscheduleid());
                         at.setAttendancedate(selectedDate);
                         at.setSchoolyear(userController.getCurrentSchoolYear());
                     }
