@@ -21,19 +21,36 @@
 
                <h:form>
                    <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
-                    <div style="align: middle;">
-                        <h4><u>IEP Goal</u></h4>
+                    <h:panelGrid columns="1">
+                        <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                            <ul class="breadcrumb">  
+                                <li>  
+                                  <a href="iep.xhtml">IEP</a> <span class="divider">></span>  
+                                </li>  
+                                <li>  
+                                    <a href="iepGoals.xhtml?sid=#{teacherIepGoalsController.student.studentid}">Goals</a> <span class="divider">></span>  
+                                </li>  
+                                <li class="active">Goal Editor</li>  
+                            </ul>  
+                        </div>
+                    </h:panelGrid>
                         
-                        <h:panelGrid columns="4" style="margin-bottom: 20px;">
-                            <h:outputText value="Student:"/>
-                            <h:outputText value="#{teacherIepGoalsController.student.profile.firstname} #{teacherIepGoalsController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
-                            
-                            <h:outputText value="Grade Level:" class="left25"/>
-                            <h:outputText value="#{teacherIepGoalsController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
-                        </h:panelGrid>
-                    </div>
+                    <h:panelGrid columns="4" style="margin-bottom: 20px;">
+                        <h:outputText value="Student:"/>
+                        <h:outputText value="#{teacherIepGoalsController.student.profile.firstname} #{teacherIepGoalsController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
+
+                        <h:outputText value="Grade Level:" class="left25"/>
+                        <h:outputText value="#{teacherIepGoalsController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
+                    </h:panelGrid>
+
                     
-                    <div class="well span9" style="margin-left: 0px;">
+                    <div class="well span10" style="margin-left: 0px;">
+                        <div class="row table-header" style="margin-left: -18px; margin-right: -18px;  margin-top: -18px; margin-bottom:20px; padding-top: 3px;">
+                            <div class="span10" style="margin-left:10px;">
+                               <h:outputText value="Add/Edit IEP Goal"/>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             
                             <div class="span3">
@@ -72,17 +89,20 @@
                                 </h:inputText>
                             </div>
                             
-                            <div class="span1"></div>
-                            
-                            <div class="span5">
-                                <label>Goal Description</label>
-                                <h:inputTextarea value="#{teacherIepGoalsController.currentIepGoal.goaldescription}" class="input-xlarge span5" rows="10">
-                                    <f:validateLength minimum="0" maximum="250"></f:validateLength>
-                                </h:inputTextarea>
+                            <div class="span7">
+                                <label class="left25">Goal Description</label>
+                                <div class="span7">
+                                    <h:inputTextarea value="#{teacherIepGoalsController.currentIepGoal.goaldescription}" class="input-xlarge left25" rows="10" style="margin-left:0px; width:95%;">
+                                        <f:validateLength minimum="0" maximum="250"></f:validateLength>
+                                    </h:inputTextarea>
+                                </div>
                             </div>
 
-                            <h:commandButton value="Save" action="#{teacherIepGoalsController.saveIepGoal(teacherIepGoalsController.currentIepGoal)}" class="btn btn-primary pull-right left25" />
-                            <h:commandButton value="Cancel" action="#{teacherIepGoalsController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                            <div class="span10" style="margin-top: 20px;">
+                                <h:commandButton value="Save" action="#{teacherIepGoalsController.saveIepGoal(teacherIepGoalsController.currentIepGoal)}" class="btn btn-primary pull-right left25" />
+                                <h:commandButton value="Cancel" action="#{teacherIepGoalsController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                            </div>
+                            
                         </div>
                     </div>
 
