@@ -28,11 +28,19 @@
 
             <h:form>
                 <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
-                    <div style="align: middle;">
-                        <h4><u>Message Details</u></h4>
-
-                         <h:outputFormat value="#{viewMessageDetailsController.subject}" style="font-size: 20px;color: blue;text-align: left; margin-top:25px; margin-bottom: 15px;"/>
-                        
+                     <h:panelGrid columns="1">
+                        <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                            <ul class="breadcrumb">  
+                                <li>  
+                                  <a href="inbox.xhtml">Message Center</a> <span class="divider">></span>  
+                                </li>  
+                                <li class="active">Message Details</li>  
+                            </ul>  
+                        </div>
+                    </h:panelGrid>
+                    
+                    <div class="row" style="margin-left: 0px;">
+                        <h:outputFormat value="#{viewMessageDetailsController.subject}" style="font-size: 20px;color: blue;text-align: left; margin-top:0px; margin-bottom: 15px;"/>
                     </div>
 
                         <ui:repeat var="con" value="#{viewMessageDetailsController.conversationsList}" varStatus="status"
