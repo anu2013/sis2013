@@ -131,8 +131,10 @@ public class UserProfileController {
         if (loggedInUser.getIsAdmin()) {
             returnURL = "/admin/updateUserPassword";
         } else if (loggedInUser.getIsTeacher()) {
+            System.out.println("Teacher Pass");
             returnURL = "/teacher/updateUserPassword";
         } else if (loggedInUser.getIsStudent()) {
+            System.out.println("Student Pass");
             returnURL = "/student/updateUserPassword";
         }
         return returnURL;

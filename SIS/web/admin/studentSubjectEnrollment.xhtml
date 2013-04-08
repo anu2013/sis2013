@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
         <style type="text/css">
             .form-container {
-                max-width: 1000px;
+                max-width: 100px;
                 padding: 19px 29px 29px;
                 margin: 0 auto 20px;
                 margin-top: 20px;
@@ -70,7 +70,7 @@
                             </h:commandButton>
                             <h:outputText value="" />
                             <h:commandButton action="#{studentSubjectEnrollmentController.retrieveAllEnrolledStudentsAndSubjects}" 
-                                             value="View Enrolled Subjects" 
+                                             value="View Subjects and Schedules" 
                                              class="btn btn-medium btn-primary" 
                                              style="margin-top: -10px;">
                             </h:commandButton>
@@ -110,15 +110,15 @@
                         <h:dataTable value="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules}" 
                                      var="studentVO" 
                                      border="1" 
-                                     width="95%"
+                                     width="99%"
                                      columnClasses="center-align,center-align,center-align,center-align,center-align"
                                      rendered="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules != null}">
                             <h:column>
-                                <f:facet name="header">Student Id</f:facet>
+                                <f:facet name="header">Id</f:facet>
                                 <h:outputText value="#{studentVO.studentid}" escape="false" style="font-size: 10px; font-style: normal;" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Name</f:facet>
+                                <f:facet name="header">Student Name</f:facet>
                                 <h:outputText value="#{studentVO.firstName} #{studentVO.lastName}" escape="false" style="font-size: 10px; font-style: normal;" />
                             </h:column>
                             <h:column>

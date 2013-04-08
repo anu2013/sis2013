@@ -105,7 +105,6 @@ public class StudentSubjectEnrollmentController implements Serializable {
         return null;
     }
 
-
     public String retrieveAllEnrolledStudentsAndSubjects() {
         List<Studentgradelevel> studentGradeLevels = null;
         List<Studentsubjectschedule> studentsubjectschedules = null;
@@ -146,22 +145,22 @@ public class StudentSubjectEnrollmentController implements Serializable {
                 String scheduleDays = "";
                 for (Studentsubjectschedule studentsubjectschedule : studentsubjectschedules) {
                     scheduleDays = studentsubjectschedule.getSubjectscheduleid().getScheduledays();
-                    scheduleName = studentsubjectschedule.getSubjectscheduleid().getSchedulename() + "("
-                            + studentsubjectschedule.getSubjectscheduleid().getPeriod().getStarttime() + "-"
-                            + studentsubjectschedule.getSubjectscheduleid().getPeriod().getEndtime()+")";
-                    if (scheduleDays.indexOf("M") != -1){
+                    scheduleName = studentsubjectschedule.getSubjectscheduleid().getPeriod().getStarttime() + "-"
+                            + studentsubjectschedule.getSubjectscheduleid().getPeriod().getEndtime() + " "
+                            + studentsubjectschedule.getSubjectscheduleid().getSchedulename();
+                    if (scheduleDays.indexOf("M") != -1) {
                         mondaySchedule = mondaySchedule + scheduleName + "<br/>";
                     }
-                    if (scheduleDays.indexOf("T") != -1){
+                    if (scheduleDays.indexOf("T") != -1) {
                         tuesdaySchedule = tuesdaySchedule + scheduleName + "<br/>";
                     }
-                    if (scheduleDays.indexOf("W") != -1){
+                    if (scheduleDays.indexOf("W") != -1) {
                         wednesdaySchedule = wednesdaySchedule + scheduleName + "<br/>";
                     }
-                    if (scheduleDays.indexOf("TR") != -1){
+                    if (scheduleDays.indexOf("TR") != -1) {
                         thursdaySchedule = thursdaySchedule + scheduleName + "<br/>";
                     }
-                    if (scheduleDays.indexOf("F") != -1){
+                    if (scheduleDays.indexOf("F") != -1) {
                         fridaySchedule = fridaySchedule + scheduleName + "<br/>";
                     }
                 }
@@ -192,14 +191,15 @@ public class StudentSubjectEnrollmentController implements Serializable {
         entityManager = entityManagerFactory.createEntityManager();
         String queryString = "select sss from Studentsubjectschedule sss where "
                 + "sss.student.studentid=:studentid and "
-                + "sss.subjectscheduleid.schoolyear.schoolyear=:schoolyear";
+                + "sss.subjectscheduleid.schoolyear.schoolyear=:schoolyear "
+                + "order by sss.subjectscheduleid.period.sortorder asc";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("studentid", argStudentId);
         query.setParameter("schoolyear", this.selectedSchoolYear);
         studentsubjectschedules = (List<Studentsubjectschedule>) query.getResultList();
         return studentsubjectschedules;
     }
-    
+
     private List retrieveEnrolledStudentsAndSubjects() {
         List<Studentgradelevel> studentGradeLevels = null;
         List<StudentVO> studentVOs = new ArrayList<StudentVO>();
