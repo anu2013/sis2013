@@ -67,10 +67,16 @@ public class TeacherGradesController implements Serializable{
                 return;
             }
 
+            TeacherSchedule selSchedule = getSelectedSchedule();
+            if(null == selSchedule){
+                setErrorMessage("Scheule not found.");
+                return;
+            }
+            
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select ss from StudentSchedule ss where ss.schedule.subjectscheduleid = :ssid";
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("ssid", getSelectedSchedule().getSubjectscheduleid());
+            query.setParameter("ssid", selSchedule.getSubjectscheduleid());
             List<StudentSchedule> records = query.getResultList();
             if(records != null && records.size() > 0){
                 for(StudentSchedule ss : records){
@@ -94,7 +100,7 @@ public class TeacherGradesController implements Serializable{
                     queryString = "select sc from Studentscorecard sc where sc.studentId = :studentid and sc.subjectid = :subjectid and sc.schoolyear = :schoolyear";
                     query = entityManager.createQuery(queryString);
                     query.setParameter("studentid", ss.getStudent().getStudentid());
-                    query.setParameter("subjectid", getSelectedSchedule().getSubject().getSubjectid());
+                    query.setParameter("subjectid", selSchedule.getSubject().getSubjectid());
                     query.setParameter("schoolyear", userController.getCurrentSchoolYear());
                     query.setMaxResults(1);
                     Studentscorecard sc = null;
@@ -109,7 +115,7 @@ public class TeacherGradesController implements Serializable{
                     if(null == sc) {
                         sc = new Studentscorecard();
                         sc.setStudentId(ss.getStudent().getStudentid());
-                        sc.setSubjectid(getSelectedSchedule().getSubject().getSubjectid());
+                        sc.setSubjectid(selSchedule.getSubject().getSubjectid());
                         sc.setSchoolyear(userController.getCurrentSchoolYear());
                     }
                     ss.setScoreCard(sc);
