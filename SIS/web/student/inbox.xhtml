@@ -30,14 +30,17 @@
 
             <h:form>
                 <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
-                    <div style="align: middle;">
-                        <h4><u>Message Center</u></h4>
-
-                        <h:panelGrid columns="1"> 
-                            <h:commandButton value="Compose New Message" action="#{inboxController.createNewMessage()}" class="btn btn-medium btn-primary" style="margin-top: 10px; margin-bottom: 10px;"/>
-                        </h:panelGrid> 
-                        
-                    </div>
+                   <h:panelGrid columns="1">
+                        <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                            <ul class="breadcrumb">  
+                                <li class="active">Message Center</li>  
+                            </ul>  
+                        </div>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="1"> 
+                        <h:commandButton value="Compose New Message" action="#{inboxController.createNewMessage()}" class="btn btn-medium btn-primary" style="margin-top: 10px; margin-bottom: 10px;"/>
+                    </h:panelGrid> 
 
                     <h:dataTable value="#{inboxController.conversationsList}" var="con" cellpadding="7" border="1" width="850"
                                  columnClasses="col1,col2" rowClasses="graybg,whitebg"
