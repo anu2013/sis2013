@@ -22,11 +22,32 @@
 
                <h:form>
                    <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
-                   <h:panelGroup rendered="#{composeMessageController.isReply}" layout="block">  
-                        <h4><u>Reply Message</u></h4>
-                   </h:panelGroup>
+                    <h:panelGrid columns="1" rendered="#{composeMessageController.isReply}">
+                        <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                            <ul class="breadcrumb">  
+                                <li>  
+                                  <a href="inbox.xhtml">Message Center</a> <span class="divider">></span>  
+                                </li> 
+                                 <li>  
+                                     <a href="viewMessageDetails.xhtml?mid=#{composeMessageController.prvConversation.message.messageid}">Message Details</a> <span class="divider">></span>  
+                                </li>  
+                                <li class="active">Reply Message</li>  
+                            </ul>  
+                        </div>
+                    </h:panelGrid>
+                       
+                    <h:panelGrid columns="1" rendered="#{!composeMessageController.isReply}">
+                        <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                            <ul class="breadcrumb">  
+                                <li>  
+                                  <a href="inbox.xhtml">Message Center</a> <span class="divider">></span>  
+                                </li> 
+                                <li class="active">Compose Message</li>  
+                            </ul>  
+                        </div>
+                    </h:panelGrid>
                     
-                    <div class="well span10" style="margin-left: 0px; margin-top:20px;">
+                    <div class="well span10" style="margin-left: 0px; margin-top:10px;">
                         <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row table-header" layout="block" style="margin-left: -18px; margin-right: -18px;  margin-top: -18px; margin-bottom:20px; padding-top: 3px;">
                             <div class="span10" style="margin-left:10px;">
                                <h:outputText value="Compose Message"/>
