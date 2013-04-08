@@ -46,7 +46,8 @@ public class StudentSubjectEnrollmentController implements Serializable {
     private Integer selectedGradeLevelId;
     private Integer selectedSchoolYear;
     private List<StudentVO> studentsForSubjectEnrollment;
-    private List<Studentsubjectschedule> allEnrolledSubjects;
+    //private List<Studentsubjectschedule> allStudentsAndSubject;
+    private List<StudentVO> allStudentsAndSubjectShedules;
 
     @PostConstruct
     public void init() {
@@ -81,7 +82,8 @@ public class StudentSubjectEnrollmentController implements Serializable {
 
     public String retrieveStudentsForSubjectEnrollment() {
         this.setStudentsForSubjectEnrollment(null);
-        this.setAllEnrolledSubjects(null);
+        //this.setAllEnrolledSubjects(null);
+        this.setAllStudentsAndSubjectShedules(null);
         //Initial validation to check valid Grade Level and School Year is selected.
         if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
             setInfoMessage("Please select valid School year and Grade level.");
@@ -96,54 +98,161 @@ public class StudentSubjectEnrollmentController implements Serializable {
         }
 
         List<StudentVO> studentVOs = retrieveEnrolledStudentsAndSubjects();
-        if (studentVOs.isEmpty()){
+        if (studentVOs.isEmpty()) {
             setInfoMessage("There are no students available for subject enrollment for the selected school year and gradelevel.");
             return null;
         }
         this.setStudentsForSubjectEnrollment(studentVOs);
-        this.setAllEnrolledSubjects(null);
+        //this.setAllEnrolledSubjects(null);
+        this.setAllStudentsAndSubjectShedules(null);
         return null;
     }
 
+//    public String retrieveAllEnrolledStudentsAndSubjects() {
+//        this.setStudentsForSubjectEnrollment(null);
+//        //this.setAllEnrolledSubjects(null);
+//        this.setAllStudentsAndSubjectShedules(null);
+//        //Initial validation to check valid Grade Level and School Year is selected.
+//        if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
+//            setInfoMessage("Please select valid School year and Grade level.");
+//            return null;
+//        }
+//
+//        List<Studentsubjectschedule> studentsubjectschedules = null;
+//        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
+//        StudentVO studentVO = null;
+//        EntityManager entityManager = null;
+//        try {
+//            entityManager = entityManagerFactory.createEntityManager();
+//            String queryString = "select sss from Studentsubjectschedule sss where "
+//                    + "sss.student.studentid in "
+//                    + "(select stgl.student.studentid from Studentgradelevel stgl where "
+//                    + "stgl.schoolyear.schoolyear = :schoolyear and "
+//                    + "stgl.gra"
+//                    + "delevel.gradelevelid = :gradelevelid) "
+//                    + "order by sss.student.profile.firstname asc";
+//            Query query = entityManager.createQuery(queryString);
+//            query.setParameter("schoolyear", this.selectedSchoolYear);
+//            query.setParameter("gradelevelid", this.selectedGradeLevelId);
+//            studentsubjectschedules = (List<Studentsubjectschedule>) query.getResultList();
+//            for (Studentsubjectschedule studentsubjectschedule : studentsubjectschedules) {
+//                studentVO = new StudentVO();
+//                studentVO.setStudentid(studentsubjectschedule.getStudent().getStudentid());
+//                studentVO.setFirstName(studentsubjectschedule.getStudent().getProfile().getFirstname());
+//                studentVO.setLastName(studentsubjectschedule.getStudent().getProfile().getLastname());
+//                studentVO.setMondaySchedule(studentsubjectschedule.getSubjectscheduleid().getSchedulename() );
+//                studentVOs.add(studentVO);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        if (studentVOs.isEmpty()) {
+//            setInfoMessage("There are no students enrolled to the subjects for the selected grade level and school year");
+//            return null;
+//        }
+//        this.setStudentsForSubjectEnrollment(null);
+//        //this.setAllEnrolledSubjects(studentsubjectschedules);
+//        this.setAllStudentsAndSubjectShedules(studentVOs);
+//        return null;
+//    }
     public String retrieveAllEnrolledStudentsAndSubjects() {
+        List<Studentgradelevel> studentGradeLevels = null;
+        List<Studentsubjectschedule> studentsubjectschedules = null;
+        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
+        StudentVO studentVO = null;
+        EntityManager entityManager = null;
+
         this.setStudentsForSubjectEnrollment(null);
-        this.setAllEnrolledSubjects(null);
+        //this.setAllEnrolledSubjects(null);
+        this.setAllStudentsAndSubjectShedules(null);
         //Initial validation to check valid Grade Level and School Year is selected.
         if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
             setInfoMessage("Please select valid School year and Grade level.");
             return null;
         }
 
-        List<Studentsubjectschedule> studentsubjectschedules = null;
-        List<Studentgradelevel> studentGradeLevels = null;
-        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
-        List<TeacherScheduleVO> ts = null;
-        StudentVO studentVO = null;
-        EntityManager entityManager = null;
         try {
             entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select sss from Studentsubjectschedule sss where "
-                    + "sss.student.studentid in "
-                    + "(select stgl.student.studentid from Studentgradelevel stgl where "
+            String queryString = "select stgl from Studentgradelevel stgl where "
                     + "stgl.schoolyear.schoolyear = :schoolyear and "
-                    + "stgl.gradelevel.gradelevelid = :gradelevelid) "
-                    + "order by sss.student.profile.firstname asc";
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid "
+                    + "order by stgl.student.profile.firstname asc";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", this.selectedSchoolYear);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
-            studentsubjectschedules = (List<Studentsubjectschedule>) query.getResultList();
+            studentGradeLevels = (List<Studentgradelevel>) query.getResultList();
+            for (Studentgradelevel studentgradelevel : studentGradeLevels) {
+                studentVO = new StudentVO();
+                studentVO.setStudentid(studentgradelevel.getStudent().getStudentid());
+                studentVO.setFirstName(studentgradelevel.getStudent().getProfile().getFirstname());
+                studentVO.setLastName(studentgradelevel.getStudent().getProfile().getLastname());
+                studentsubjectschedules = retrieveStudentSchedulesByStudentId(studentgradelevel.getStudent().getStudentid());
+                String mondaySchedule = "";
+                String tuesdaySchedule = "";
+                String wednesdaySchedule = "";
+                String thursdaySchedule = "";
+                String fridaySchedule = "";
+                String scheduleName = "";
+                String scheduleDays = "";
+                for (Studentsubjectschedule studentsubjectschedule : studentsubjectschedules) {
+                    scheduleDays = studentsubjectschedule.getSubjectscheduleid().getScheduledays();
+                    scheduleName = studentsubjectschedule.getSubjectscheduleid().getSchedulename() + "("
+                            + studentsubjectschedule.getSubjectscheduleid().getPeriod().getStarttime() + "-"
+                            + studentsubjectschedule.getSubjectscheduleid().getPeriod().getEndtime()+")";
+                    if (scheduleDays.indexOf("M") != -1){
+                        mondaySchedule = mondaySchedule + scheduleName + "<br/>";
+                    }
+                    if (scheduleDays.indexOf("T") != -1){
+                        tuesdaySchedule = tuesdaySchedule + scheduleName + "<br/>";
+                    }
+                    if (scheduleDays.indexOf("W") != -1){
+                        wednesdaySchedule = wednesdaySchedule + scheduleName + "<br/>";
+                    }
+                    if (scheduleDays.indexOf("TR") != -1){
+                        thursdaySchedule = thursdaySchedule + scheduleName + "<br/>";
+                    }
+                    if (scheduleDays.indexOf("F") != -1){
+                        fridaySchedule = fridaySchedule + scheduleName + "<br/>";
+                    }
+                }
+                studentVO.setMondaySchedule(mondaySchedule);
+                studentVO.setTuesdaySchedule(tuesdaySchedule);
+                studentVO.setWednesdaySchedule(wednesdaySchedule);
+                studentVO.setThursdaySchedule(thursdaySchedule);
+                studentVO.setFridaySchedule(fridaySchedule);
+                if (!studentsubjectschedules.isEmpty()) {
+                    studentVOs.add(studentVO);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (studentsubjectschedules.isEmpty()){
+        if (studentVOs.isEmpty()) {
             setInfoMessage("There are no students enrolled to the subjects for the selected grade level and school year");
             return null;
         }
         this.setStudentsForSubjectEnrollment(null);
-        this.setAllEnrolledSubjects(studentsubjectschedules);
+        //this.setAllEnrolledSubjects(studentsubjectschedules);
+        this.setAllStudentsAndSubjectShedules(studentVOs);
         return null;
     }
 
+    private List<Studentsubjectschedule> retrieveStudentSchedulesByStudentId(Integer argStudentId) {
+        List<Studentsubjectschedule> studentsubjectschedules = null;
+        EntityManager entityManager = null;
+        entityManager = entityManagerFactory.createEntityManager();
+        String queryString = "select sss from Studentsubjectschedule sss where "
+                + "sss.student.studentid=:studentid and "
+                + "sss.subjectscheduleid.schoolyear.schoolyear=:schoolyear";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("studentid", argStudentId);
+        query.setParameter("schoolyear", this.selectedSchoolYear);
+        studentsubjectschedules = (List<Studentsubjectschedule>) query.getResultList();
+        return studentsubjectschedules;
+    }
+
+    
+    
     private List retrieveEnrolledStudentsAndSubjects() {
         List<Studentgradelevel> studentGradeLevels = null;
         List<StudentVO> studentVOs = new ArrayList<StudentVO>();
@@ -385,16 +494,30 @@ public class StudentSubjectEnrollmentController implements Serializable {
     }
 
     /**
-     * @return the allEnrolledSubjects
+     * @return the allStudentsAndSubjectShedules
      */
-    public List<Studentsubjectschedule> getAllEnrolledSubjects() {
-        return allEnrolledSubjects;
+    public List<StudentVO> getAllStudentsAndSubjectShedules() {
+        return allStudentsAndSubjectShedules;
     }
 
     /**
-     * @param allEnrolledSubjects the allEnrolledSubjects to set
+     * @param allStudentsAndSubjectShedules the allStudentsAndSubjectShedules to
+     * set
      */
-    public void setAllEnrolledSubjects(List<Studentsubjectschedule> allEnrolledSubjects) {
-        this.allEnrolledSubjects = allEnrolledSubjects;
+    public void setAllStudentsAndSubjectShedules(List<StudentVO> allStudentsAndSubjectShedules) {
+        this.allStudentsAndSubjectShedules = allStudentsAndSubjectShedules;
     }
+    /**
+     * @return the allEnrolledSubjects
+     */
+//    public List<Studentsubjectschedule> getAllEnrolledSubjects() {
+//        return allEnrolledSubjects;
+//    }
+//
+//    /**
+//     * @param allEnrolledSubjects the allEnrolledSubjects to set
+//     */
+//    public void setAllEnrolledSubjects(List<Studentsubjectschedule> allEnrolledSubjects) {
+//        this.allEnrolledSubjects = allEnrolledSubjects;
+//    }
 }

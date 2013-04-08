@@ -19,6 +19,11 @@ public class StudentVO {
     private String lastName;
     private boolean selected;
     private List<TeacherScheduleVO> subjectSchedules;
+    private String mondaySchedule;
+    private String tuesdaySchedule;
+    private String wednesdaySchedule;
+    private String thursdaySchedule;
+    private String fridaySchedule;
 
     /**
      * @return the studentid
@@ -103,6 +108,76 @@ public class StudentVO {
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    /**
+     * @return the mondaySchedule
+     */
+    public String getMondaySchedule() {
+        return mondaySchedule;
+    }
+
+    /**
+     * @param mondaySchedule the mondaySchedule to set
+     */
+    public void setMondaySchedule(String mondaySchedule) {
+        this.mondaySchedule = mondaySchedule;
+    }
+
+    /**
+     * @return the tuesdaySchedule
+     */
+    public String getTuesdaySchedule() {
+        return tuesdaySchedule;
+    }
+
+    /**
+     * @param tuesdaySchedule the tuesdaySchedule to set
+     */
+    public void setTuesdaySchedule(String tuesdaySchedule) {
+        this.tuesdaySchedule = tuesdaySchedule;
+    }
+
+    /**
+     * @return the wednesdaySchedule
+     */
+    public String getWednesdaySchedule() {
+        return wednesdaySchedule;
+    }
+
+    /**
+     * @param wednesdaySchedule the wednesdaySchedule to set
+     */
+    public void setWednesdaySchedule(String wednesdaySchedule) {
+        this.wednesdaySchedule = wednesdaySchedule;
+    }
+
+    /**
+     * @return the thursdaySchedule
+     */
+    public String getThursdaySchedule() {
+        return thursdaySchedule;
+    }
+
+    /**
+     * @param thursdaySchedule the thursdaySchedule to set
+     */
+    public void setThursdaySchedule(String thursdaySchedule) {
+        this.thursdaySchedule = thursdaySchedule;
+    }
+
+    /**
+     * @return the fridaySchedule
+     */
+    public String getFridaySchedule() {
+        return fridaySchedule;
+    }
+
+    /**
+     * @param fridaySchedule the fridaySchedule to set
+     */
+    public void setFridaySchedule(String fridaySchedule) {
+        this.fridaySchedule = fridaySchedule;
     }
 
 
