@@ -178,13 +178,16 @@ public class TeacherIepGoalsController implements Serializable{
     public String loadCurrentIepGoal(){
         try{
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Integer gid = Integer.parseInt(request.getParameter("gid"));
-            if(gid > 0) {
-                EntityManager entityManager = entityManagerFactory.createEntityManager();
-                Iepgoals record = entityManager.find(Iepgoals.class, gid);
-                if(null != record) {
-                    setCurrentIepGoal(record);
-                    setErrorMessage(null);
+            String strGid = request.getParameter("gid");
+            if(null != strGid){
+                Integer gid = Integer.parseInt(strGid);
+                if(gid > 0) {
+                    EntityManager entityManager = entityManagerFactory.createEntityManager();
+                    Iepgoals record = entityManager.find(Iepgoals.class, gid);
+                    if(null != record) {
+                        setCurrentIepGoal(record);
+                        setErrorMessage(null);
+                    }
                 }
             }
         }catch(Exception e){
