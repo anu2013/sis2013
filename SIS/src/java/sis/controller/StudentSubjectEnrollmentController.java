@@ -46,7 +46,6 @@ public class StudentSubjectEnrollmentController implements Serializable {
     private Integer selectedGradeLevelId;
     private Integer selectedSchoolYear;
     private List<StudentVO> studentsForSubjectEnrollment;
-    //private List<Studentsubjectschedule> allStudentsAndSubject;
     private List<StudentVO> allStudentsAndSubjectShedules;
 
     @PostConstruct
@@ -82,7 +81,6 @@ public class StudentSubjectEnrollmentController implements Serializable {
 
     public String retrieveStudentsForSubjectEnrollment() {
         this.setStudentsForSubjectEnrollment(null);
-        //this.setAllEnrolledSubjects(null);
         this.setAllStudentsAndSubjectShedules(null);
         //Initial validation to check valid Grade Level and School Year is selected.
         if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
@@ -103,58 +101,11 @@ public class StudentSubjectEnrollmentController implements Serializable {
             return null;
         }
         this.setStudentsForSubjectEnrollment(studentVOs);
-        //this.setAllEnrolledSubjects(null);
         this.setAllStudentsAndSubjectShedules(null);
         return null;
     }
 
-//    public String retrieveAllEnrolledStudentsAndSubjects() {
-//        this.setStudentsForSubjectEnrollment(null);
-//        //this.setAllEnrolledSubjects(null);
-//        this.setAllStudentsAndSubjectShedules(null);
-//        //Initial validation to check valid Grade Level and School Year is selected.
-//        if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
-//            setInfoMessage("Please select valid School year and Grade level.");
-//            return null;
-//        }
-//
-//        List<Studentsubjectschedule> studentsubjectschedules = null;
-//        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
-//        StudentVO studentVO = null;
-//        EntityManager entityManager = null;
-//        try {
-//            entityManager = entityManagerFactory.createEntityManager();
-//            String queryString = "select sss from Studentsubjectschedule sss where "
-//                    + "sss.student.studentid in "
-//                    + "(select stgl.student.studentid from Studentgradelevel stgl where "
-//                    + "stgl.schoolyear.schoolyear = :schoolyear and "
-//                    + "stgl.gra"
-//                    + "delevel.gradelevelid = :gradelevelid) "
-//                    + "order by sss.student.profile.firstname asc";
-//            Query query = entityManager.createQuery(queryString);
-//            query.setParameter("schoolyear", this.selectedSchoolYear);
-//            query.setParameter("gradelevelid", this.selectedGradeLevelId);
-//            studentsubjectschedules = (List<Studentsubjectschedule>) query.getResultList();
-//            for (Studentsubjectschedule studentsubjectschedule : studentsubjectschedules) {
-//                studentVO = new StudentVO();
-//                studentVO.setStudentid(studentsubjectschedule.getStudent().getStudentid());
-//                studentVO.setFirstName(studentsubjectschedule.getStudent().getProfile().getFirstname());
-//                studentVO.setLastName(studentsubjectschedule.getStudent().getProfile().getLastname());
-//                studentVO.setMondaySchedule(studentsubjectschedule.getSubjectscheduleid().getSchedulename() );
-//                studentVOs.add(studentVO);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        if (studentVOs.isEmpty()) {
-//            setInfoMessage("There are no students enrolled to the subjects for the selected grade level and school year");
-//            return null;
-//        }
-//        this.setStudentsForSubjectEnrollment(null);
-//        //this.setAllEnrolledSubjects(studentsubjectschedules);
-//        this.setAllStudentsAndSubjectShedules(studentVOs);
-//        return null;
-//    }
+
     public String retrieveAllEnrolledStudentsAndSubjects() {
         List<Studentgradelevel> studentGradeLevels = null;
         List<Studentsubjectschedule> studentsubjectschedules = null;
@@ -163,7 +114,6 @@ public class StudentSubjectEnrollmentController implements Serializable {
         EntityManager entityManager = null;
 
         this.setStudentsForSubjectEnrollment(null);
-        //this.setAllEnrolledSubjects(null);
         this.setAllStudentsAndSubjectShedules(null);
         //Initial validation to check valid Grade Level and School Year is selected.
         if (this.selectedGradeLevelId == 0 || this.selectedSchoolYear == 0) {
@@ -232,7 +182,6 @@ public class StudentSubjectEnrollmentController implements Serializable {
             return null;
         }
         this.setStudentsForSubjectEnrollment(null);
-        //this.setAllEnrolledSubjects(studentsubjectschedules);
         this.setAllStudentsAndSubjectShedules(studentVOs);
         return null;
     }
@@ -250,8 +199,6 @@ public class StudentSubjectEnrollmentController implements Serializable {
         studentsubjectschedules = (List<Studentsubjectschedule>) query.getResultList();
         return studentsubjectschedules;
     }
-
-    
     
     private List retrieveEnrolledStudentsAndSubjects() {
         List<Studentgradelevel> studentGradeLevels = null;
@@ -507,17 +454,4 @@ public class StudentSubjectEnrollmentController implements Serializable {
     public void setAllStudentsAndSubjectShedules(List<StudentVO> allStudentsAndSubjectShedules) {
         this.allStudentsAndSubjectShedules = allStudentsAndSubjectShedules;
     }
-    /**
-     * @return the allEnrolledSubjects
-     */
-//    public List<Studentsubjectschedule> getAllEnrolledSubjects() {
-//        return allEnrolledSubjects;
-//    }
-//
-//    /**
-//     * @param allEnrolledSubjects the allEnrolledSubjects to set
-//     */
-//    public void setAllEnrolledSubjects(List<Studentsubjectschedule> allEnrolledSubjects) {
-//        this.allEnrolledSubjects = allEnrolledSubjects;
-//    }
 }

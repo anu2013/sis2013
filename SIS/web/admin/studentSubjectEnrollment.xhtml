@@ -81,9 +81,13 @@
                         <h:dataTable value="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment}" 
                                      var="studentVO" 
                                      border="1" 
-                                     width="80%"
-                                     columnClasses="center-align,center-align,center-align,center-align,center-align"
+                                     width="90%"
+                                     columnClasses="center-text,center-text,center-text,center-text,center-text"
                                      rendered="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment != null}">
+                            <h:column>
+                                <f:facet name="header">Student Id</f:facet>
+                                <h:outputText value="#{studentVO.studentid}"/>
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Name</f:facet>
                                 <h:outputText value="#{studentVO.firstName} #{studentVO.lastName}"/>
@@ -101,11 +105,12 @@
                             </h:column>
                         </h:dataTable>   
                     </div>
+                    <br/>
                     <div align="center">
                         <h:dataTable value="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules}" 
                                      var="studentVO" 
                                      border="1" 
-                                     width="90%"
+                                     width="95%"
                                      columnClasses="center-align,center-align,center-align,center-align,center-align"
                                      rendered="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules != null}">
                             <h:column>
