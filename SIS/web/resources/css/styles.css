@@ -156,6 +156,5 @@ thead{
     cursor: pointer;
 }
 
-tr.graybg td { background-color: #DDDDDD; }
-tr.whitebg td { background-color: #FFFFFF; }
-
+tr.graybg td { background-color: #a7bfde; }
+tr.whitebg td { background-color: #dbe5f1; }
