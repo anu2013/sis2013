@@ -39,8 +39,10 @@
                <h:form>
                 <h:panelGrid rows="2" class="center-align" width="850">
                     <div style="align: middle;">
-                        <h4><u>Attendance</u></h4>
-                        
+                        <ul class="breadcrumb" style="margin-left: -15px;">  
+                            <li class="active">Attendance</li>  
+                        </ul>  
+
                         <h:panelGrid columns="3">
                             <h:outputText value="Attendance Period:"/>
                             <h:outputText value="Attendance Date:"/>
@@ -71,7 +73,7 @@
                     </div>
                     
                     <h:dataTable value="#{teacherAttendanceController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
-                                 columnClasses="none,none,none,center-text"
+                                 columnClasses="none,none,none,center-text" rowClasses="graybg,whitebg"
                                  rendered="#{teacherAttendanceController.studentSchedules != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
