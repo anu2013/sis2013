@@ -20,13 +20,15 @@
             <h:panelGroup id="container" layout="block" class="center-align">
                 <h:panelGrid rows="2" class="center-align">
                     <div style="align: middle;">
-                        <h4><u>Schedules</u></h4>
+                         <ul class="breadcrumb" style="margin-left: -15px;">  
+                            <li class="active">Schedules</li>  
+                        </ul>  
                         
                         <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
 
                     <h:form>
-                        <h:dataTable value="#{studentSchedulesController.schedules}" var="schedule" cellpadding="7" border="1" width="850"
+                        <h:dataTable value="#{studentSchedulesController.schedules}" var="schedule" cellpadding="7" border="1" width="850" rowClasses="graybg,whitebg"
                                       rendered="#{studentSchedulesController.schedules != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
