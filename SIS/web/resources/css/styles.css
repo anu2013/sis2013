@@ -155,3 +155,7 @@ thead{
     cursor: hand;
     cursor: pointer;
 }
+
+tr.graybg td { background-color: #DDDDDD; }
+tr.whitebg td { background-color: #FFFFFF; }
+
