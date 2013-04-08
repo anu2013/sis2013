@@ -45,7 +45,7 @@
                         </h:panelGrid>
 
                         <h:dataTable value="#{teacherIepController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
-                                     columnClasses="none,none,none,center-text"
+                                     columnClasses="none,none,none,center-text" rowClasses="graybg,whitebg"
                                      rendered="#{teacherIepController.studentSchedules != null}">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
