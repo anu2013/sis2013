@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,7 +41,7 @@ public class Iepgoals implements Serializable {
     @Column(name = "GOALTITLE")
     private String goaltitle;
     
-    @Size(max = 255)
+    @Lob
     @Column(name = "GOALDESCRIPTION")
     private String goaldescription;
     
