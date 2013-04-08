@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,7 +38,7 @@ public class Iepprogress implements Serializable {
     @Column(name = "IEPPROGRESSID")
     private Integer iepprogressid;
     
-    @Size(max = 255)
+    @Lob
     @Column(name = "PROGRESSDETAILS")
     private String progressdetails;
     
