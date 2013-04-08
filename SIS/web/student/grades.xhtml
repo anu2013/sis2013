@@ -24,14 +24,16 @@
             <h:panelGroup id="container" layout="block" class="center-align">
                 <h:panelGrid rows="2" class="center-align">
                     <div style="align: middle;">
-                        <h4><u>Progress and Grades</u></h4>
+                         <ul class="breadcrumb" style="margin-left: -15px;">  
+                            <li class="active">Progress and Grades</li>  
+                        </ul>  
                         
                         <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
 
                     <h:form>
                         <h:dataTable value="#{studentGradesController.schedules}" var="schedule" cellpadding="7" border="1" width="850"
-                                      columnClasses="none,none,center-text,center-text"
+                                      columnClasses="none,none,center-text,center-text" rowClasses="graybg,whitebg"
                                       rendered="#{studentGradesController.schedules != null}">
                             <f:facet name="header"></f:facet>
                             <f:facet name="footer"></f:facet>
