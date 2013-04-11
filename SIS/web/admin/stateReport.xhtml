@@ -65,11 +65,13 @@
                 </div>
                 <h:panelGroup rendered="#{stateReportController.stateReportVOs != null}">
                     <div align="center">
+                        <h4>CAPT Report</h4>
                         <table width="98%" border="1">
                             <tr>
                                 <th rowspan="2" style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">CAPT</th>
-                                <th colspan="6" style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">Mathematics</th>
-                                <th colspan="6" style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">Reading</th>
+                                <ui:repeat value="#{stateReportController.subjectVOs}" var="subjectVO">
+                                    <th colspan="6" style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">#{subjectVO.subjectName}</th>
+                                </ui:repeat>
                             </tr>
                             <tr>
                                 <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">Total Students</th>
@@ -88,50 +90,34 @@
                             <ui:repeat value="#{stateReportController.stateReportVOs}" var="stateReportVO">
                                 <tr>
                                     <td style="font-size: 10px; font-style: normal;">#{stateReportVO.subGroupName}</td>
-                                    <td align="center" style="font-size: 10px; font-style: normal;">#{stateReportVO.totalNumberOfStudents_Maths}</td>
-                                    <td align="center" style="font-size: 10px; font-style: normal;">#{stateReportVO.numberOfStudentsTested_Maths}</td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsTested_Maths}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsScoredAtBasicLevel_Maths}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsScoredAtProficentLevel_Maths}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsScoredAtAdvanceLevel_Maths}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center" style="font-size: 10px; font-style: normal;">#{stateReportVO.totalNumberOfStudents_Reading}</td>
-                                    <td align="center" style="font-size: 10px; font-style: normal;">#{stateReportVO.numberOfStudentsTested_Reading}</td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsTested_Reading}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsScoredAtBasicLevel_Reading}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsScoredAtProficentLevel_Reading}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
-                                    <td align="center">
-                                        <h:outputText value="#{stateReportVO.percentageOfStudentsScoredAtAdvanceLevel_Reading}" style="font-size: 10px; font-style: normal;">
-                                            <f:convertNumber minFractionDigits="2" />
-                                        </h:outputText>
-                                    </td>
+                                    <ui:repeat value="#{stateReportVO.studentMetricsVOs}" var="studentMetricsVO">
+                                        <td align="center">
+                                            <h:outputText value="#{studentMetricsVO.totalNumberOfStudents}" style="font-size: 10px; font-style: normal;"/>
+                                        </td>
+                                        <td align="center">
+                                            <h:outputText value="#{studentMetricsVO.numberOfStudentsTested}" style="font-size: 10px; font-style: normal;"/>
+                                        </td>
+                                        <td align="center">
+                                            <h:outputText value="#{studentMetricsVO.percentageOfStudentsTested}" style="font-size: 10px; font-style: normal;">
+                                                <f:convertNumber minFractionDigits="2" />
+                                            </h:outputText>
+                                        </td>
+                                        <td align="center">
+                                            <h:outputText value="#{studentMetricsVO.percentageOfStudentsScoredAtBasicLevel}" style="font-size: 10px; font-style: normal;">
+                                                <f:convertNumber minFractionDigits="2" />
+                                            </h:outputText>
+                                        </td>
+                                        <td align="center">
+                                            <h:outputText value="#{studentMetricsVO.percentageOfStudentsScoredAtProficentLevel}" style="font-size: 10px; font-style: normal;">
+                                                <f:convertNumber minFractionDigits="2" />
+                                            </h:outputText>
+                                        </td>
+                                        <td align="center">
+                                            <h:outputText value="#{studentMetricsVO.percentageOfStudentsScoredAtAdvanceLevel}" style="font-size: 10px; font-style: normal;">
+                                                <f:convertNumber minFractionDigits="2" />
+                                            </h:outputText>
+                                        </td>
+                                    </ui:repeat>
                                 </tr>
                             </ui:repeat>
                         </table>
