@@ -5,7 +5,6 @@
 package sis.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -37,12 +36,12 @@ public class StateReportController {
     private List<StateReportVO> stateReportVOs = null;
     private List<SubjectVO> subjectVOs = new ArrayList<SubjectVO>();
     private String[] selectedSubjects;
-    private Integer basicLevelStartScore;
-    private Integer basicLevelEndScore;
-    private Integer proficientLevelStartScore;
-    private Integer proficientLevelEndScore;
-    private Integer advanceLevelStartScore;
-    private Integer advanceLevelEndScore;
+    private Integer basicLevelStartScore = 70;
+    private Integer basicLevelEndScore = 79;
+    private Integer proficientLevelStartScore = 80;
+    private Integer proficientLevelEndScore = 89;
+    private Integer advanceLevelStartScore = 90;
+    private Integer advanceLevelEndScore = 100;
 
     @PostConstruct
     public void init() {
@@ -80,7 +79,7 @@ public class StateReportController {
             setInfoMessage("Please select a valid school year.");
             return null;
         }
-        
+
         if (basicLevelStartScore >= basicLevelEndScore) {
             setInfoMessage("Basic level start score should be less than end score.");
             return null;
@@ -111,8 +110,8 @@ public class StateReportController {
         stVOs.addAll(genderDetails);
 
         this.setStateReportVOs(stVOs);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedCAPTReportYear",selectedSchoolYear);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("subjectVOs",subjectVOs);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedCAPTReportYear", selectedSchoolYear);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("subjectVOs", subjectVOs);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("stateReportVOs", stVOs);
         return null;
     }
