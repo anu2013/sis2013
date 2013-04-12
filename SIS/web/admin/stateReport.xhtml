@@ -37,35 +37,62 @@
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-
             <h:form>
-                <div align="center">
+                <div align="center" width="95%">
                     <h4>State Report</h4>
                     <h:messages style="color:red;font-weight:bold;"></h:messages>
-                    <h:panelGrid columns="7">
-                        <h:outputText value="School Year:"/>
-                        <h:selectOneMenu id="admissionyear" style="width:175px;"
-                                         value="#{stateReportController.selectedSchoolYear}"
-                                         converter="javax.faces.Integer"
-                                         >
-                            <f:selectItem itemLabel="Select School Year" itemValue="0" />
-                            <f:selectItems value="#{stateReportController.schoolyearschedules}" 
-                                           var="schoolyearschedule" 
-                                           itemLabel="#{schoolyearschedule.schoolyear}" 
-                                           itemValue="#{schoolyearschedule.schoolyear}"/>
-                        </h:selectOneMenu>
-                        <h:commandButton 
-                            action="#{stateReportController.generateReport}" 
-                            value="Generate Report" 
-                            class="btn btn-medium btn-primary" 
-                            style="margin-top: -10px;">
-                        </h:commandButton>
-                    </h:panelGrid>
+                    <table>
+                        <tr>
+                            <td>
+                                <h:outputText value="School Year:"/>
+                            </td>
+                            <td>
+                                <h:selectOneMenu id="admissionyear" 
+                                                 value="#{stateReportController.selectedSchoolYear}"
+                                                 converter="javax.faces.Integer">
+                                    <f:selectItem itemLabel="Select School Year" itemValue="0" />
+                                    <f:selectItems value="#{stateReportController.schoolyearschedules}" 
+                                                   var="schoolyearschedule" 
+                                                   itemLabel="#{schoolyearschedule.schoolyear}" 
+                                                   itemValue="#{schoolyearschedule.schoolyear}"/>
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                <h:outputText value="Subject:"/>
+                            </td>
+                            <td>
+                                <h:selectManyCheckbox label="Subject" value="#{stateReportController.selectedSubjects}" style="width: 100%" required="true">
+                                    <f:selectItems value="#{subjectCRUDController.subjects}" var="subject"
+                                                   itemLabel="#{subject.subjectname}" itemValue="#{subject.subjectid}" /><br/>
+                                </h:selectManyCheckbox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <h:outputText value="Basic Range: "/>
+                                <h:inputText style="width: 30px" label="Basic Level Start:" value="#{stateReportController.basicLevelStartScore}" required="true" converter="javax.faces.Integer"></h:inputText>-
+                                <h:inputText style="width: 30px" label="Basic Level End:" value="#{stateReportController.basicLevelEndScore}" required="true" converter="javax.faces.Integer"></h:inputText>
+                                <h:outputText value=" Proficient Range: "/>
+                                <h:inputText style="width: 30px" label="Proficient Level Start:" value="#{stateReportController.proficientLevelStartScore}" required="true" converter="javax.faces.Integer"></h:inputText>-
+                                <h:inputText style="width: 30px" label="Proficient Level End:" value="#{stateReportController.proficientLevelEndScore}" required="true" converter="javax.faces.Integer"></h:inputText>
+                                <h:outputText value=" Advance Range: "/>
+                                <h:inputText style="width: 30px" label="Advance Level Start:" value="#{stateReportController.advanceLevelStartScore}" required="true" converter="javax.faces.Integer"></h:inputText>-
+                                <h:inputText style="width: 30px" label="Advance Level End:" value="#{stateReportController.advanceLevelEndScore}" required="true" converter="javax.faces.Integer"></h:inputText>
+                                <h:outputText value=" "/>
+                                <h:commandButton 
+                                    action="#{stateReportController.generateReport}" 
+                                    value="Generate Report" 
+                                    class="btn btn-medium btn-primary" 
+                                    style="margin-top: -10px;">
+                                </h:commandButton>
+                            </td>
+                        </tr>
+                    </table>
                     <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                 </div>
                 <h:panelGroup rendered="#{stateReportController.stateReportVOs != null}">
                     <div align="center">
-                        <h4>CAPT Report</h4>
+                        <h4>#{stateReportController.selectedSchoolYear} Connecticut Academic Performance Test (CAPT) Achievement Data</h4>
                         <table width="98%" border="1">
                             <tr>
                                 <th rowspan="2" style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">CAPT</th>
@@ -74,18 +101,14 @@
                                 </ui:repeat>
                             </tr>
                             <tr>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">Total Students</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;"># Students Tested</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Students Tested</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Basic</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Proficient</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Advanced</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">Total Students</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;"># Students Tested</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Students Tested</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Basic</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Proficient</th>
-                                <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Advanced</th>
+                                <ui:repeat value="#{stateReportController.subjectVOs}" var="subjectVO">
+                                    <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">Total Students</th>
+                                    <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;"># Students Tested</th>
+                                    <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Students Tested</th>
+                                    <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Basic</th>
+                                    <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Proficient</th>
+                                    <th style="background-color: #306192; color: white; font-size: 10px; font-style: normal;">% Advanced</th>
+                                </ui:repeat>
                             </tr>
                             <ui:repeat value="#{stateReportController.stateReportVOs}" var="stateReportVO">
                                 <tr>
@@ -123,6 +146,14 @@
                         </table>
                     </div>
                 </h:panelGroup>
+                <br/>
+                <div align="center">
+                    <h:outputLink value="/SIS/admin/stateReport_Excel.jsp"
+                                  rendered="#{stateReportController.stateReportVOs != null}"
+                                  class="btn btn-medium btn-primary">
+                        Export to excel
+                    </h:outputLink>
+                </div>
             </h:form>
         </div>
     </h:body>

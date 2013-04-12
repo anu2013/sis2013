@@ -5,6 +5,7 @@
 package sis.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -20,6 +21,7 @@ import sis.bean.SubjectVO;
 import sis.model.Schoolyearschedule;
 import sis.model.Studentgradelevel;
 import sis.model.Studentscorecard;
+import sis.model.Subject;
 
 /**
  *
@@ -34,17 +36,18 @@ public class StateReportController {
     private Integer selectedSchoolYear;
     private List<StateReportVO> stateReportVOs = null;
     private List<SubjectVO> subjectVOs = new ArrayList<SubjectVO>();
-    private int basicLevelStartScore = 70;
-    private int basicLevelEndScore = 79;
-    private int proficientLevelStartScore = 80;
-    private int proficientLevelEndScore = 89;
-    private int advanceLevelStartScore = 90;
-    private int advanceLevelEndScore = 100;
+    private String[] selectedSubjects;
+    private Integer basicLevelStartScore;
+    private Integer basicLevelEndScore;
+    private Integer proficientLevelStartScore;
+    private Integer proficientLevelEndScore;
+    private Integer advanceLevelStartScore;
+    private Integer advanceLevelEndScore;
 
     @PostConstruct
     public void init() {
         populateSchoolYearschedules();
-        populateSubjects();
+        //populateSubjects();
     }
 
     private void populateSchoolYearschedules() {
@@ -58,23 +61,41 @@ public class StateReportController {
         }
     }
 
-    private void populateSubjects() {
+    private void populateSubjects(String[] argSelectedSubjects) {
         List<SubjectVO> subVOs = new ArrayList<SubjectVO>();
-
-        SubjectVO subVO = new SubjectVO();
-        subVO.setSubjectId(7);
-        subVO.setSubjectName("Mathematics");
-        subVOs.add(subVO);
-
-        subVO = new SubjectVO();
-        subVO.setSubjectId(7);
-        subVO.setSubjectName("Reading");
-        subVOs.add(subVO);
-
+        EntityManager em = entityManagerFactory.createEntityManager();
+        for (String s : argSelectedSubjects) {
+            Subject sub = em.find(Subject.class, new Integer(s));
+            SubjectVO subVO = new SubjectVO();
+            subVO.setSubjectId(sub.getSubjectid());
+            subVO.setSubjectName(sub.getSubjectname());
+            subVOs.add(subVO);
+        }
         this.setSubjectVOs(subVOs);
     }
 
     public String generateReport() {
+
+        if (selectedSchoolYear == 0) {
+            setInfoMessage("Please select a valid school year.");
+            return null;
+        }
+        
+        if (basicLevelStartScore >= basicLevelEndScore) {
+            setInfoMessage("Basic level start score should be less than end score.");
+            return null;
+        }
+        if (proficientLevelStartScore >= proficientLevelEndScore) {
+            setInfoMessage("Proficient level start score should be less than end score.");
+            return null;
+        }
+        if (advanceLevelStartScore >= advanceLevelEndScore) {
+            setInfoMessage("Advance level start score should be less than end score.");
+            return null;
+        }
+
+        populateSubjects(selectedSubjects);
+
         List<StateReportVO> stVOs = new ArrayList<StateReportVO>();
 
         List<StateReportVO> raceDeatils = retrieveRaceDetails();
@@ -90,6 +111,9 @@ public class StateReportController {
         stVOs.addAll(genderDetails);
 
         this.setStateReportVOs(stVOs);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedCAPTReportYear",selectedSchoolYear);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("subjectVOs",subjectVOs);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("stateReportVOs", stVOs);
         return null;
     }
 
@@ -174,13 +198,13 @@ public class StateReportController {
         numberOfStudentsTested = retrieveTotalStudentsTestedCount(argSubGroupName, argSubGroupType, argSubjectId);
         percentageOfStudentsTested = calculatePercentage(totalNumberOfStudents, numberOfStudentsTested);
 
-        numberOfStudentsScoredAtBasicLevel = retrieveTotalStudentsScoredAtBasicLevel(argSubGroupName, argSubGroupType, argSubjectId, this.basicLevelStartScore, this.basicLevelEndScore);
+        numberOfStudentsScoredAtBasicLevel = retrieveTotalStudentsScoredByLevel(argSubGroupName, argSubGroupType, argSubjectId, this.getBasicLevelStartScore(), this.getBasicLevelEndScore());
         percentageOfStudentsScoredAtBasicLevel = calculatePercentage(totalNumberOfStudents, numberOfStudentsScoredAtBasicLevel);
 
-        numberOfStudentsScoredAtProficentLevel = retrieveTotalStudentsScoredAtBasicLevel(argSubGroupName, argSubGroupType, argSubjectId, this.proficientLevelStartScore, this.proficientLevelEndScore);
+        numberOfStudentsScoredAtProficentLevel = retrieveTotalStudentsScoredByLevel(argSubGroupName, argSubGroupType, argSubjectId, this.getProficientLevelStartScore(), this.getProficientLevelEndScore());
         percentageOfStudentsScoredAtProficentLevel = calculatePercentage(totalNumberOfStudents, numberOfStudentsScoredAtProficentLevel);
 
-        numberOfStudentsScoredAtAdvanceLevel = retrieveTotalStudentsScoredAtBasicLevel(argSubGroupName, argSubGroupType, argSubjectId, this.advanceLevelStartScore, this.advanceLevelEndScore);;
+        numberOfStudentsScoredAtAdvanceLevel = retrieveTotalStudentsScoredByLevel(argSubGroupName, argSubGroupType, argSubjectId, this.getAdvanceLevelStartScore(), this.getAdvanceLevelEndScore());;
         percentageOfStudentsScoredAtAdvanceLevel = calculatePercentage(totalNumberOfStudents, numberOfStudentsScoredAtAdvanceLevel);
 
         studentMetricsVO.setTotalNumberOfStudents(totalNumberOfStudents);
@@ -296,7 +320,7 @@ public class StateReportController {
         return count;
     }
 
-    private int retrieveTotalStudentsScoredAtBasicLevel(
+    private int retrieveTotalStudentsScoredByLevel(
             String argSubGroupName,
             String argSubGroupType,
             Integer argSubjectId, int argStartScore, int argEndScore) {
@@ -420,5 +444,103 @@ public class StateReportController {
      */
     public void setSubjectVOs(List<SubjectVO> subjectVOs) {
         this.subjectVOs = subjectVOs;
+    }
+
+    /**
+     * @return the selectedSubjects
+     */
+    public String[] getSelectedSubjects() {
+        return selectedSubjects;
+    }
+
+    /**
+     * @param selectedSubjects the selectedSubjects to set
+     */
+    public void setSelectedSubjects(String[] selectedSubjects) {
+        this.selectedSubjects = selectedSubjects;
+    }
+
+    /**
+     * @return the proficientLevelEndScore
+     */
+    public Integer getProficientLevelEndScore() {
+        return proficientLevelEndScore;
+    }
+
+    /**
+     * @param proficientLevelEndScore the proficientLevelEndScore to set
+     */
+    public void setProficientLevelEndScore(Integer proficientLevelEndScore) {
+        this.proficientLevelEndScore = proficientLevelEndScore;
+    }
+
+    /**
+     * @return the advanceLevelStartScore
+     */
+    public Integer getAdvanceLevelStartScore() {
+        return advanceLevelStartScore;
+    }
+
+    /**
+     * @param advanceLevelStartScore the advanceLevelStartScore to set
+     */
+    public void setAdvanceLevelStartScore(Integer advanceLevelStartScore) {
+        this.advanceLevelStartScore = advanceLevelStartScore;
+    }
+
+    /**
+     * @return the advanceLevelEndScore
+     */
+    public Integer getAdvanceLevelEndScore() {
+        return advanceLevelEndScore;
+    }
+
+    /**
+     * @param advanceLevelEndScore the advanceLevelEndScore to set
+     */
+    public void setAdvanceLevelEndScore(Integer advanceLevelEndScore) {
+        this.advanceLevelEndScore = advanceLevelEndScore;
+    }
+
+    /**
+     * @return the basicLevelStartScore
+     */
+    public Integer getBasicLevelStartScore() {
+        return basicLevelStartScore;
+    }
+
+    /**
+     * @param basicLevelStartScore the basicLevelStartScore to set
+     */
+    public void setBasicLevelStartScore(Integer basicLevelStartScore) {
+        this.basicLevelStartScore = basicLevelStartScore;
+    }
+
+    /**
+     * @return the basicLevelEndScore
+     */
+    public Integer getBasicLevelEndScore() {
+        return basicLevelEndScore;
+    }
+
+    /**
+     * @param basicLevelEndScore the basicLevelEndScore to set
+     */
+    public void setBasicLevelEndScore(Integer basicLevelEndScore) {
+        this.basicLevelEndScore = basicLevelEndScore;
+    }
+
+    /**
+     * @return the proficientLevelStartScore
+     */
+    public Integer getProficientLevelStartScore() {
+        return proficientLevelStartScore;
+    }
+
+    /**
+     * @param proficientLevelStartScore the proficientLevelStartScore to set
+     */
+    public void setProficientLevelStartScore(Integer proficientLevelStartScore) {
+        this.proficientLevelStartScore = proficientLevelStartScore;
     }
 }
