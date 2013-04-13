@@ -40,6 +40,8 @@ public class Schoolyearschedule implements Serializable {
     @Column(name = "ENDDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enddate;
+    @Column(name = "Active")
+    private Short active;
 
     public Schoolyearschedule() {
     }
@@ -95,6 +97,20 @@ public class Schoolyearschedule implements Serializable {
     @Override
     public String toString() {
         return "sis.model.Schoolyearschedule[ schoolyear=" + schoolyear + " ]";
+    }
+
+    /**
+     * @return the active
+     */
+    public Short getActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(Short active) {
+        this.active = active;
     }
     
 }
