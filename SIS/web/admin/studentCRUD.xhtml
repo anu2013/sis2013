@@ -38,10 +38,18 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h4 class="form-container-heading" align="center">Student Maintenance</h4>
+                <h:form >
+                    <h4 align="center">Student Maintenance</h4>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty studentCRUDController.students}" value="#{studentCRUDController.students}" var="student" border="1" width="100%">
+                        <h:dataTable rendered="#{not empty studentCRUDController.students}" 
+                                     value="#{studentCRUDController.students}" 
+                                     var="student" border="1" width="95%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Student Id" />
+                                </f:facet>        
+                                <h:outputText value="${student.studentid}" />    
+                            </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="First Name" />
@@ -56,7 +64,7 @@
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
-                                    <h:outputText value="User Login name" />
+                                    <h:outputText value="Login name" />
                                 </f:facet>        
                                 <h:outputText value="${student.profile.users.userloginname}" />    
                             </h:column>
@@ -71,7 +79,7 @@
                                     <h:outputText value="Edit"/>
                                 </f:facet>
                                 <h:commandLink action="#{studentCRUDController.editStudent(student)}"
-                                               class="btn btn-medium btn-primary">
+                                               >
                                     <h:outputText value="Edit"/>
                                 </h:commandLink>
                             </h:column>        
