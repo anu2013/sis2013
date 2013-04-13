@@ -55,10 +55,17 @@
                             <h:inputText label="Student Middle Name" value="#{studentCRUDController.userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Date of Birth(MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Date of Birth" value="#{studentCRUDController.userprofile.dateofbirth}" size="60">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
+                            <h:outputText value="Date of Birth:"></h:outputText>
+                            <a4j:outputPanel id="calendar_start" layout="block">
+                                <rich:calendar value="#{studentCRUDController.userprofile.dateofbirth}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
                             <h:outputText value="Gender:"></h:outputText>
                             <h:selectOneMenu value="#{studentCRUDController.userprofile.gender}">
                                 <f:selectItem itemValue="Male" itemLabel="Male" />

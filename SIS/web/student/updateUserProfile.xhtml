@@ -57,6 +57,17 @@
                             <h:inputText label="Middle Name" value="#{userProfileController.userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
+                            <h:outputText value="Date of Birth:"></h:outputText>
+                            <a4j:outputPanel id="calendar_start" layout="block">
+                                <rich:calendar value="#{userProfileController.userprofile.dateofbirth}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
                             <h:outputText value="Current Address 1:"></h:outputText>
                             <h:inputText label="Current Address 1" value="#{userProfileController.userprofile.currentaddress1}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>

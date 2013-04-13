@@ -104,7 +104,6 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
                 }
                 if (totalSubjectsEnrolledCount != 0) {
                     if (passedSubjectCount == totalSubjectsEnrolledCount) {
-                        System.out.println("Student Id for Passs = " + studentGradeLevel.getStudent().getStudentid());
                         entityManager = entityManagerFactory.createEntityManager();
                         userTransaction.begin();
                         updateQueryString = "update Studentgradelevel stgl set stgl.status=:status where "

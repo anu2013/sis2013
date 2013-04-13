@@ -52,21 +52,23 @@
 
         <div id="content">
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Track Application Status</h2>
+                <h:form>
+                    <h4 align="center">Track Application Status</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Tracking Number:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Tracking Number:" escape="false"></h:outputText>
                             <h:inputText label="Tracking Number" value="#{admission.admissionid}" required="true" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
                         </h:panelGrid>
                         <br/>
-                        <h:commandButton action="#{admissionCRUDController.trackApplicationStatus}" value="  Check Status  "></h:commandButton>
+                        <h:commandButton action="#{admissionCRUDController.trackApplicationStatus}" 
+                                         value="  Check Status  "
+                                         class="btn btn-medium btn-primary"></h:commandButton>
                         <br/>
                         <br/>
-                        <h:outputText rendered="#{admission.status != null}" value="Your application is in '#{admission.status}' status."/>
+                        <h:outputText rendered="#{admission.status != null}" value="Your application is in &lt;font color='blue' face='bold'&gt; '#{admission.status}' &lt;/font&gt; status." escape="false"/>
                     </div>
                 </h:form>
             </h:panelGroup>

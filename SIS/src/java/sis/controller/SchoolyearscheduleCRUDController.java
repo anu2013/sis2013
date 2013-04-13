@@ -4,6 +4,7 @@
  */
 package sis.controller;
 
+import java.util.Calendar;
 import sis.model.Schoolyearschedule;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,19 +31,35 @@ public class SchoolyearscheduleCRUDController {
     @Resource
     private UserTransaction userTransaction;
     private List<Schoolyearschedule> schoolyearschedules;
+    private List<Schoolyearschedule> allSchoolyearschedules;
     @ManagedProperty(value = "#{schoolyearschedule}")
     private Schoolyearschedule schoolyearschedule;
 
     @PostConstruct
     public void init() {
+        retrieveAllSchoolyearschedules();
         retrieveSchoolyearschedules();
     }
 
-    private void retrieveSchoolyearschedules() {
+    private void retrieveAllSchoolyearschedules() {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select s from Schoolyearschedule s";
             Query query = entityManager.createQuery(queryString);
+            this.setAllSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void retrieveSchoolyearschedules() {
+        try {
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(cal.YEAR);
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select sys from Schoolyearschedule sys where sys.schoolyear >= :schoolyear";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("schoolyear", year);
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,4 +161,20 @@ public class SchoolyearscheduleCRUDController {
     public void setSchoolyearschedule(Schoolyearschedule schoolyearschedule) {
         this.schoolyearschedule = schoolyearschedule;
     }
+
+    /**
+     * @return the allSchoolyearschedules
+     */
+    public List<Schoolyearschedule> getAllSchoolyearschedules() {
+        return allSchoolyearschedules;
+    }
+
+    /**
+     * @param allSchoolyearschedules the allSchoolyearschedules to set
+     */
+    public void setAllSchoolyearschedules(List<Schoolyearschedule> allSchoolyearschedules) {
+        this.allSchoolyearschedules = allSchoolyearschedules;
+    }
+    
+    
 }

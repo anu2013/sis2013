@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
@@ -352,6 +353,11 @@ public class AdmissionCRUDController {
 
     public String updateComments(Admission argAdmission) {
         this.admission = argAdmission;
+        if ("".equalsIgnoreCase(this.comments)) {
+            setInfoMessage("Comments should not be empty.");
+            populateAdmissonStepsAndComments(argAdmission);
+            return "/admin/admissionStepsCRUD";
+        }
         try {
             UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
             Users loggedInUser = userController.getUser();
@@ -377,6 +383,11 @@ public class AdmissionCRUDController {
 
     public String requestForInterview(Admission argAdmission) {
         this.admission = argAdmission;
+        if ("".equalsIgnoreCase(this.comments)) {
+            setInfoMessage("Comments should not be empty.");
+            populateAdmissonStepsAndComments(argAdmission);
+            return "/admin/admissionStepsCRUD";
+        }
         try {
             UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
             Users loggedInUser = userController.getUser();
@@ -412,6 +423,11 @@ public class AdmissionCRUDController {
 
     public String approve(Admission argAdmission) {
         this.admission = argAdmission;
+        if ("".equalsIgnoreCase(this.comments)) {
+            setInfoMessage("Comments should not be empty.");
+            populateAdmissonStepsAndComments(argAdmission);
+            return "/admin/admissionStepsCRUD";
+        }
         try {
             UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
             Users loggedInUser = userController.getUser();
@@ -478,6 +494,11 @@ public class AdmissionCRUDController {
 
     public String reject(Admission argAdmission) {
         this.admission = argAdmission;
+        if ("".equalsIgnoreCase(this.comments)) {
+            setInfoMessage("Comments should not be empty.");
+            populateAdmissonStepsAndComments(argAdmission);
+            return "/admin/admissionStepsCRUD";
+        }
         try {
             UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
             Users loggedInUser = userController.getUser();
@@ -667,5 +688,9 @@ public class AdmissionCRUDController {
      */
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    protected void setInfoMessage(String summary) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
     }
 }

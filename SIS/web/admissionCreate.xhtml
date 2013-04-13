@@ -2,7 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
@@ -52,30 +55,30 @@
 
         <div id="content">
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Submit Online Application</h2>
+                <h:form>
+                    <h4 align="center">Submit Online Application</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Description:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:" escape="false"/>
                             <h:inputText label="Description" value="#{admission.description}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Grade Level Applying for:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Grade Level Applying for:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{admission.gradelevelapplyingfor}">
                                 <f:selectItems value="#{gradelevelCRUDController.gradelevels}" var="y"
                                                itemLabel="#{y.gradelevel}" itemValue="#{y.gradelevelid}" />
                             </h:selectOneMenu>
-                            <h:outputText value="Admission Seeking year:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Admission Seeking year:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{admission.admissionseekingyear}">
                                 <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
                                                itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
                             </h:selectOneMenu>
-                            <h:outputText value="Student First Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Student First Name:" escape="false"></h:outputText>
                             <h:inputText label="Student First Name" value="#{userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Student Last Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Student Last Name:" escape="false"></h:outputText>
                             <h:inputText label="Student Last Name" value="#{userprofile.lastname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
@@ -83,16 +86,23 @@
                             <h:inputText label="Student Middle Name" value="#{userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Date of Birth(MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Date of Birth" value="#{userprofile.dateofbirth}" size="60">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
-                            <h:outputText value="Gender:"></h:outputText>
+                            <h:outputText value="Date of Birth:"></h:outputText>
+                            <a4j:outputPanel id="calendar_start" layout="block">
+                                <rich:calendar value="#{userprofile.dateofbirth}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Gender:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{userprofile.gender}">
                                 <f:selectItem itemValue="Male" itemLabel="Male" />
                                 <f:selectItem itemValue="Female" itemLabel="Female" />
                             </h:selectOneMenu>
-                            <h:outputText value="Current Address 1:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Current Address 1:" escape="false"></h:outputText>
                             <h:inputText label="Current Address 1" value="#{userprofile.currentaddress1}" required="true" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
@@ -100,25 +110,25 @@
                             <h:inputText label="Current Address 2" value="#{userprofile.currentaddress2}" size="60">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Current City:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Current City:" escape="false"></h:outputText>
                             <h:inputText label="Current City" value="#{userprofile.currentcity}" required="true" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Current State:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Current State:" escape="false"></h:outputText>
                             <h:inputText label="Current State" value="#{userprofile.currentstate}" required="true" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Current Zip:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Current Zip:" escape="false"></h:outputText>
                             <h:inputText label="Current Zip" value="#{userprofile.currentzip}" required="true" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validateLength maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Current Country:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Current Country:" escape="false"></h:outputText>
                             <h:inputText label="Current Country" value="#{userprofile.currentcountry}" required="true" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validateLength maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing Address 1:"></h:outputText>
                             <h:inputText label="Mailing Address 1" value="#{userprofile.mailingaddress1}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
+                                <f:validateLength maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Mailing Address 2:"></h:outputText>
                             <h:inputText label="Mailing Address 2" value="#{userprofile.mailingaddress2}" size="60">
@@ -148,7 +158,7 @@
                             <h:inputText label="Email 2" value="#{userprofile.email2}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Home Phone:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Home Phone:" escape="false"></h:outputText>
                             <h:inputText label="Home Phone" value="#{userprofile.homephone}" size="60" required="true">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
@@ -156,21 +166,26 @@
                             <h:inputText label="Mobile Phone" value="#{userprofile.mobilephone}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Race:"></h:outputText>
-                            <h:inputText label="Race" value="#{student.race}" size="60">
-                                <f:validateLength maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Ethnicity:"></h:outputText>
-                            <h:inputText label="Ethnicity" value="#{student.ethnicity}" size="60">
-                                <f:validateLength maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent First Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Race:" escape="false"></h:outputText>
+                            <h:selectOneMenu label="Race" value="#{student.race}" required="true">
+                                <f:selectItem itemValue="American Indian or Alaska Native" itemLabel="American Indian or Alaska Native" />
+                                <f:selectItem itemValue="Asian" itemLabel="Asian" />
+                                <f:selectItem itemValue="Black or African American" itemLabel="Black or African American" />
+                                <f:selectItem itemValue="Native Hawaiian and Other Pacific Islander" itemLabel="Native Hawaiian and Other Pacific Islander" />
+                                <f:selectItem itemValue="White" itemLabel="White" />
+                            </h:selectOneMenu>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Ethnicity:" escape="false"></h:outputText>
+                            <h:selectOneMenu label="Ethnicity" value="#{student.ethnicity}" required="true">
+                                <f:selectItem itemValue="Hispanic or Latino" itemLabel="Hispanic or Latino" />
+                                <f:selectItem itemValue="Not Hispanic or Latino" itemLabel="Not Hispanic or Latino" />
+                            </h:selectOneMenu>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Parent First Name:" escape="false"></h:outputText>
                             <h:inputText label="Parent First Name" value="#{parent.parentfirstname}" size="60" required="true">
-                                <f:validateLength minimum="5" maximum="100"></f:validateLength>
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Parent Last Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Parent Last Name:" escape="false"></h:outputText>
                             <h:inputText label="Parent Last Name" value="#{parent.parentlastname}" size="60" required="true">
-                                <f:validateLength minimum="5" maximum="100"></f:validateLength>
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Parent Education:"></h:outputText>
                             <h:inputText label="Parent Education" value="#{parent.parenteducation}" size="60">
@@ -200,13 +215,13 @@
                             <h:inputText label="Parent Country" value="#{parent.parentcontactcountry}" size="60">
                                 <f:validateLength  maximum="10"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Relationship with student:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Relationship with student:" escape="false"></h:outputText>
                             <h:inputText label="Relationship with student" value="#{parent.relationshipwithstudent}" size="60" required="true">
-                                <f:validateLength  minimum="5" maximum="50"></f:validateLength>
+                                <f:validateLength  minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Previous School Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Previous School Name:" escape="false"></h:outputText>
                             <h:inputText label="Previous School Name" value="#{previouseducation.previousschoolname}" size="60" required="true">
-                                <f:validateLength minimum="5" maximum="100"></f:validateLength>
+                                <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Previous School Address 1:"></h:outputText>
                             <h:inputText label="Previous School Address 1" value="#{previouseducation.previousschooladdress1}" size="60">
@@ -238,7 +253,8 @@
                             </h:inputText>
                         </h:panelGrid>
                         <br/>
-                        <h:commandButton action="#{admissionCRUDController.createAdmission('Online')}" value="  Save  "></h:commandButton>
+                        <h:commandButton action="#{admissionCRUDController.createAdmission('Online')}" 
+                                         value="  Save  " class="btn btn-medium btn-primary"/>
                     </div>
                 </h:form>
             </h:panelGroup>
