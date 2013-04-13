@@ -39,12 +39,12 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update School Year Schedule</h2>
+                <h:form>
+                    <h4 align="center">Update School Year</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="Schoolyear : #{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:outputText>
+                            <h:outputText value="Schoolyear :  #{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:outputText>
                             <h:outputText></h:outputText>
                             <h:outputText value="Start Date:"></h:outputText>
                             <a4j:outputPanel id="calendar_start" layout="block">

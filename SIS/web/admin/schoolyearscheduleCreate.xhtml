@@ -40,13 +40,14 @@
             <ui:include src="adminMenu.xhtml" />
 
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create School Year Schedule</h2>
+                <h:form>
+                    <h4 align="center">Create School Year</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="School Year:"></h:outputText>
-                            <h:inputText label="School Year" value="#{schoolyearschedule.schoolyear}" required="true" size="60">
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:"></h:outputText>
+                            <h:inputText label="School Year" value="#{schoolyearschedule.schoolyear}" 
+                                         required="true" size="60">
                             </h:inputText>
                             <h:outputText value="Start Date:"></h:outputText>
                             <a4j:outputPanel id="calendar_start" layout="block">

@@ -44,7 +44,8 @@ public class SchoolyearscheduleCRUDController {
     private void retrieveAllSchoolyearschedules() {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select s from Schoolyearschedule s";
+            String queryString = "select s from Schoolyearschedule s "
+                    + "order by s.schoolyear desc";
             Query query = entityManager.createQuery(queryString);
             this.setAllSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
@@ -57,7 +58,9 @@ public class SchoolyearscheduleCRUDController {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(cal.YEAR);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select sys from Schoolyearschedule sys where sys.schoolyear >= :schoolyear";
+            String queryString = "select sys from Schoolyearschedule sys "
+                    + "where sys.schoolyear >= :schoolyear "
+                    + "order by s.schoolyear desc";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", year);
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
@@ -66,21 +69,21 @@ public class SchoolyearscheduleCRUDController {
         }
     }
 
-    private Schoolyearschedule retrieveSchoolyearschedule() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Schoolyearschedule schoolyearschedule = entityManager.find(Schoolyearschedule.class, getSchoolyearschedule().getSchoolyear());
-        return schoolyearschedule;
-    }
+//    private Schoolyearschedule retrieveSchoolyearschedule() {
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        Schoolyearschedule schoolyearschedule = entityManager.find(Schoolyearschedule.class, getSchoolyearschedule().getSchoolyear());
+//        return schoolyearschedule;
+//    }
 
     public String createSchoolyearschedule() {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Schoolyearschedule schoolyearschedule = retrieveSchoolyearschedule();
+            //Schoolyearschedule schoolyearschedule = retrieveSchoolyearschedule();
             if (schoolyearschedule == null) {
                 userTransaction.begin();
                 entityManager.persist(getSchoolyearschedule());
                 userTransaction.commit();
-                retrieveSchoolyearschedules();
+                retrieveAllSchoolyearschedules();
                 return "/admin/schoolyearscheduleCRUD";
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("School year already exists, please try again"));
@@ -98,15 +101,16 @@ public class SchoolyearscheduleCRUDController {
 
     public String updateSchoolyearschedule() {
         try {
-            EntityManager em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
+            EntityManager em = entityManagerFactory.createEntityManager();
             Schoolyearschedule s = em.find(Schoolyearschedule.class, this.schoolyearschedule.getSchoolyear());
-            s.setSchoolyear(this.schoolyearschedule.getSchoolyear());
             s.setStartdate(this.schoolyearschedule.getStartdate());
             s.setEnddate(this.schoolyearschedule.getEnddate());
             em.persist(s);
+            em.flush();
             userTransaction.commit();
-            retrieveSchoolyearschedules();
+            em.refresh(s);
+            retrieveAllSchoolyearschedules();
             return "/admin/schoolyearscheduleCRUD";
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +125,7 @@ public class SchoolyearscheduleCRUDController {
             Schoolyearschedule currentSchoolyearschedule = em.find(Schoolyearschedule.class, argSchoolyearschedule.getSchoolyear());
             em.remove(currentSchoolyearschedule);
             userTransaction.commit();
-            retrieveSchoolyearschedules();
+            retrieveAllSchoolyearschedules();
             return "/admin/schoolyearscheduleCRUD";
         } catch (Exception e) {
             e.printStackTrace();
