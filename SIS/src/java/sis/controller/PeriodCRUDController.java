@@ -53,6 +53,15 @@ public class PeriodCRUDController {
     }
 
     public String createPeriod() {
+        String startTime = getPeriod().getStarttime();
+        String endTime = getPeriod().getEndtime();
+        int startIndex = retrievieTimingIndex(startTime);
+        int endIndex = retrievieTimingIndex(endTime);
+        if (startIndex >= endIndex) {
+            setInfoMessage("Start Timings should be less than End timings. Please select different start and end timings.");
+            return null;
+        }
+
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
@@ -68,11 +77,26 @@ public class PeriodCRUDController {
         }
     }
 
+    private int retrievieTimingIndex(String argTiming) {
+        SISLookupController sis = new SISLookupController();
+        sis.populatePeriodTimings();
+        List<String> t = sis.getTimings();
+        return t.indexOf(argTiming);
+    }
+
     public String addPeriod() {
         return "/admin/periodCreate";
     }
 
     public String updatePeriod() {
+        String startTime = this.period.getStarttime();
+        String endTime = this.period.getEndtime();
+        int startIndex = retrievieTimingIndex(startTime);
+        int endIndex = retrievieTimingIndex(endTime);
+        if (startIndex >= endIndex) {
+            setInfoMessage("Start Timings should be less than End timings. Please select different start and end timings.");
+            return null;
+        }
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
@@ -152,5 +176,9 @@ public class PeriodCRUDController {
      */
     public void setSchoolyearschedule(Schoolyearschedule schoolyearschedule) {
         this.schoolyearschedule = schoolyearschedule;
+    }
+
+    protected void setInfoMessage(String summary) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
     }
 }

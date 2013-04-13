@@ -53,7 +53,7 @@
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Sort Order:"
                                           escape="false"></h:outputText>
                             <h:inputText label="Sort Order" value="#{gradelevel.sortorder}" 
-                                         required="true" size="60">
+                                         required="true" size="60" converter="javax.faces.Integer">
                                 <f:validateLength minimum="1" maximum="3"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:"

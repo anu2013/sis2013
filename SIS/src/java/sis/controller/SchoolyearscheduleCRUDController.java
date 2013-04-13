@@ -60,7 +60,7 @@ public class SchoolyearscheduleCRUDController {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select sys from Schoolyearschedule sys "
                     + "where sys.schoolyear >= :schoolyear "
-                    + "order by s.schoolyear desc";
+                    + "order by sys.schoolyear desc";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", year);
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
