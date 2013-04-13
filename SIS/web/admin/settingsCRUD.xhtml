@@ -38,8 +38,8 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Content Maintenance</h2>
+                <h:form >
+                    <h4 align="center">Content Maintenance</h4>
                     <div align="center">
                         <h:dataTable rendered="#{not empty settingsCRUDController.settingsList}" 
                                      value="#{settingsCRUDController.settingsList}" 
@@ -50,7 +50,7 @@
                                 </f:facet>        
                                 <h:outputText value="${settings.settingName}" />    
                             </h:column>
-                            
+
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Edit"/>

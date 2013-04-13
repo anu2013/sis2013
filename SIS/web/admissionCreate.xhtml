@@ -153,10 +153,12 @@
                             <h:outputText value="Email 1:"></h:outputText>
                             <h:inputText label="Email 1" value="#{userprofile.email1}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Email 2:"></h:outputText>
                             <h:inputText label="Email 2" value="#{userprofile.email2}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Home Phone:" escape="false"></h:outputText>
                             <h:inputText label="Home Phone" value="#{userprofile.homephone}" size="60" required="true">

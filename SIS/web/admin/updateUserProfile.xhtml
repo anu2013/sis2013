@@ -113,10 +113,12 @@
                             <h:outputText value="Email 1:"></h:outputText>
                             <h:inputText label="Email 1" value="#{userProfileController.userprofile.email1}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Email 2:"></h:outputText>
                             <h:inputText label="Email 2" value="#{userProfileController.userprofile.email2}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Home Phone:"></h:outputText>
                             <h:inputText label="Home Phone" value="#{userProfileController.userprofile.homephone}" size="60">

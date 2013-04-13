@@ -41,12 +41,12 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update Settings</h2>
+                <h:form>
+                    <h4 align="center">Update Settings</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="Content Page Name:"></h:outputText>
+                            <h:outputText value="Page Name:" escape="false"></h:outputText>
                             #{settingsCRUDController.settings.settingName}
                             <h:outputText value=""/>
                             <h:commandButton action="#{settingsCRUDController.updateSettings}" 
@@ -55,7 +55,7 @@
                         </h:panelGrid>
                         <br/>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="Content Page Text:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Content Page Text:" escape="false"></h:outputText>
                             <rich:editor id="editor" lang="en"
                                          value="#{settingsCRUDController.settings.settingValue}" 
                                          toolbar="full" 

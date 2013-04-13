@@ -38,10 +38,18 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Teacher Maintenance</h2>
+                <h:form>
+                    <h4 align="center">Teacher Maintenance</h4>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty teacherCRUDController.teachers}" value="#{teacherCRUDController.teachers}" var="teacher" border="1" width="100%">
+                        <h:dataTable rendered="#{not empty teacherCRUDController.teachers}" 
+                                     value="#{teacherCRUDController.teachers}" var="teacher" 
+                                     border="1" width="95%">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Teacher Id" />
+                                </f:facet>        
+                                <h:outputText value="${teacher.teacherid}" />    
+                            </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="First Name" />
