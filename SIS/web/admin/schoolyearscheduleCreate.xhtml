@@ -45,9 +45,10 @@
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" 
+                                          escape="false"></h:outputText>
                             <h:inputText label="School Year" value="#{schoolyearschedule.schoolyear}" 
-                                         required="true" size="60">
+                                         required="true" size="60" converter="javax.faces.Integer">
                             </h:inputText>
                             <h:outputText value="Start Date:"></h:outputText>
                             <a4j:outputPanel id="calendar_start" layout="block">

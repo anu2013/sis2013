@@ -37,21 +37,26 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update Grade Level</h2>
+                <h:form>
+                    <h4 align="center">Update Grade Level</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="Gradelevel:"></h:outputText>
+                            <h:outputText 
+                                value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Gradelevel:" escape="false"></h:outputText>
                             <h:inputText label="Gradelevel" value="#{gradelevelCRUDController.gradelevel.gradelevel}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Sort Order:"></h:outputText>
-                            <h:inputText label="Sort Order" value="#{gradelevelCRUDController.gradelevel.sortorder}" required="true" size="60">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Sort Order:" escape="false"></h:outputText>
+                            <h:inputText label="Sort Order" 
+                                         value="#{gradelevelCRUDController.gradelevel.sortorder}" 
+                                         required="true" size="60" converter="javax.faces.Integer">
                                 <f:validateLength minimum="1" maximum="3"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{gradelevelCRUDController.gradelevel.description}" required="true" rows="5" cols="50">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:" escape="false"></h:outputText>
+                            <h:inputTextarea label="Description" 
+                                             value="#{gradelevelCRUDController.gradelevel.description}" 
+                                             required="true" rows="5" cols="50">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
                         </h:panelGrid>
