@@ -6,6 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
+      xmlns:s="http://jboss.com/products/seam/taglib"
       >
     <h:head>
         <title>Student Information System</title>
@@ -21,19 +22,36 @@
 
                <h:form>
                    <h:panelGroup id="container" layout="block" class="center-align" style="width: 850px;">
-                    <div style="align: middle;">
-                        <h4><u>IEP Goal</u></h4>
+                    <h:panelGrid columns="1">
+                        <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                            <ul class="breadcrumb">  
+                                <li>  
+                                  <a href="iep.xhtml">IEP</a> <span class="divider">></span>  
+                                </li>  
+                                <li>  
+                                    <a href="iepGoals.xhtml?sid=#{teacherIepGoalsController.student.studentid}">Goals</a> <span class="divider">></span>  
+                                </li>  
+                                <li class="active">Goal Editor</li>  
+                            </ul>  
+                        </div>
+                    </h:panelGrid>
                         
-                        <h:panelGrid columns="4" style="margin-bottom: 20px;">
-                            <h:outputText value="Student:"/>
-                            <h:outputText value="#{teacherIepGoalsController.student.profile.firstname} #{teacherIepGoalsController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
-                            
-                            <h:outputText value="Grade Level:" class="left25"/>
-                            <h:outputText value="#{teacherIepGoalsController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
-                        </h:panelGrid>
-                    </div>
+                    <h:panelGrid columns="4" style="margin-bottom: 20px;">
+                        <h:outputText value="Student:"/>
+                        <h:outputText value="#{teacherIepGoalsController.student.profile.firstname} #{teacherIepGoalsController.student.profile.lastname}" class="left25 right25" style="color: blue;" />
+
+                        <h:outputText value="Grade Level:" class="left25"/>
+                        <h:outputText value="#{teacherIepGoalsController.gradeLevel.gradelevel}" class="left25" style="color: blue;" />
+                    </h:panelGrid>
+
                     
-                    <div class="well span9" style="margin-left: 0px;">
+                    <div class="well span11" style="margin-left: 0px;">
+                        <div class="row table-header" style="margin-left: -18px; margin-right: -18px;  margin-top: -18px; margin-bottom:20px; padding-top: 3px;">
+                            <div class="span11" style="margin-left:10px;">
+                               <h:outputText value="Add/Edit IEP Goal"/>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             
                             <div class="span3">
@@ -72,17 +90,37 @@
                                 </h:inputText>
                             </div>
                             
-                            <div class="span1"></div>
-                            
-                            <div class="span5">
-                                <label>Goal Description</label>
-                                <h:inputTextarea value="#{teacherIepGoalsController.currentIepGoal.goaldescription}" class="input-xlarge span5" rows="10">
-                                    <f:validateLength minimum="0" maximum="250"></f:validateLength>
-                                </h:inputTextarea>
+                            <div class="span8">
+                                <label style="margin-left:20px;">Goal Description</label>
+                                <h:panelGroup class="span8" style="height:310px;" layout="block">
+                                    <rich:editor id="editor" lang="en" style="margin-left: 35x; width:96%;"
+                                                  value="#{teacherIepGoalsController.currentIepGoal.goaldescription}">
+                                        <f:facet name="config">
+                                                toolbar: 'custom',
+                                                language: 'en',
+                                                startupFocus: true,
+                                                toolbar_custom:
+                                                    [
+                                                        { name: 'document', items : [ 'Preview' ] },
+                                                        { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                                                        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+                                                        { name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+                                                                '/',
+                                                        { name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },
+                                                        { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+                                                        { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                                                        { name: 'tools', items : [ 'Maximize' ] }
+                                                    ]
+                                                </f:facet>
+                                    </rich:editor>
+                                </h:panelGroup>
                             </div>
 
-                            <h:commandButton value="Save" action="#{teacherIepGoalsController.saveIepGoal(teacherIepGoalsController.currentIepGoal)}" class="btn btn-primary pull-right left25" />
-                            <h:commandButton value="Cancel" action="#{teacherIepGoalsController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                            <div class="span11" style="margin-top: 10px;">
+                                <h:commandButton value="Save" action="#{teacherIepGoalsController.saveIepGoal(teacherIepGoalsController.currentIepGoal)}" class="btn btn-primary pull-right left25" />
+                                <h:commandButton value="Cancel" action="#{teacherIepGoalsController.cancelIepEditor()}" immediate="true" class="btn btn-primary pull-right" />
+                            </div>
+                            
                         </div>
                     </div>
 

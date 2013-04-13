@@ -142,6 +142,7 @@ public class StudentAttendanceController implements Serializable {
         dataTable.setBorder(1);
         dataTable.setCellpadding("7");
         dataTable.setWidth("900");
+        dataTable.setRowClasses("graybg,whitebg");
 
         for (int i = 0; i < dataList.get(0).size(); i++) {
             HtmlColumn column = new HtmlColumn();

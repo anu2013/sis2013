@@ -14,17 +14,22 @@
         <style type="text/css"></style>
     </h:head>
     <h:body>
-          <ui:include src="teacherHeader.xhtml" />
+        <ui:include src="teacherHeader.xhtml" />
 
         <div id="content">
-            <ui:include src="teacherMenu.xhtml" />
+                <ui:include src="teacherMenu.xhtml" />
 
-            <h:panelGroup id="container" layout="block" class="center-align">
-               <h:form>
-                <h:panelGrid rows="2" class="center-align" width="850">
-                    <div style="align: middle;">
-                        <h4><u>IEP Students</u></h4>
-                        
+                <h:panelGroup id="container" layout="block" class="center-align">
+                   <h:form>
+                    <h:panelGrid rows="2" class="center-align" width="850">
+                        <h:panelGrid columns="1">
+                            <div class="span10" style="margin-left: -16px; padding-bottom: 10px;">
+                                <ul class="breadcrumb">  
+                                    <li class="active">IEP</li>  
+                                </ul>  
+                            </div>
+                        </h:panelGrid>
+
                         <h:panelGrid columns="2">
                             <h:outputText value="Filter By Period:"/>
                             <h:outputText value=""/>
@@ -35,42 +40,41 @@
                                <f:selectItem itemLabel="Select from all periods" itemValue="0" />
                                <f:selectItems value="#{teacherIepController.schedulesController.schedules}" var="schedule" itemLabel="#{schedule.subject.subjectname} (#{schedule.period.starttime} to #{schedule.period.endtime})" itemValue="#{schedule.subjectscheduleid}"/>
                             </h:selectOneMenu>
-                            
+
                             <h:commandButton action="#{teacherIepController.goButton}" value="Go" class="btn btn-medium btn-primary" style="margin-top: -10px;"></h:commandButton>
                         </h:panelGrid>
-                        
-                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
-                    </div>
-                    
-                    <h:dataTable value="#{teacherIepController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
-                                 columnClasses="none,none,none,center-text"
-                                 rendered="#{teacherIepController.studentSchedules != null}">
-                            <f:facet name="header"></f:facet>
-                            <f:facet name="footer"></f:facet>
 
-                            <h:column>
-                                <f:facet name="header">Student Name</f:facet>
-                                #{schedule.student.profile.firstname}  #{schedule.student.profile.lastname}
-                            </h:column>
+                        <h:dataTable value="#{teacherIepController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850"
+                                     columnClasses="none,none,none,center-text" rowClasses="graybg,whitebg"
+                                     rendered="#{teacherIepController.studentSchedules != null}">
+                                <f:facet name="header"></f:facet>
+                                <f:facet name="footer"></f:facet>
 
-                            <h:column>
-                                <f:facet name="header">Student ID</f:facet>
-                                #{schedule.student.studentid}
-                            </h:column>
+                                <h:column>
+                                    <f:facet name="header">Student Name</f:facet>
+                                    #{schedule.student.profile.firstname}  #{schedule.student.profile.lastname}
+                                </h:column>
 
-                            <h:column>
-                                <f:facet name="header">Grade Level</f:facet>
-                                #{schedule.gradeLevel.gradelevel}
-                            </h:column>
-                            
-                            <h:column>
-                                <h:commandButton value="Goals" action="#{teacherIepController.goalsButton(schedule)}" class="btn btn-medium btn-primary left25" />
-                            </h:column>
-                            
+                                <h:column>
+                                    <f:facet name="header">Student ID</f:facet>
+                                    #{schedule.student.studentid}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Grade Level</f:facet>
+                                    #{schedule.gradeLevel.gradelevel}
+                                </h:column>
+
+                                <h:column>
+                                    <h:commandButton value="Goals" action="#{teacherIepController.goalsButton(schedule)}" class="btn btn-medium btn-primary left25" />
+                                </h:column>
+
                         </h:dataTable>
+                    </h:panelGrid>
 
-                </h:panelGrid>
-               </h:form>
+                    <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
+                       
+                </h:form>
             </h:panelGroup>
         </div>
     </h:body>

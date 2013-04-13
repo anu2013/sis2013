@@ -77,6 +77,13 @@ thead{
     color: white;
 }
 
+.table-header{
+    font-size: 16px;
+    background-color: #306192;
+    color: white;
+    min-height: 24px;
+}
+
 .navigation{
     padding-right: 20px;
     font-size: 12px;
@@ -148,3 +155,6 @@ thead{
     cursor: hand;
     cursor: pointer;
 }
+
+tr.graybg td { background-color: #a7bfde; }
+tr.whitebg td { background-color: #dbe5f1; }
