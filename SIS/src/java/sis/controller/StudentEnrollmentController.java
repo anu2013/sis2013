@@ -121,7 +121,7 @@ public class StudentEnrollmentController implements Serializable {
         this.setModifyStudentVOs(null);
         return null;
     }
-    
+
     private void populateNewStudents() {
         List<StudentVO> studentVOs = null;
         this.setStudentVOs(studentVOs);
@@ -146,6 +146,18 @@ public class StudentEnrollmentController implements Serializable {
                 }
             }
         }
+        
+        //Retrieve faileed students 
+//        List<Student> failedStudents = retrieveFailedStudents();
+//        if (failedStudents != null) {
+//            if (!failedStudents.isEmpty()) {
+//                if (potentialNewStudents == null) {
+//                    potentialNewStudents = new ArrayList<Student>(failedStudents);
+//                } else {
+//                    potentialNewStudents.addAll(failedStudents);
+//                }
+//            }
+//        }
 
         List<Student> actualNewStudents = retrieveActualNewStudents(potentialNewStudents);
         studentVOs = convertStudentToStudentVO(actualNewStudents);
@@ -172,24 +184,6 @@ public class StudentEnrollmentController implements Serializable {
         return sts;
     }
 
-    private Gradelevel retrirevePreviousGradeLevel() {
-        Gradelevel grd = null;
-        try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            Gradelevel glvl = entityManager.find(Gradelevel.class, this.selectedGradeLevelId);
-            if (glvl.getSortorder() > 1) {
-                String queryString = "select gl from Gradelevel gl where "
-                        + "gl.sortorder = :sortorder";
-                Query query = entityManager.createQuery(queryString);
-                query.setParameter("sortorder", glvl.getSortorder() - 1);
-                grd = (Gradelevel) query.getSingleResult();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return grd;
-    }
-
     private List<Student> retrievePassedStudents() {
         List<Student> sts = null;
         Gradelevel grd = retrirevePreviousGradeLevel();
@@ -211,6 +205,44 @@ public class StudentEnrollmentController implements Serializable {
             }
         }
         return sts;
+    }
+
+    private List<Student> retrieveFailedStudents() {
+        List<Student> sts = null;
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select st from Student st where st.studentid in "
+                    + "(select stgl.student.studentid from Studentgradelevel stgl where "
+                    + "stgl.status = :status and "
+                    + "stgl.schoolyear.schoolyear = :schoolyear and "
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid)";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("status", "FAIL");
+            query.setParameter("schoolyear", this.selectedSchoolYear);
+            query.setParameter("gradelevelid", this.selectedGradeLevelId);
+            sts = (List<Student>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sts;
+    }
+
+    private Gradelevel retrirevePreviousGradeLevel() {
+        Gradelevel grd = null;
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            Gradelevel glvl = entityManager.find(Gradelevel.class, this.selectedGradeLevelId);
+            if (glvl.getSortorder() > 1) {
+                String queryString = "select gl from Gradelevel gl where "
+                        + "gl.sortorder = :sortorder";
+                Query query = entityManager.createQuery(queryString);
+                query.setParameter("sortorder", glvl.getSortorder() - 1);
+                grd = (Gradelevel) query.getSingleResult();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grd;
     }
 
     private List<Student> retrieveActualNewStudents(List<Student> argPotentialNewStudents) {
@@ -276,7 +308,7 @@ public class StudentEnrollmentController implements Serializable {
         allEnrolledSVOs = convertStudentGradeLevelToStudentVO(stgrdlvls);
         this.setAllEnrolledStudentVOs(allEnrolledSVOs);
     }
-    
+
     private List<StudentVO> convertStudentGradeLevelToStudentVO(List<Studentgradelevel> argStudentGradeLevels) {
         List<StudentVO> studentVOs = null;
         StudentVO sVO = null;
@@ -467,6 +499,4 @@ public class StudentEnrollmentController implements Serializable {
     public void setAllEnrolledStudentVOs(List<StudentVO> allEnrolledStudentVOs) {
         this.allEnrolledStudentVOs = allEnrolledStudentVOs;
     }
-    
-    
 }

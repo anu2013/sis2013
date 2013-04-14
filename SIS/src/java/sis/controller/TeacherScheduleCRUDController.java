@@ -38,6 +38,8 @@ public class TeacherScheduleCRUDController {
     private List<TeacherSchedule> teacherSchedules;
     @ManagedProperty(value = "#{teacherSchedule}")
     private TeacherSchedule teacherSchedule;
+    @ManagedProperty(value = "#{period}")
+    private Period period;
     private Integer schoolYear;
     private Integer periodId;
     private Integer subjectId;
@@ -48,7 +50,7 @@ public class TeacherScheduleCRUDController {
 
     static {
         scheduleDaysMap = new LinkedHashMap<String, Object>();
-        scheduleDaysMap.put("Monday", "M"); 
+        scheduleDaysMap.put("Monday", "M");
         scheduleDaysMap.put("Tuesday", "T");
         scheduleDaysMap.put("Wednesday", "W");
         scheduleDaysMap.put("Thursday", "TR");
@@ -115,14 +117,29 @@ public class TeacherScheduleCRUDController {
         List<TeacherSchedule> pTSchedules = null;
         List<TeacherSchedule> sTSchedules = null;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        
+
         try {
-            //Read selected scheduled days
-            String scheduleDays = "";
-            for (int index = 0; index < this.scheduleDaysStringArray.length; index++) {
-                scheduleDays = scheduleDays + scheduleDaysStringArray[index] + ",";
+            //Validate the valid school year, period, subject, primary and secondry teachers are selected.
+            if (this.schoolYear == 0) {
+                setInfoMessage("Please select school year.");
+                return null;
             }
-            scheduleDays = scheduleDays.substring(0, scheduleDays.length() - 1);
+            if (this.periodId == 0) {
+                setInfoMessage("Please select period.");
+                return null;
+            }
+            if (this.subjectId == 0) {
+                setInfoMessage("Please select subject.");
+                return null;
+            }
+            if (this.primaryTeacherId == 0) {
+                setInfoMessage("Please select Primary Teacher.");
+                return null;
+            }
+            if (this.secondaryTeacherId == 0) {
+                setInfoMessage("Please select Secondary Teacher.");
+                return null;
+            }
 
             //If primary teacher and secondary teacher are same then display error message
             if (this.primaryTeacherId == this.secondaryTeacherId) {
@@ -159,6 +176,13 @@ public class TeacherScheduleCRUDController {
                         + "Please select different secondary teacher.");
                 return null;
             }
+
+            //Read selected scheduled days
+            String scheduleDays = "";
+            for (int index = 0; index < this.scheduleDaysStringArray.length; index++) {
+                scheduleDays = scheduleDays + scheduleDaysStringArray[index] + ",";
+            }
+            scheduleDays = scheduleDays.substring(0, scheduleDays.length() - 1);
 
             //All validation passed and insert starts....
             userTransaction.begin();
@@ -216,7 +240,6 @@ public class TeacherScheduleCRUDController {
 //            return "error";
 //        }
 //    }
-
     public String deleteTeacherSchedule(TeacherSchedule argTeacherSchedule) {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
@@ -241,7 +264,6 @@ public class TeacherScheduleCRUDController {
 //        this.subjectId = argTeacherSchedule.getSubject().getSubjectid();
 //        return "/admin/teacherScheduleUpdate";
 //    }
-
     /**
      * @return the teacherSchedules
      */
@@ -351,7 +373,7 @@ public class TeacherScheduleCRUDController {
     /**
      * @return the scheduleDaysStringArray
      */
-    public String[] getScheduleDaysStringArray() { 
+    public String[] getScheduleDaysStringArray() {
         return scheduleDaysStringArray;
     }
 
@@ -360,5 +382,28 @@ public class TeacherScheduleCRUDController {
      */
     public void setScheduleDaysStringArray(String[] scheduleDaysStringArray) {
         this.scheduleDaysStringArray = scheduleDaysStringArray;
+    }
+
+    public List getPeriods() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        //String queryString = "select s from Period s where s.schoolyear.schoolyear=:schoolyear";
+        String queryString = "select s from Period s";
+        Query query = entityManager.createQuery(queryString);
+        //query.setParameter("schoolyear", this.schoolYear);
+        return (List<Period>) query.getResultList();
+    }
+
+    /**
+     * @return the period
+     */
+    public Period getPeriod() {
+        return period;
+    }
+
+    /**
+     * @param period the period to set
+     */
+    public void setPeriod(Period period) {
+        this.period = period;
     }
 }
