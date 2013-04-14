@@ -68,9 +68,12 @@ public class StudentEnrollmentController implements Serializable {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(cal.YEAR);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select sys from Schoolyearschedule sys where sys.schoolyear >= :schoolyear";
+            String queryString = "select sys from Schoolyearschedule sys "
+                    + "where sys.schoolyear >= (select s.schoolyear from Schoolyearschedule s where "
+                    + "s.active = :active) "
+                    + "order by sys.schoolyear asc";
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("schoolyear", year);
+            query.setParameter("active", new Short("1"));
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,18 +149,18 @@ public class StudentEnrollmentController implements Serializable {
                 }
             }
         }
-        
+
         //Retrieve faileed students 
-//        List<Student> failedStudents = retrieveFailedStudents();
-//        if (failedStudents != null) {
-//            if (!failedStudents.isEmpty()) {
-//                if (potentialNewStudents == null) {
-//                    potentialNewStudents = new ArrayList<Student>(failedStudents);
-//                } else {
-//                    potentialNewStudents.addAll(failedStudents);
-//                }
-//            }
-//        }
+        List<Student> failedStudents = retrieveFailedStudents();
+        if (failedStudents != null) {
+            if (!failedStudents.isEmpty()) {
+                if (potentialNewStudents == null) {
+                    potentialNewStudents = new ArrayList<Student>(failedStudents);
+                } else {
+                    potentialNewStudents.addAll(failedStudents);
+                }
+            }
+        }
 
         List<Student> actualNewStudents = retrieveActualNewStudents(potentialNewStudents);
         studentVOs = convertStudentToStudentVO(actualNewStudents);

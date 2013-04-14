@@ -63,7 +63,7 @@ public class SchoolyearscheduleCRUDController {
             String queryString = "select sys from Schoolyearschedule sys "
                     + "where sys.schoolyear >= (select s.schoolyear from Schoolyearschedule s where "
                     + "s.active = :active) "
-                    + "order by sys.schoolyear desc";
+                    + "order by sys.schoolyear asc";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("active", new Short("1"));
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());

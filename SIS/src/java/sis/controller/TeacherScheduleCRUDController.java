@@ -53,7 +53,8 @@ public class TeacherScheduleCRUDController {
         scheduleDaysMap.put("Monday", "M");
         scheduleDaysMap.put("Tuesday", "T");
         scheduleDaysMap.put("Wednesday", "W");
-        scheduleDaysMap.put("Thursday", "TR");
+        //scheduleDaysMap.put("Thursday", "TR");
+        scheduleDaysMap.put("Thursday", "TH");
         scheduleDaysMap.put("Friday", "F");
     }
 
