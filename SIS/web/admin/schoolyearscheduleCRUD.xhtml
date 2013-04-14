@@ -45,7 +45,8 @@
                                      value="#{schoolyearscheduleCRUDController.allSchoolyearschedules}" 
                                      var="schoolyearschedule" 
                                      border="1" width="75%"
-                                     columnClasses="center-align">
+                                     columnClasses="center-align"
+                                     rowClasses="graybg,whitebg">
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="School Year" />
@@ -67,6 +68,12 @@
                                 <h:outputText value="${schoolyearschedule.enddate}">
                                     <f:convertDateTime type="date" pattern="dd-MMM-yyyy"/>
                                 </h:outputText>
+                            </h:column>
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Active" />
+                                </f:facet>        
+                                <h:outputText value="${schoolyearschedule.activeStatus}"/>    
                             </h:column>
                             <h:column class="center-align">        
                                 <f:facet name="header">            

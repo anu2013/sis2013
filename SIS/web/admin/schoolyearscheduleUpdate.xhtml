@@ -68,6 +68,11 @@
                                                cellHeight="22px" 
                                                style="width:150px"/>
                             </a4j:outputPanel>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Gender:" escape="false"></h:outputText>
+                            <h:selectOneMenu value="#{schoolyearscheduleCRUDController.schoolyearschedule.active}" converter="javax.faces.Short">
+                                <f:selectItem itemValue="1" itemLabel="Yes" />
+                                <f:selectItem itemValue="0" itemLabel="No" />
+                            </h:selectOneMenu>
                         </h:panelGrid>
                         <h:inputHidden value="#{schoolyearscheduleCRUDController.schoolyearschedule.schoolyear}"></h:inputHidden>
                         <br/>

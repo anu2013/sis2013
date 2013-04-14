@@ -43,7 +43,8 @@
                     <div align="center">
                         <h:dataTable rendered="#{not empty settingsCRUDController.settingsList}" 
                                      value="#{settingsCRUDController.settingsList}" 
-                                     var="settings" border="1" width="50%">
+                                     var="settings" border="1" width="50%"
+                                     rowClasses="graybg,whitebg">
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Content Page Name" />

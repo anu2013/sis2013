@@ -82,7 +82,8 @@
                             <h:dataTable value="#{studentEnrollmentController.studentVOs}" var="studentVO" 
                                          border="1" width="80%"
                                          columnClasses="none,none,none,center-text"
-                                         rendered="#{studentEnrollmentController.studentVOs != null}">
+                                         rendered="#{studentEnrollmentController.studentVOs != null}"
+                                         rowClasses="graybg,whitebg">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
                                 <h:column>
@@ -108,7 +109,8 @@
                             <h:dataTable value="#{studentEnrollmentController.modifyStudentVOs}" 
                                          var="studentVO" border="1" width="80%"
                                          columnClasses="none,none,none,center-text"
-                                         rendered="#{studentEnrollmentController.modifyStudentVOs != null}">
+                                         rendered="#{studentEnrollmentController.modifyStudentVOs != null}"
+                                         rowClasses="graybg,whitebg">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
                                 <h:column>
@@ -135,7 +137,8 @@
                                          var="studentVO" 
                                          border="1" width="50%"
                                          columnClasses="none,none,none,center-text"
-                                         rendered="#{studentEnrollmentController.allEnrolledStudentVOs != null}">
+                                         rendered="#{studentEnrollmentController.allEnrolledStudentVOs != null}"
+                                         rowClasses="graybg,whitebg">
                                 <f:facet name="header"></f:facet>
                                 <f:facet name="footer"></f:facet>
 

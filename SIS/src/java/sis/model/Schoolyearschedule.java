@@ -28,6 +28,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Schoolyearschedule.findAll", query = "SELECT s FROM Schoolyearschedule s")})
 public class Schoolyearschedule implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -112,5 +113,12 @@ public class Schoolyearschedule implements Serializable {
     public void setActive(Short active) {
         this.active = active;
     }
-    
+
+    public String getActiveStatus() {
+        if (this.active == 1) {
+            return "Yes";
+        } else {
+            return "No";
+        }
+    }
 }

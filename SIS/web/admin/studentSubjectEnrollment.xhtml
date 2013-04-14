@@ -83,7 +83,8 @@
                                      border="1" 
                                      width="90%"
                                      columnClasses="center-text,center-text,center-text,center-text,center-text"
-                                     rendered="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment != null}">
+                                     rendered="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment != null}"
+                                     rowClasses="graybg,whitebg">
                             <h:column>
                                 <f:facet name="header">Student Id</f:facet>
                                 <h:outputText value="#{studentVO.studentid}"/>
@@ -112,7 +113,8 @@
                                      border="1" 
                                      width="99%"
                                      columnClasses="center-align,center-align,center-align,center-align,center-align"
-                                     rendered="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules != null}">
+                                     rendered="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules != null}"
+                                     rowClasses="graybg,whitebg">
                             <h:column>
                                 <f:facet name="header">Id</f:facet>
                                 <h:outputText value="#{studentVO.studentid}" escape="false" style="font-size: 10px; font-style: normal;" />

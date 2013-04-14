@@ -37,12 +37,12 @@
         <ui:include src="adminHeader.xhtml" />
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
-            <h:panelGroup id="container" layout="block" class="center-align">
+            <h:panelGroup id="container" layout="block" class="center-align" >
                 <h:form>
 
                     <div align="center">
-                        <h3>View Ad-hoc Reports</h3>
-                        <h:panelGrid columns="2" border="1">
+                        <h3>Reports Management</h3>
+                        <h:panelGrid columns="2" border="1" rowClasses="graybg,whitebg">
                             <a href="/SIS/faces/admin/admissionStatusReport.xhtml">Admission/Application Status Report</a>
                             <h:outputText value="This report is used to view the various details about the application and admission process."/>
                             <a href="/SIS/faces/admin/studentGradesReport.xhtml">Student Grade Report</a>

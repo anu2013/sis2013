@@ -52,43 +52,58 @@ public class SchoolyearscheduleCRUDController {
             e.printStackTrace();
         }
     }
-    
+
     private void retrieveSchoolyearschedules() {
         try {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(cal.YEAR);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select sys from Schoolyearschedule sys "
-                    + "where sys.schoolyear >= :schoolyear "
+                    + "where sys.schoolyear >= (select s.schoolyear from Schoolyearschedule s where "
+                    + "s.active = :active) "
                     + "order by sys.schoolyear desc";
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("schoolyear", year);
+            query.setParameter("active", new Short("1"));
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-//    private Schoolyearschedule retrieveSchoolyearschedule() {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        Schoolyearschedule schoolyearschedule = entityManager.find(Schoolyearschedule.class, getSchoolyearschedule().getSchoolyear());
-//        return schoolyearschedule;
-//    }
+    private List retrieveSchoolyearscheduleByActiveStatus() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        String queryString = "select sys from Schoolyearschedule sys "
+                + "where sys.active = :active";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("active", new Short("1"));
+        return query.getResultList();
+    }
+
+    private Schoolyearschedule retrieveSchoolyearschedule(Integer argSchoolYear) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Schoolyearschedule s = em.find(Schoolyearschedule.class, argSchoolYear);
+        return s;
+    }
 
     public String createSchoolyearschedule() {
-        try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            //Schoolyearschedule schoolyearschedule = retrieveSchoolyearschedule();
-            if (schoolyearschedule == null) {
-                userTransaction.begin();
-                entityManager.persist(getSchoolyearschedule());
-                userTransaction.commit();
-                retrieveAllSchoolyearschedules();
-                return "/admin/schoolyearscheduleCRUD";
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("School year already exists, please try again"));
+        Schoolyearschedule schoolyearschedule = retrieveSchoolyearschedule(getSchoolyearschedule().getSchoolyear());
+        if (schoolyearschedule != null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("School year already exists, please try again"));
+            return null;
+        }
+        if (getSchoolyearschedule().getActive() == 1) {
+            if (!retrieveSchoolyearscheduleByActiveStatus().isEmpty()) {
+                setInfoMessage("There is an active school year exists. If you want to add new active school year the deactivate existing active school year and create new.");
                 return null;
             }
+        }
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            userTransaction.begin();
+            entityManager.persist(getSchoolyearschedule());
+            userTransaction.commit();
+            retrieveAllSchoolyearschedules();
+            return "/admin/schoolyearscheduleCRUD";
         } catch (Exception e) {
             e.printStackTrace();
             return "error";
@@ -100,12 +115,22 @@ public class SchoolyearscheduleCRUDController {
     }
 
     public String updateSchoolyearschedule() {
+        if (this.schoolyearschedule.getActive() == 1) {
+            Schoolyearschedule schoolyearschedule = retrieveSchoolyearschedule(this.schoolyearschedule.getSchoolyear());
+            if (schoolyearschedule.getActive() == 0) {
+                if (!retrieveSchoolyearscheduleByActiveStatus().isEmpty()) {
+                    setInfoMessage("There is an active school year exists. If you want to add new active school year the deactivate existing active school year and create new.");
+                    return null;
+                }
+            }
+        }
         try {
             userTransaction.begin();
             EntityManager em = entityManagerFactory.createEntityManager();
             Schoolyearschedule s = em.find(Schoolyearschedule.class, this.schoolyearschedule.getSchoolyear());
             s.setStartdate(this.schoolyearschedule.getStartdate());
             s.setEnddate(this.schoolyearschedule.getEnddate());
+            s.setActive(this.schoolyearschedule.getActive());
             em.persist(s);
             em.flush();
             userTransaction.commit();
@@ -124,8 +149,11 @@ public class SchoolyearscheduleCRUDController {
             userTransaction.begin();
             Schoolyearschedule currentSchoolyearschedule = em.find(Schoolyearschedule.class, argSchoolyearschedule.getSchoolyear());
             em.remove(currentSchoolyearschedule);
+
             userTransaction.commit();
+
             retrieveAllSchoolyearschedules();
+
             return "/admin/schoolyearscheduleCRUD";
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,6 +207,8 @@ public class SchoolyearscheduleCRUDController {
     public void setAllSchoolyearschedules(List<Schoolyearschedule> allSchoolyearschedules) {
         this.allSchoolyearschedules = allSchoolyearschedules;
     }
-    
-    
+
+    protected void setInfoMessage(String summary) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
+    }
 }

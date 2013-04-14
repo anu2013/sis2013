@@ -44,7 +44,8 @@
                     <div align="center">
                         <h:dataTable rendered="#{not empty admissionCRUDController.admissionsteps}" 
                                      value="#{admissionCRUDController.admissionsteps}" 
-                                     var="admissionstep" border="1" width="95%">
+                                     var="admissionstep" border="1" width="95%"
+                                     rowClasses="graybg,whitebg">
                             <h:column>
                                 <f:facet name="header">            
                                     <h:outputText value="Name" />
