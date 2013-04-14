@@ -38,21 +38,28 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Grade Level</h2>
+                <h:form>
+                    <h4 align="center">Create Grade Level</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Grade Level:"></h:outputText>
-                            <h:inputText label="Grade Level" value="#{gradelevel.gradelevel}" required="true" size="60">
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Grade Level:" 
+                                          escape="false"></h:outputText>
+                            <h:inputText label="Grade Level" value="#{gradelevel.gradelevel}" 
+                                         required="true" 
+                                         size="60">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Sort Order:"></h:outputText>
-                            <h:inputText label="Sort Order" value="#{gradelevel.sortorder}" required="true" size="60">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Sort Order:"
+                                          escape="false"></h:outputText>
+                            <h:inputText label="Sort Order" value="#{gradelevel.sortorder}" 
+                                         required="true" size="60" converter="javax.faces.Integer">
                                 <f:validateLength minimum="1" maximum="3"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
-                            <h:inputTextarea label="Description" value="#{gradelevel.description}" required="true" rows="5" cols="50">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:"
+                                          escape="false"></h:outputText>
+                            <h:inputTextarea label="Description" value="#{gradelevel.description}" 
+                                             required="true" rows="5" cols="50">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
                         </h:panelGrid>

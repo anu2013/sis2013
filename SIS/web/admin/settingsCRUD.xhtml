@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Student Information System</title>
+        <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
+        <style type="text/css">
+            .form-container {
+                max-width: 1000px;
+                padding: 19px 29px 29px;
+                margin: 0 auto 20px;
+                margin-top: 20px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            }
+            .form-container .form-container-heading{
+                font-size: 20px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 2px 9px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <ui:include src="adminHeader.xhtml" />
+        <div id="content">
+            <ui:include src="adminMenu.xhtml" />
+            <h:panelGroup id="container" layout="block">
+                <h:form >
+                    <h4 align="center">Content Maintenance</h4>
+                    <div align="center">
+                        <h:dataTable rendered="#{not empty settingsCRUDController.settingsList}" 
+                                     value="#{settingsCRUDController.settingsList}" 
+                                     var="settings" border="1" width="50%"
+                                     rowClasses="graybg,whitebg">
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Content Page Name" />
+                                </f:facet>        
+                                <h:outputText value="${settings.settingName}" />    
+                            </h:column>
+
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                                <h:commandLink action="#{settingsCRUDController.editSettings(settings)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>        
+                            <h:column>        
+                                <f:facet name="header">            
+                                    <h:outputText value="Delete"/>
+                                </f:facet>
+                                <h:commandLink action="#{settingsCRUDController.deleteSettings(settings)}">
+                                    <h:outputText value="Delete"/>
+                                </h:commandLink>
+                            </h:column>        
+                        </h:dataTable>
+
+                        <h:panelGroup rendered="#{empty settingsCRUDController.settingsList}">
+                            <p>There are no settings available. Please add new items.</p>
+                        </h:panelGroup>
+
+                        <br/>
+
+                        <h:commandButton value="Add Contents" action="#{settingsCRUDController.addSettings}"
+                                         class="btn btn-medium btn-primary">
+                        </h:commandButton>
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+

@@ -37,16 +37,17 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update Subject</h2>
+                <h:form>
+                    <h4 align="center">Update Subject</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="Subject Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Subject Name:" 
+                                          escape="false"></h:outputText>
                             <h:inputText label="Subject Name" value="#{subjectCRUDController.subject.subjectname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Description:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:" escape="false"></h:outputText>
                             <h:inputTextarea label="Description" value="#{subjectCRUDController.subject.description}" required="true" rows="5" cols="50">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputTextarea>
@@ -54,7 +55,7 @@
                         <h:inputHidden value="#{subjectCRUDController.subject.subjectid}"></h:inputHidden>
                         <br/>
                         <h:commandButton action="#{subjectCRUDController.updateSubject}" 
-                                         value="Save"
+                                         value=" Save "
                                          class="btn btn-medium btn-primary"></h:commandButton>
                     </div>
                 </h:form>

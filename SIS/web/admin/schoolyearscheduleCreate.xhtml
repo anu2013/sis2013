@@ -40,13 +40,15 @@
             <ui:include src="adminMenu.xhtml" />
 
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create School Year Schedule</h2>
+                <h:form>
+                    <h4 align="center">Create School Year</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="School Year:"></h:outputText>
-                            <h:inputText label="School Year" value="#{schoolyearschedule.schoolyear}" required="true" size="60">
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" 
+                                          escape="false"></h:outputText>
+                            <h:inputText label="School Year" value="#{schoolyearschedule.schoolyear}" 
+                                         required="true" size="60" converter="javax.faces.Integer">
                             </h:inputText>
                             <h:outputText value="Start Date:"></h:outputText>
                             <a4j:outputPanel id="calendar_start" layout="block">
@@ -71,7 +73,11 @@
                                                cellHeight="22px" 
                                                style="width:150px"/>
                             </a4j:outputPanel>
-
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Gender:" escape="false"></h:outputText>
+                            <h:selectOneMenu value="#{schoolyearschedule.active}" converter="javax.faces.Short">
+                                <f:selectItem itemValue="1" itemLabel="Yes" />
+                                <f:selectItem itemValue="0" itemLabel="No" />
+                            </h:selectOneMenu>
                         </h:panelGrid>
                         <br/>
                         <h:commandButton action="#{schoolyearscheduleCRUDController.createSchoolyearschedule}" 

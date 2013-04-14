@@ -3,7 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
@@ -37,28 +40,37 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Update Student</h2>
+                <h:form>
+                    <h4 align="center">Update Student</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
 
                         <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Student First Name:"></h:outputText>
-                            <h:inputText label="Student First Name" value="#{studentCRUDController.userprofile.firstname}" required="true" size="60">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Student First Name:" escape="false"></h:outputText>
+                            <h:inputText label="Student First Name" 
+                                         value="#{studentCRUDController.userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Student Last Name:"></h:outputText>
-                            <h:inputText label="Student Last Name" value="#{studentCRUDController.userprofile.lastname}" required="true" size="60">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Student Last Name:" escape="false"></h:outputText>
+                            <h:inputText label="Student Last Name" 
+                                         value="#{studentCRUDController.userprofile.lastname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Student Middle Name:"></h:outputText>
                             <h:inputText label="Student Middle Name" value="#{studentCRUDController.userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Date of Birth(MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Date of Birth" value="#{studentCRUDController.userprofile.dateofbirth}" size="60">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
+                            <h:outputText value="Date of Birth:"></h:outputText>
+                            <a4j:outputPanel id="calendar_start" layout="block">
+                                <rich:calendar value="#{studentCRUDController.userprofile.dateofbirth}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
                             <h:outputText value="Gender:"></h:outputText>
                             <h:selectOneMenu value="#{studentCRUDController.userprofile.gender}">
                                 <f:selectItem itemValue="Male" itemLabel="Male" />
@@ -115,10 +127,12 @@
                             <h:outputText value="Email 1:"></h:outputText>
                             <h:inputText label="Email 1" value="#{studentCRUDController.userprofile.email1}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Email 2:"></h:outputText>
                             <h:inputText label="Email 2" value="#{studentCRUDController.userprofile.email2}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Home Phone:"></h:outputText>
                             <h:inputText label="Home Phone" value="#{studentCRUDController.userprofile.homephone}" size="60">
@@ -158,8 +172,51 @@
                                 <f:selectItem itemValue="0" itemLabel="No" />
                                 <f:selectItem itemValue="1" itemLabel="Yes" />
                             </h:selectOneRadio>
-                            <h:outputText value="Previous School Name:"></h:outputText>
-                            <h:inputText label="Previous School Name" value="#{studentCRUDController.previouseducation.previousschoolname}" size="60">
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Parent First Name:" escape="false"></h:outputText>
+                            <h:inputText label="Parent First Name" value="#{studentCRUDController.parent.parentfirstname}" size="60" 
+                                         required="true">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Parent Last Name:" escape="false"></h:outputText>
+                            <h:inputText label="Parent Last Name" value="#{studentCRUDController.parent.parentlastname}" size="60" required="true">
+                                <f:validateLength  maximum="100"></f:validateLength> 
+                            </h:inputText>
+                            <h:outputText value="Parent Education:"></h:outputText>
+                            <h:inputText label="Parent Education" value="#{studentCRUDController.parent.parenteducation}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Parent Address 1:"></h:outputText>
+                            <h:inputText label="Parent Address 1" value="#{studentCRUDController.parent.parentcontactaddress1}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Parent Address 2:"></h:outputText>
+                            <h:inputText label="Parent Address 2" value="#{studentCRUDController.parent.parentcontactaddress2}" size="60">
+                                <f:validateLength  maximum="100"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Parent City:"></h:outputText>
+                            <h:inputText label="Parent City" value="#{studentCRUDController.parent.parentcontactcity}" size="60">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Parent State:"></h:outputText>
+                            <h:inputText label="Parent State" value="#{studentCRUDController.parent.parentcontactstate}" size="60">
+                                <f:validateLength  maximum="2"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Parent Zip:"></h:outputText>
+                            <h:inputText label="Parent Zip" value="#{studentCRUDController.parent.parentcontactzip}" size="60">
+                                <f:validateLength  maximum="10"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="Parent Country:"></h:outputText>
+                            <h:inputText label="Parent Country" value="#{studentCRUDController.parent.parentcontactcountry}" size="60">
+                                <f:validateLength  maximum="10"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Relationship with student:" escape="false"></h:outputText>
+                            <h:inputText label="Relationship with student" value="#{studentCRUDController.parent.relationshipwithstudent}" size="60" required="true">
+                                <f:validateLength  maximum="50"></f:validateLength>
+                            </h:inputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Previous School Name:" 
+                                          escape="false"></h:outputText>
+                            <h:inputText label="Previous School Name" value="#{studentCRUDController.previouseducation.previousschoolname}" 
+                                         size="60" required="true">
                                 <f:validateLength  maximum="100"></f:validateLength>
                             </h:inputText>
                             <h:outputText value="Previous School Address 1:"></h:outputText>
@@ -190,48 +247,7 @@
                             <h:inputText label="Last Grade Attended" value="#{studentCRUDController.previouseducation.lastattendedgradelevel}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Parent First Name:"></h:outputText>
-                            <h:inputText label="Parent First Name" value="#{studentCRUDController.parent.parentfirstname}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent Last Name:"></h:outputText>
-                            <h:inputText label="Parent Last Name" value="#{studentCRUDController.parent.parentlastname}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent Education:"></h:outputText>
-                            <h:inputText label="Parent Education" value="#{studentCRUDController.parent.parenteducation}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent Address 1:"></h:outputText>
-                            <h:inputText label="Parent Address 1" value="#{studentCRUDController.parent.parentcontactaddress1}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent Address 2:"></h:outputText>
-                            <h:inputText label="Parent Address 2" value="#{studentCRUDController.parent.parentcontactaddress2}" size="60">
-                                <f:validateLength  maximum="100"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent City:"></h:outputText>
-                            <h:inputText label="Parent City" value="#{studentCRUDController.parent.parentcontactcity}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent State:"></h:outputText>
-                            <h:inputText label="Parent State" value="#{studentCRUDController.parent.parentcontactstate}" size="60">
-                                <f:validateLength  maximum="2"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent Zip:"></h:outputText>
-                            <h:inputText label="Parent Zip" value="#{studentCRUDController.parent.parentcontactzip}" size="60">
-                                <f:validateLength  maximum="10"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Parent Country:"></h:outputText>
-                            <h:inputText label="Parent Country" value="#{studentCRUDController.parent.parentcontactcountry}" size="60">
-                                <f:validateLength  maximum="10"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="Relationship with student:"></h:outputText>
-                            <h:inputText label="Relationship with student" value="#{studentCRUDController.parent.relationshipwithstudent}" size="60">
-                                <f:validateLength  maximum="50"></f:validateLength>
-                            </h:inputText>
                         </h:panelGrid>
-
                         <h:inputHidden value="#{studentCRUDController.student.studentid}"></h:inputHidden>
                         <h:inputHidden value="#{studentCRUDController.parent.parentid}"></h:inputHidden>
                         <h:inputHidden value="#{studentCRUDController.previouseducation.previousschoolid}"></h:inputHidden>

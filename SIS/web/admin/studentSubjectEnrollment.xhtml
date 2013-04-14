@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
         <style type="text/css">
             .form-container {
-                max-width: 1000px;
+                max-width: 100px;
                 padding: 19px 29px 29px;
                 margin: 0 auto 20px;
                 margin-top: 20px;
@@ -70,7 +70,7 @@
                             </h:commandButton>
                             <h:outputText value="" />
                             <h:commandButton action="#{studentSubjectEnrollmentController.retrieveAllEnrolledStudentsAndSubjects}" 
-                                             value="View Enrolled Subjects" 
+                                             value="View Subjects and Schedules" 
                                              class="btn btn-medium btn-primary" 
                                              style="margin-top: -10px;">
                             </h:commandButton>
@@ -81,9 +81,14 @@
                         <h:dataTable value="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment}" 
                                      var="studentVO" 
                                      border="1" 
-                                     width="80%"
-                                     columnClasses="center-align,center-align,center-align,center-align,center-align"
-                                     rendered="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment != null}">
+                                     width="90%"
+                                     columnClasses="center-text,center-text,center-text,center-text,center-text"
+                                     rendered="#{studentSubjectEnrollmentController.studentsForSubjectEnrollment != null}"
+                                     rowClasses="graybg,whitebg">
+                            <h:column>
+                                <f:facet name="header">Student Id</f:facet>
+                                <h:outputText value="#{studentVO.studentid}"/>
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Name</f:facet>
                                 <h:outputText value="#{studentVO.firstName} #{studentVO.lastName}"/>
@@ -101,28 +106,42 @@
                             </h:column>
                         </h:dataTable>   
                     </div>
+                    <br/>
                     <div align="center">
-                        <h:dataTable value="#{studentSubjectEnrollmentController.allEnrolledSubjects}" 
-                                     var="studentsubjectschedule" 
+                        <h:dataTable value="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules}" 
+                                     var="studentVO" 
                                      border="1" 
-                                     width="80%"
+                                     width="99%"
                                      columnClasses="center-align,center-align,center-align,center-align,center-align"
-                                     rendered="#{studentSubjectEnrollmentController.allEnrolledSubjects != null}">
+                                     rendered="#{studentSubjectEnrollmentController.allStudentsAndSubjectShedules != null}"
+                                     rowClasses="graybg,whitebg">
                             <h:column>
-                                <f:facet name="header">Name</f:facet>
-                                <h:outputText value="#{studentsubjectschedule.student.profile.firstname} #{studentsubjectschedule.student.profile.lastname}"/>
+                                <f:facet name="header">Id</f:facet>
+                                <h:outputText value="#{studentVO.studentid}" escape="false" style="font-size: 10px; font-style: normal;" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Schedule Name</f:facet>
-                                #{studentsubjectschedule.subjectscheduleid.schedulename}
+                                <f:facet name="header">Student Name</f:facet>
+                                <h:outputText value="#{studentVO.firstName} #{studentVO.lastName}" escape="false" style="font-size: 10px; font-style: normal;" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Schedule Days</f:facet>
-                                #{studentsubjectschedule.subjectscheduleid.scheduledays}
+                                <f:facet name="header">Monday</f:facet>
+                                <h:outputText value="#{studentVO.mondaySchedule}" escape="false" style="font-size: 10px; font-style: normal;" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Timings</f:facet>
-                                #{studentsubjectschedule.subjectscheduleid.period.starttime} - #{studentsubjectschedule.subjectscheduleid.period.endtime}
+                                <f:facet name="header">Tuesday</f:facet>
+                                <h:outputText value="#{studentVO.tuesdaySchedule}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Wednesday</f:facet>
+                                <h:outputText value="#{studentVO.wednesdaySchedule}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Thursday</f:facet>
+                                <h:outputText value="#{studentVO.thursdaySchedule}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Friday</f:facet>
+                                <h:outputText value="#{studentVO.fridaySchedule}" escape="false" style="font-size: 10px; font-style: normal;" />
                             </h:column>
                         </h:dataTable>
                     </div>

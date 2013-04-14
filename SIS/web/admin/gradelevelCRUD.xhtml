@@ -38,10 +38,13 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Grade level Maintenance</h2>
+                <h:form>
+                    <h4 align="center">Grade Level Maintenance</h4>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty gradelevelCRUDController.gradelevels}" value="#{gradelevelCRUDController.gradelevels}" var="gradelevel" border="1" width="50%">
+                        <h:dataTable rendered="#{not empty gradelevelCRUDController.gradelevels}" 
+                                     value="#{gradelevelCRUDController.gradelevels}" 
+                                     var="gradelevel" border="1" width="50%"
+                                     rowClasses="graybg,whitebg">
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Gradelevel" />
@@ -81,7 +84,7 @@
                             <p>There are no grade levels available. Please add new items.</p>
                         </h:panelGroup>
                         <br></br>
-                        <h:commandButton value="Add Gradelevel" 
+                        <h:commandButton value="Add Grade Level" 
                                          action="#{gradelevelCRUDController.addGradelevel}"
                                          class="btn btn-medium btn-primary" 
                                          style="margin-top: -10px;">

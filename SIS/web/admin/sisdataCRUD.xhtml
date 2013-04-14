@@ -37,18 +37,20 @@
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block" class="center-align">
                 <h:form>
-                    <div align="center">
-                        <h3>SIS Data Maintenance</h3>
-                        <h:panelGrid columns="2" border="1">
-                            <a href="/SIS/faces/admin/gradelevelCRUD.xhtml">Grade Level</a>
-                            <h:outputText value="This maintenance screen is used to maintain grade levels."/>
-                            <a href="/SIS/faces/admin/periodCRUD.xhtml">Period</a>
-                            <h:outputText value="This maintenance screen is used to maintain periods."/>
-                            <a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">School year schedule</a>                     
+                    <div align="center" width="100%">
+                        <h4>SIS Data Maintenance</h4>
+                        <h:panelGrid columns="2" border="1" width="85%" rowClasses="graybg,whitebg">
+                            <a href="/SIS/faces/admin/settingsCRUD.xhtml">SIS Content Maintenance</a>                     
+                            <h:outputText value="This maintenance screen is used to maintain the contents of prospective students page."/>
+                            <a href="/SIS/faces/admin/schoolyearscheduleCRUD.xhtml">School Year Maintenance</a>                     
                             <h:outputText value="This maintenance screen is used to maintain school year schedule."/>
-                            <a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject</a>                     
+                            <a href="/SIS/faces/admin/gradelevelCRUD.xhtml">Grade Level Maintenance</a>
+                            <h:outputText value="This maintenance screen is used to maintain grade levels."/>
+                            <a href="/SIS/faces/admin/subjectCRUD.xhtml">Subject Maintenance</a>                     
                             <h:outputText value="This maintenance screen is used to maintain subjects."/>
-                            <a href="/SIS/faces/admin/teacherScheduleCRUD.xhtml">Teacher schedules</a>                     
+                            <a href="/SIS/faces/admin/periodCRUD.xhtml">Period Maintenance</a>
+                            <h:outputText value="This maintenance screen is used to maintain periods."/>
+                            <a href="/SIS/faces/admin/teacherScheduleCRUD.xhtml">Teacher/Subject Schedules Maintenance</a>                     
                             <h:outputText value="This maintenance screen is used to maintain teachers and their period, subject assignments."/>
                         </h:panelGrid>
                     </div>

@@ -30,6 +30,11 @@
                 margin-bottom: 15px;
                 padding: 2px 9px;
             }
+            .sdays {
+            width: 200px;
+          }
+          
+          
         </style>
     </h:head>
 
@@ -38,17 +43,17 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Teacher Schedule</h2>
-                    <div align="center" width="90%">
+                <h:form>
+                    <h4 align="center">Create Teacher/Subject Schedule</h4>
+                    <div align="center" width="100%">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign" width="80%"> 
-                            <h:outputText value="Schedule Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Schedule Name:" escape="false"></h:outputText>
                             <h:inputText label="Schedule Name" value="#{teacherSchedule.schedulename}" 
                                          required="true" size="60">
                                 <f:validateLength minimum="3" maximum="255"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="School Year:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{teacherScheduleCRUDController.schoolYear}">
                                 <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" 
                                                var="sy"
@@ -56,31 +61,31 @@
                                                itemValue="#{sy.schoolyear}">
                                 </f:selectItems>
                             </h:selectOneMenu>
-                            <h:outputText value="Period:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Period:" escape="false"></h:outputText>
                             <h:selectOneMenu id="period" value="#{teacherScheduleCRUDController.periodId}">
                                 <f:selectItems value="#{periodCRUDController.periods}" var="p"
                                                itemLabel="#{p.description} (#{p.starttime} - #{p.endtime})" 
                                                itemValue="#{p.periodid}" />
                             </h:selectOneMenu>
-                            <h:outputText value="Subject:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Subject:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{teacherScheduleCRUDController.subjectId}">
                                 <f:selectItems value="#{subjectCRUDController.subjects}" var="s"
                                                itemLabel="#{s.description}" 
                                                itemValue="#{s.subjectid}" />
                             </h:selectOneMenu>
-                            <h:outputText value="Primary Teacher:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Primary Teacher:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{teacherScheduleCRUDController.primaryTeacherId}">
                                 <f:selectItems value="#{teacherCRUDController.teachers}" var="pt"
                                                itemLabel="#{pt.profile.firstname} - #{pt.profile.lastname}" 
                                                itemValue="#{pt.teacherid}" />
                             </h:selectOneMenu>
-                            <h:outputText value="Secondary Teacher:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Secondary Teacher:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{teacherScheduleCRUDController.secondaryTeacherId}">
                                 <f:selectItems value="#{teacherCRUDController.teachers}" var="st"
                                                itemLabel="#{st.profile.firstname} - #{st.profile.lastname}" 
                                                itemValue="#{st.teacherid}" />
                             </h:selectOneMenu>
-                            <h:outputText value="Schedule Days:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Schedule Days:" escape="false"></h:outputText>
                             <h:selectManyCheckbox label="Schedule Days" 
                                                   value="#{teacherScheduleCRUDController.scheduleDaysStringArray}" 
                                                   required="true">

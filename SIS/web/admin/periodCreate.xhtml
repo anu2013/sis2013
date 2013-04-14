@@ -37,37 +37,37 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Period</h2>
+                <h:form>
+                    <h4 align="center">Create Period</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="2" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="Description:"></h:outputText>
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:" escape="false"></h:outputText>
                             <h:inputText label="Description" value="#{period.description}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Period Code:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Period Code:" escape="false"></h:outputText>
                             <h:inputText label="Period Code" value="#{period.periodcode}" required="true">
                                 <f:validateLength minimum="1" maximum="255"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Sort Order:"></h:outputText>
-                            <h:inputText label="Sort Order" value="#{period.sortorder}" required="true" >
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Sort Order:" escape="false"></h:outputText>
+                            <h:inputText label="Sort Order" value="#{period.sortorder}" required="true" converter="javax.faces.Integer">
                             </h:inputText>
-                            <h:outputText value="Start Time:"></h:outputText>
-                            <h:inputText label="Start Time" value="#{period.starttime}" required="true">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="End Time:"></h:outputText>
-                            <h:inputText label="End Time" value="#{period.endtime}" required="true">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
-                            </h:inputText>
-                            <h:outputText value="School Year:"></h:outputText>
-
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Start Time:" escape="false"></h:outputText>
+                            <h:selectOneMenu value="#{period.starttime}" required="true">
+                                <f:selectItems value="#{sISLookupController.timings}" var="t"
+                                               itemLabel="#{t}" itemValue="#{t}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;End Time:" escape="false"></h:outputText>
+                            <h:selectOneMenu value="#{period.endtime}" required="true">
+                                <f:selectItems value="#{sISLookupController.timings}" var="t"
+                                               itemLabel="#{t}" itemValue="#{t}" />
+                            </h:selectOneMenu>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{schoolyearschedule.schoolyear}">
                                 <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
                                                itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
                             </h:selectOneMenu>
-
                         </h:panelGrid>
                         <br/>
                         <h:commandButton action="#{periodCRUDController.createPeriod}" 

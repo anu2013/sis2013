@@ -38,10 +38,13 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Period Maintenance</h2>
+                <h:form>
+                    <h4 align="center">Period Maintenance</h4>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty periodCRUDController.periods}" value="#{periodCRUDController.periods}" var="period" border="1" width="100%">
+                        <h:dataTable rendered="#{not empty periodCRUDController.periods}" 
+                                     value="#{periodCRUDController.periods}" var="period" 
+                                     border="1" width="95%"
+                                     rowClasses="graybg,whitebg">
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Description" />

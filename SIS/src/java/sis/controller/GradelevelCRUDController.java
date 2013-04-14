@@ -5,11 +5,13 @@
 package sis.controller;
 
 import sis.model.Gradelevel;
-import java.util.List; 
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -47,7 +49,20 @@ public class GradelevelCRUDController {
         }
     }
 
+    private int retrieveGradelevelCountBySortOrder(Integer argSortOrder) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        String queryString = "select s from Gradelevel s where s.sortorder=:sortorder";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("sortorder", argSortOrder);
+        return query.getResultList().size();
+    }
+
     public String createGradelevel() {
+        int count = retrieveGradelevelCountBySortOrder(getGradelevel().getSortorder());
+        if (count != 0){
+           setInfoMessage("Gradelevel already exists with an entered sort order. Please select different sort order");
+           return null;
+        }
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             userTransaction.begin();
@@ -66,13 +81,14 @@ public class GradelevelCRUDController {
     }
 
     public String updateGradelevel() {
+        
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Gradelevel s = em.find(Gradelevel.class, this.gradelevel.getGradelevelid());
             s.setGradelevel(this.gradelevel.getGradelevel());
             s.setDescription(this.gradelevel.getDescription());
-            s.setSortorder(this.gradelevel.getSortorder());
+            //s.setSortorder(this.gradelevel.getSortorder());
             em.persist(s);
             userTransaction.commit();
             retrieveGradelevels();
@@ -129,5 +145,8 @@ public class GradelevelCRUDController {
      */
     public void setGradelevel(Gradelevel gradelevel) {
         this.gradelevel = gradelevel;
+    }
+    protected void setInfoMessage(String summary) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
     }
 }

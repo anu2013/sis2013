@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
     <h:head>
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
@@ -37,16 +39,16 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Create Teacher</h2>
+                <h:form>
+                    <h4 align="center">Create Teacher</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid align="center" columns="4" columnClasses="rightAlign,leftAlign"> 
-                            <h:outputText value="First Name:"></h:outputText>
+                        <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;First Name:" escape="false"></h:outputText>
                             <h:inputText label="First Name" value="#{userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Last Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Last Name:" escape="false"></h:outputText>
                             <h:inputText label="Last Name" value="#{userprofile.lastname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
@@ -54,10 +56,17 @@
                             <h:inputText label="Middle Name" value="#{userprofile.middlename}" size="60">
                                 <f:validateLength maximum="10"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Date of Birth(MM-dd-yyyy):"></h:outputText>
-                            <h:inputText label="Date of Birth" value="#{userprofile.dateofbirth}" size="60">
-                                <f:convertDateTime pattern="MM-dd-yyyy" />
-                            </h:inputText>
+                            <h:outputText value="Date of Birth:"></h:outputText>
+                            <a4j:outputPanel id="calendar_start" layout="block">
+                                <rich:calendar value="#{userprofile.dateofbirth}" 
+                                               locale="US"
+                                               popup="true"
+                                               datePattern="MMM d, yyyy"
+                                               showApplyButton="false" 
+                                               cellWidth="24px" 
+                                               cellHeight="22px" 
+                                               style="width:150px"/>
+                            </a4j:outputPanel>
                             <h:outputText value="Gender:"></h:outputText>
                             <h:selectOneMenu value="#{userprofile.gender}">
                                 <f:selectItem itemValue="Male" itemLabel="Male" />
@@ -106,10 +115,12 @@
                             <h:outputText value="Email 1:"></h:outputText>
                             <h:inputText label="Email 1" value="#{userprofile.email1}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Email 2:"></h:outputText>
                             <h:inputText label="Email 2" value="#{userprofile.email2}" size="60">
                                 <f:validateLength  maximum="50"></f:validateLength>
+                                <f:validator validatorId="emailValidator" />
                             </h:inputText>
                             <h:outputText value="Home Phone:"></h:outputText>
                             <h:inputText label="Home Phone" value="#{userprofile.homephone}" size="60">
@@ -135,7 +146,8 @@
                             <h:inputText label="YearsOfExperience" value="#{teacher.yearsofexperience}">
                                 <f:validateLength maximum="2"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Previous School Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Previous School Name:" 
+                                          escape="false"></h:outputText>
                             <h:inputText label="Previous School Name" value="#{previousworkhistory.previousschoolname}" required="true" size="60">
                                 <f:validateLength minimum="5" maximum="50"></f:validateLength>
                             </h:inputText>

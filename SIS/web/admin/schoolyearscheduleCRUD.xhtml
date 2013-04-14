@@ -38,10 +38,15 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">School Year Schedule Maintenance</h2>
+                <h:form >
+                    <h4 align="center">School Year Maintenance</h4>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty schoolyearscheduleCRUDController.schoolyearschedules}" value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="schoolyearschedule" border="1" width="75%">
+                        <h:dataTable rendered="#{not empty schoolyearscheduleCRUDController.allSchoolyearschedules}" 
+                                     value="#{schoolyearscheduleCRUDController.allSchoolyearschedules}" 
+                                     var="schoolyearschedule" 
+                                     border="1" width="75%"
+                                     columnClasses="center-align"
+                                     rowClasses="graybg,whitebg">
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="School Year" />
@@ -66,6 +71,12 @@
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
+                                    <h:outputText value="Active" />
+                                </f:facet>        
+                                <h:outputText value="${schoolyearschedule.activeStatus}"/>    
+                            </h:column>
+                            <h:column class="center-align">        
+                                <f:facet name="header">            
                                     <h:outputText value="Edit"/>
                                 </f:facet>
                                 <h:commandLink action="#{schoolyearscheduleCRUDController.editSchoolyearschedule(schoolyearschedule)}">
@@ -82,11 +93,11 @@
                             </h:column>        
                         </h:dataTable>
 
-                        <h:panelGroup rendered="#{empty schoolyearscheduleCRUDController.schoolyearschedules}">
-                            <p>There are no school year schedules available. Please add new items.</p>
+                        <h:panelGroup rendered="#{empty schoolyearscheduleCRUDController.allSchoolyearschedules}">
+                            <p>There are no school years available. Please add new items.</p>
                         </h:panelGroup>
                         <br/>
-                        <h:commandButton value="Add Schoolyearschedule" 
+                        <h:commandButton value="Add School Year" 
                                          action="#{schoolyearscheduleCRUDController.addSchoolyearschedule}"
                                          class="btn btn-medium btn-primary">
                         </h:commandButton>

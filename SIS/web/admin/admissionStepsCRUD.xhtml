@@ -38,11 +38,14 @@
         <div id="content">
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block">
-                <h:form class="form-container">
-                    <h2 class="form-container-heading" align="center">Admission Process Steps</h2>
+                <h:form>
+                    <h4 align="center">Admission Process Steps</h4>
                     <h:messages style="color:red;font-weight:bold;"></h:messages>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty admissionCRUDController.admissionsteps}" value="#{admissionCRUDController.admissionsteps}" var="admissionstep" border="1" width="100%">
+                        <h:dataTable rendered="#{not empty admissionCRUDController.admissionsteps}" 
+                                     value="#{admissionCRUDController.admissionsteps}" 
+                                     var="admissionstep" border="1" width="95%"
+                                     rowClasses="graybg,whitebg">
                             <h:column>
                                 <f:facet name="header">            
                                     <h:outputText value="Name" />
@@ -61,7 +64,9 @@
                                 <f:facet name="header">            
                                     <h:outputText value="Comments History"/>
                                 </f:facet>
-                                <h:dataTable rendered="#{not empty admissionstep.admissionstepcommentList}" value="#{admissionstep.admissionstepcommentList}" var="admissionstepcomment" border="0" width="100%">
+                                <h:dataTable rendered="#{not empty admissionstep.admissionstepcommentList}" 
+                                             value="#{admissionstep.admissionstepcommentList}" 
+                                             var="admissionstepcomment" border="0" width="100%">
                                     <h:column>
                                         <h:outputText value="["/>
                                         <h:outputText value="${admissionstepcomment.entereddate}">
@@ -70,14 +75,13 @@
                                         <h:outputText value="]:${admissionstepcomment.comments}"/>
                                     </h:column>
                                 </h:dataTable>
-                                
                             </h:column>    
                         </h:dataTable>
                         <br/>
-                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign" width="75%"> 
-                            <h:outputText value="Comments:"></h:outputText>
-                            <h:inputTextarea label="Comments" value="#{admissionCRUDController.comments}" required="true" rows="5" cols="200">
-                                <f:validateLength minimum="3" maximum="255"></f:validateLength>
+                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign" rendered="#{!admissionCRUDController.isDisabled('comment',admissionCRUDController.admission)}"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Comments:" escape="false"></h:outputText>
+                            <h:inputTextarea label="Comments" value="#{admissionCRUDController.comments}" rows="5" cols="200" style="width: 200px;">
+                                <f:validateLength maximum="255"></f:validateLength>
                             </h:inputTextarea>
                         </h:panelGrid>
                         <br/>
@@ -87,20 +91,19 @@
                         <h:commandButton disabled="#{admissionCRUDController.isDisabled('comment',admissionCRUDController.admission)}" 
                                          value="Update Comments" 
                                          action="#{admissionCRUDController.updateComments(admissionCRUDController.admission)}"
-                                         class="btn btn-medium btn-primary"/>
+                                         class="btn btn-medium btn-primary"/> &nbsp;
                         <h:commandButton disabled="#{admissionCRUDController.isDisabled('interview',admissionCRUDController.admission)}" 
                                          value="Interview request" 
                                          action="#{admissionCRUDController.requestForInterview(admissionCRUDController.admission)}"
-                                         class="btn btn-medium btn-primary"/>
+                                         class="btn btn-medium btn-primary"/> &nbsp;
                         <h:commandButton disabled="#{admissionCRUDController.isDisabled('approve',admissionCRUDController.admission)}" 
                                          value="Approve" 
                                          action="#{admissionCRUDController.approve(admissionCRUDController.admission)}"
-                                         class="btn btn-medium btn-primary"/>
+                                         class="btn btn-medium btn-primary"/> &nbsp;
                         <h:commandButton disabled="#{admissionCRUDController.isDisabled('reject',admissionCRUDController.admission)}" 
                                          value="Reject" 
                                          action="#{admissionCRUDController.reject(admissionCRUDController.admission)}"
-                                         class="btn btn-medium btn-primary"/>
-                        
+                                         class="btn btn-medium btn-primary"/> 
                     </div>
                 </h:form>
             </h:panelGroup>

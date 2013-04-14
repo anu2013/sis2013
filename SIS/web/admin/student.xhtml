@@ -39,16 +39,17 @@
             <ui:include src="adminMenu.xhtml" />
             <h:panelGroup id="container" layout="block" class="center-align">
                 <h:form>
-
                     <div align="center">
-                        <h3>Student Management</h3>
-                        <h:panelGrid columns="2" border="1">
+                        <h4>Student Management</h4>
+                        <h:panelGrid columns="2" border="1" rowClasses="graybg,whitebg">
                             <a href="/SIS/faces/admin/studentCRUD.xhtml">Student Maintenance</a>
                             <h:outputText value="This pages is used to update the student records."/>
                             <a href="/SIS/faces/admin/studentEnrollment.xhtml">Student Grade Level Enrollment</a>
                             <h:outputText value="This page is used to enroll the students to a grade level for the selected school year."/>
                             <a href="/SIS/faces/admin/studentSubjectEnrollment.xhtml">Student Subject Enrollment</a>                     
                             <h:outputText value="This page is used to enroll the students to the list of subjects for the selected school year."/>
+                            <a href="/SIS/faces/admin/studentSchoolYearResultsProcess.xhtml">Process Student School year Results</a>                     
+                            <h:outputText value="This page is used to process the students results based on their final score for that school year."/>
                         </h:panelGrid>
                     </div>
 

@@ -7,17 +7,17 @@
     <h:panelGroup id="header" layout="block">
         <table width="100%">
             <tr>
-                <th align="left">
+                <th rowspan="2" align="left">
                     <div id="logo"></div>
-                </th>
-                <th align="left">
-                    <div id="app-title">Student Information System</div>
                 </th>
                 <th align="right" valign="top">
                     <h:form>
+                        <div class="navigation" style="display:inline-block; text-decoration: none;">
+                            #{userController.profile.firstname}  #{userController.profile.lastname}
+                        </div>
                         <a href="/SIS/faces/admin/index.xhtml" class="navigation">Home</a>
                         <h:commandLink action="#{userProfileController.editProfile}" class="navigation">
-                            <h:outputText value="Update Profile"/>
+                            <h:outputText value="Change Profile"/>
                         </h:commandLink>
                         <h:commandLink action="#{userProfileController.editPassword}" class="navigation">
                             <h:outputText value="Change Password"/>
@@ -26,6 +26,11 @@
                             <h:outputText value="Logout"/>
                         </h:commandLink>
                     </h:form>
+                </th>
+            </tr>
+            <tr>
+                <th align="left">
+                    <div id="app-title">Student Information System</div>
                 </th>
             </tr>
         </table>
