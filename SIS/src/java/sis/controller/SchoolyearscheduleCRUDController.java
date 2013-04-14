@@ -32,6 +32,7 @@ public class SchoolyearscheduleCRUDController {
     private UserTransaction userTransaction;
     private List<Schoolyearschedule> schoolyearschedules;
     private List<Schoolyearschedule> allSchoolyearschedules;
+    private List<Schoolyearschedule> activeSchoolyearschedules;
     @ManagedProperty(value = "#{schoolyearschedule}")
     private Schoolyearschedule schoolyearschedule;
 
@@ -39,6 +40,7 @@ public class SchoolyearscheduleCRUDController {
     public void init() {
         retrieveAllSchoolyearschedules();
         retrieveSchoolyearschedules();
+        retrieveActiveSchoolyearschedules();
     }
 
     private void retrieveAllSchoolyearschedules() {
@@ -61,10 +63,25 @@ public class SchoolyearscheduleCRUDController {
             String queryString = "select sys from Schoolyearschedule sys "
                     + "where sys.schoolyear >= (select s.schoolyear from Schoolyearschedule s where "
                     + "s.active = :active) "
-                    + "order by sys.schoolyear desc";
+                    + "order by sys.schoolyear asc";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("active", new Short("1"));
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void retrieveActiveSchoolyearschedules() {
+        try {
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(cal.YEAR);
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select sys from Schoolyearschedule sys "
+                    + "where sys.active = :active";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("active", new Short("1"));
+            this.setActiveSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,4 +228,20 @@ public class SchoolyearscheduleCRUDController {
     protected void setInfoMessage(String summary) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
     }
+
+    /**
+     * @return the activeSchoolyearschedules
+     */
+    public List<Schoolyearschedule> getActiveSchoolyearschedules() {
+        return activeSchoolyearschedules;
+    }
+
+    /**
+     * @param activeSchoolyearschedules the activeSchoolyearschedules to set
+     */
+    public void setActiveSchoolyearschedules(List<Schoolyearschedule> activeSchoolyearschedules) {
+        this.activeSchoolyearschedules = activeSchoolyearschedules;
+    }
+    
+    
 }

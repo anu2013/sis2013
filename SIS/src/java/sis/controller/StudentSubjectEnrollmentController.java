@@ -70,9 +70,12 @@ public class StudentSubjectEnrollmentController implements Serializable {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(cal.YEAR);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select sys from Schoolyearschedule sys where sys.schoolyear >= :schoolyear";
+            String queryString = "select sys from Schoolyearschedule sys "
+                    + "where sys.schoolyear >= (select s.schoolyear from Schoolyearschedule s where "
+                    + "s.active = :active) "
+                    + "order by sys.schoolyear asc";
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("schoolyear", year);
+            query.setParameter("active", new Short("1"));
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,7 +160,7 @@ public class StudentSubjectEnrollmentController implements Serializable {
                     if (scheduleDays.indexOf("W") != -1) {
                         wednesdaySchedule = wednesdaySchedule + scheduleName + "<br/>";
                     }
-                    if (scheduleDays.indexOf("TR") != -1) {
+                    if (scheduleDays.indexOf("TH") != -1) {
                         thursdaySchedule = thursdaySchedule + scheduleName + "<br/>";
                     }
                     if (scheduleDays.indexOf("F") != -1) {

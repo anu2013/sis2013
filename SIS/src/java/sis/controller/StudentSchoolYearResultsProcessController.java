@@ -48,9 +48,12 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(cal.YEAR);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select sys from Schoolyearschedule sys where sys.schoolyear >= :schoolyear";
+            String queryString = "select sys from Schoolyearschedule sys "
+                    + "where sys.schoolyear >= (select s.schoolyear from Schoolyearschedule s where "
+                    + "s.active = :active) "
+                    + "order by sys.schoolyear asc";
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("schoolyear", year);
+            query.setParameter("active", new Short("1"));
             this.setSchoolyearschedules((List<Schoolyearschedule>) query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,17 +106,21 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
                     }
                 }
                 if (totalSubjectsEnrolledCount != 0) {
+                    String resultStatus = "";
                     if (passedSubjectCount == totalSubjectsEnrolledCount) {
-                        entityManager = entityManagerFactory.createEntityManager();
-                        userTransaction.begin();
-                        updateQueryString = "update Studentgradelevel stgl set stgl.status=:status where "
-                                + "stgl.studentgradelevelid=:studentgradelevelid";
-                        updateQuery = entityManager.createQuery(updateQueryString);
-                        updateQuery.setParameter("status", "PASS");
-                        updateQuery.setParameter("studentgradelevelid", studentGradeLevel.getStudentgradelevelid());
-                        updateQuery.executeUpdate();
-                        userTransaction.commit();
+                        resultStatus = "PASS";
+                    } else {
+                        resultStatus = "FAIL";
                     }
+                    entityManager = entityManagerFactory.createEntityManager();
+                    userTransaction.begin();
+                    updateQueryString = "update Studentgradelevel stgl set stgl.status=:status where "
+                            + "stgl.studentgradelevelid=:studentgradelevelid";
+                    updateQuery = entityManager.createQuery(updateQueryString);
+                    updateQuery.setParameter("status", resultStatus);
+                    updateQuery.setParameter("studentgradelevelid", studentGradeLevel.getStudentgradelevelid());
+                    updateQuery.executeUpdate();
+                    userTransaction.commit();
                 }
             }
         } catch (Exception e) {
