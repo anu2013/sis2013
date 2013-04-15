@@ -41,7 +41,7 @@
                     <h4 align="center">Update Teacher/Subject Schedule</h4>
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
-                        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+                        <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign">
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Schedule Name:" escape="false"></h:outputText>
                             <h:inputText label="Schedule Name" value="#{teacherScheduleCRUDController.teacherSchedule.schedulename}" 
                                          required="true" size="60">
@@ -54,10 +54,11 @@
                                                itemValue="#{sy.schoolyear}" />
                             </h:selectOneMenu>
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Period:" escape="false"></h:outputText>
-                            <h:selectOneMenu value="#{teacherScheduleCRUDController.periodId}">
-                                <f:selectItems value="#{periodCRUDController.periods}" var="p"
-                                               itemLabel="#{p.description}" 
-                                               itemValue="#{p.periodid}" />
+                            <h:selectOneMenu id="period" value="#{teacherScheduleCRUDController.periodId}">
+                                <f:selectItem itemLabel="Select Period" itemValue="0"/>
+                                <f:selectItems value="#{teacherScheduleCRUDController.periods}" var="period"
+                                               itemLabel="#{period.schoolyear.schoolyear} - #{period.description} - (#{period.starttime} - #{period.endtime})" 
+                                               itemValue="#{period.periodid}" />
                             </h:selectOneMenu>
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Subject:" escape="false"></h:outputText>
                             <h:selectOneMenu value="#{teacherScheduleCRUDController.subjectId}">
@@ -77,11 +78,17 @@
                                                itemLabel="#{st.profile.firstname} - #{st.profile.lastname}" 
                                                itemValue="#{st.teacherid}" />
                             </h:selectOneMenu>
-                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Schedule Days:" escape="false"></h:outputText>
+                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Schedule Days:" escape="false"></h:outputText>
+                            <h:selectManyCheckbox label="Schedule Days" 
+                                                  value="#{teacherScheduleCRUDController.scheduleDaysStringArray}" 
+                                                  required="true">
+                                <f:selectItems value="#{teacherScheduleCRUDController.scheduleDaysMap}" />
+                            </h:selectManyCheckbox>
+<!--                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Schedule Days:" escape="false"></h:outputText>
                             <h:inputText label="Schedule Days" value="#{teacherScheduleCRUDController.teacherSchedule.scheduledays}" 
                                          required="true" size="60">
                                 <f:validateLength minimum="1" maximum="4"></f:validateLength>
-                            </h:inputText>
+                            </h:inputText>-->
                         </h:panelGrid>
                         <h:inputHidden value="#{teacherScheduleCRUDController.teacherSchedule.subjectscheduleid}"></h:inputHidden>
                         <br/>
