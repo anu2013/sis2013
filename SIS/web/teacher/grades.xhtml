@@ -40,7 +40,6 @@
                             <h:commandButton action="#{teacherGradesController.goButton}" value="Go" class="btn btn-medium btn-primary" style="margin-top:-8px;"></h:commandButton>
                         </h:panelGrid>
                         
-                        <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
                                         
                     <h:dataTable value="#{teacherGradesController.studentSchedules}" var="schedule" cellpadding="7" border="1" width="850" rowClasses="graybg,whitebg"
@@ -100,6 +99,8 @@
                                          rendered="#{teacherGradesController.studentSchedules != null}"/>
 
                 </h:panelGrid>
+                   
+                   <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                </h:form>
             </h:panelGroup>
         </div>
