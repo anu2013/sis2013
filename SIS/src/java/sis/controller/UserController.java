@@ -50,7 +50,7 @@ public class UserController implements Serializable {
                 userName = null;
                 password = null;
             } else {
-                queryString = "select sys from Schoolyearschedule sys where sys.schoolyear in (select max(sy.schoolyear) from Schoolyearschedule sy)";
+                queryString = "select sys from Schoolyearschedule sys where sys.active = 1";
                 query = entityManager.createQuery(queryString);
                 query.setMaxResults(1);
                 try{
