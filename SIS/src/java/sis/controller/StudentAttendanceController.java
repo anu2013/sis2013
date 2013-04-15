@@ -58,10 +58,10 @@ public class StudentAttendanceController implements Serializable {
             toDate = new Date();
         if(null == fromDate){
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, -1);
+            calendar.add(Calendar.MONTH, -6);
             fromDate = calendar.getTime();
+            populateAttendance();
         }
-        populateAttendance();
     }
 
     private void populateAttendance(){
