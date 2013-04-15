@@ -59,6 +59,8 @@
                                 <h:commandButton value="Take Attendance" action="#{teacherSchedulesController.takeAttendance(schedule)}" class="btn btn-medium btn-primary" />
                             </h:column>
                         </h:dataTable>
+                        
+                        <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </h:form>
 
                 </h:panelGrid>
