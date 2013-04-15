@@ -42,7 +42,7 @@
                         <div align="center">
                             <h4>Student Enrollment</h4>
                             <h:panelGrid columns="9">
-                                <h:outputText value="School Year:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"/>
                                 <h:selectOneMenu style="width:175px;"
                                                  value="#{studentEnrollmentController.selectedSchoolYear}"
                                                  converter="javax.faces.Integer"
@@ -51,7 +51,7 @@
                                     <f:selectItems value="#{studentEnrollmentController.schoolyearschedules}" var="schoolyearschedule" itemLabel="#{schoolyearschedule.schoolyear}" itemValue="#{schoolyearschedule.schoolyear}"/>
                                 </h:selectOneMenu>
                                 <h:outputText value="" />
-                                <h:outputText value="Grade Level:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Grade Level:" escape="false"/>
                                 <h:selectOneMenu style="width:150px;"
                                                  value="#{studentEnrollmentController.selectedGradeLevelId}"
                                                  converter="javax.faces.Integer"

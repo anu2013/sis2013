@@ -43,7 +43,7 @@
                     <div align="center">
                         <h4>Process Student Final results</h4>
                         <h:panelGrid columns="9">
-                            <h:outputText value="School Year:"/>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"/>
                             <h:selectOneMenu style="width:175px;"
                                              value="#{studentSchoolYearResultsProcessController.selectedSchoolYear}"
                                              converter="javax.faces.Integer">
@@ -51,7 +51,7 @@
                                 <f:selectItems value="#{studentSchoolYearResultsProcessController.schoolyearschedules}" var="schoolyearschedule" itemLabel="#{schoolyearschedule.schoolyear}" itemValue="#{schoolyearschedule.schoolyear}"/>
                             </h:selectOneMenu>
                             <h:outputText value="" />
-                            <h:outputText value="Pass Score:"/>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Pass Score:" escape="false"/>
                             <h:inputText style="width: 40px" label="Pass Score" value="#{studentSchoolYearResultsProcessController.selectedPassScore}" converter="javax.faces.Integer" required="true"/>
                             <h:outputText value="" />
                             <h:commandButton action="#{studentSchoolYearResultsProcessController.processStudentSchoolYearResults}" 
@@ -59,12 +59,43 @@
                                              class="btn btn-medium btn-primary" 
                                              style="margin-top: -10px;">
                             </h:commandButton>
+                            <h:outputText value="" />
+                            <h:commandButton action="#{studentSchoolYearResultsProcessController.retrieveStudentResults}" 
+                                             value="View Results" 
+                                             class="btn btn-medium btn-primary" 
+                                             style="margin-top: -10px;">
+                            </h:commandButton>
                         </h:panelGrid>
                         <h:messages errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                     </div>
+                    <div align="center">
+                        <h:dataTable value="#{studentSchoolYearResultsProcessController.studentgradelevels}" 
+                                     var="studentgradelevel" 
+                                     border="1" 
+                                     width="80%"
+                                     columnClasses="center-align,center-align,center-align,center-align,center-align"
+                                     rendered="#{studentSchoolYearResultsProcessController.studentgradelevels!=null}"
+                                     rowClasses="graybg,whitebg">
+                            <h:column>
+                                <f:facet name="header">Grade Level</f:facet>
+                                <h:outputText value="#{studentgradelevel.gradelevel.gradelevel}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Student Id</f:facet>
+                                <h:outputText value="#{studentgradelevel.student.studentid}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Student Name</f:facet>
+                                <h:outputText value="#{studentgradelevel.student.profile.firstname} #{studentgradelevel.student.profile.lastname}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                <h:outputText value="#{studentgradelevel.status}" escape="false" style="font-size: 10px; font-style: normal;" />
+                            </h:column>
+                        </h:dataTable>
+                    </div>
                 </h:form>
             </h:panelGroup>
-
         </div>
     </h:body>
 </html>

@@ -221,7 +221,7 @@ public class StudentEnrollmentController implements Serializable {
                     + "stgl.gradelevel.gradelevelid = :gradelevelid)";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("status", "FAIL");
-            query.setParameter("schoolyear", this.selectedSchoolYear);
+            query.setParameter("schoolyear", this.selectedSchoolYear - 1);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
             sts = (List<Student>) query.getResultList();
         } catch (Exception e) {
@@ -280,10 +280,12 @@ public class StudentEnrollmentController implements Serializable {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select stgl from Studentgradelevel stgl where "
                     + "stgl.schoolyear.schoolyear = :schoolyear and "
-                    + "stgl.gradelevel.gradelevelid = :gradelevelid";
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid and "
+                    + "stgl.gradelevel.status = :status";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", this.selectedSchoolYear);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
+            query.setParameter("status", null);
             stgrdlvls = (List<Studentgradelevel>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

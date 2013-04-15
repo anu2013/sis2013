@@ -44,7 +44,7 @@
                     <table>
                         <tr>
                             <td>
-                                <h:outputText value="School Year:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"/>
                             </td>
                             <td>
                                 <h:selectOneMenu id="admissionyear" 
@@ -58,7 +58,7 @@
                                 </h:selectOneMenu>
                             </td>
                             <td>
-                                <h:outputText value="Subject:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Subject:" escape="false"/>
                             </td>
                             <td>
                                 <h:selectManyCheckbox label="Subject" value="#{stateReportController.selectedSubjects}" style="width: 100%" required="true">
@@ -69,13 +69,13 @@
                         </tr>
                         <tr>
                             <td colspan="4">
-                                <h:outputText value="Basic Range: "/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Basic Range: " escape="false"/>
                                 <h:inputText style="width: 30px" label="Basic Level Start:" value="#{stateReportController.basicLevelStartScore}" required="true" converter="javax.faces.Integer"></h:inputText>-
                                 <h:inputText style="width: 30px" label="Basic Level End:" value="#{stateReportController.basicLevelEndScore}" required="true" converter="javax.faces.Integer"></h:inputText>
-                                <h:outputText value=" Proficient Range: "/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt; Proficient Range: " escape="false"/>
                                 <h:inputText style="width: 30px" label="Proficient Level Start:" value="#{stateReportController.proficientLevelStartScore}" required="true" converter="javax.faces.Integer"></h:inputText>-
                                 <h:inputText style="width: 30px" label="Proficient Level End:" value="#{stateReportController.proficientLevelEndScore}" required="true" converter="javax.faces.Integer"></h:inputText>
-                                <h:outputText value=" Advance Range: "/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt; Advance Range: " escape="false"/>
                                 <h:inputText style="width: 30px" label="Advance Level Start:" value="#{stateReportController.advanceLevelStartScore}" required="true" converter="javax.faces.Integer"></h:inputText>-
                                 <h:inputText style="width: 30px" label="Advance Level End:" value="#{stateReportController.advanceLevelEndScore}" required="true" converter="javax.faces.Integer"></h:inputText>
                                 <h:outputText value=" "/>
