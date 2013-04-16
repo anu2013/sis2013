@@ -462,9 +462,11 @@ public class TeacherScheduleCRUDController {
     public List getPeriods() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         //String queryString = "select s from Period s where s.schoolyear.schoolyear=:schoolyear";
-        String queryString = "select s from Period s";
+        String queryString = "select p from Period p where "
+                + "p.schoolyear.schoolyear >= (select s.schoolyear from "
+                + "Schoolyearschedule s where s.active = :active)";
         Query query = entityManager.createQuery(queryString);
-        //query.setParameter("schoolyear", this.schoolYear);
+        query.setParameter("active", new Short("1"));
         return (List<Period>) query.getResultList();
     }
 
