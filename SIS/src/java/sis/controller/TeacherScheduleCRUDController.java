@@ -90,10 +90,10 @@ public class TeacherScheduleCRUDController {
                 teSSVO.setScheduleDays(rst.getString("ScheduleDays"));
                 teSSVO.setPrimaryTeacherId(rst.getInt("primaryTeacherId"));
                 Teacher pT = em.find(Teacher.class, teSSVO.getPrimaryTeacherId());
-                teSSVO.setPrimaryTeacherName(pT.getProfile().getFirstname() + " " + pT.getProfile().getFirstname());
+                teSSVO.setPrimaryTeacherName(pT.getProfile().getFirstname() + " " + pT.getProfile().getLastname());
                 teSSVO.setSecondaryTeacherId(rst.getInt("secondaryTeacherId"));
                 Teacher sT = em.find(Teacher.class, teSSVO.getSecondaryTeacherId());
-                teSSVO.setSecondaryTeacherName(sT.getProfile().getFirstname() + " " + sT.getProfile().getFirstname());
+                teSSVO.setSecondaryTeacherName(sT.getProfile().getFirstname() + " " + sT.getProfile().getLastname());
                 teSSVO.setPeriodId(rst.getInt("periodId"));
                 Period p = em.find(Period.class, teSSVO.getPeriodId());
                 teSSVO.setPeriodName(p.getDescription());
@@ -280,7 +280,7 @@ public class TeacherScheduleCRUDController {
         List<TeacherSchedule> sTSchedules = null;
         EntityManager em = null;
         try {
-            
+
             //Validate the valid school year, period, subject, primary and secondry teachers are selected.
             if (this.schoolYear == 0) {
                 setInfoMessage("Please select school year.");
@@ -318,37 +318,43 @@ public class TeacherScheduleCRUDController {
                 return null;
             }
 
-            //If primary teacher is already assigned to a specific period/days then display a error message.
-            pTSchedules = retrievePrimaryTeacherSchedules(this.primaryTeacherId);
-            boolean primaryMatchFound = false;
-            for (TeacherSchedule ts : pTSchedules) {
-                primaryMatchFound = isMatchFound(ts.getScheduledays().split(","), this.scheduleDaysStringArray);
-                if (primaryMatchFound) {
-                    break;
+
+            em = entityManagerFactory.createEntityManager();
+            TeacherSchedule selectedTeacherSchedule = em.find(TeacherSchedule.class, this.teacherSchedule.getSubjectscheduleid());
+            if (selectedTeacherSchedule.getPrimaryTeacher().getTeacherid() != this.primaryTeacherId) {
+                //If primary teacher is already assigned to a specific period/days then display a error message.
+                pTSchedules = retrievePrimaryTeacherSchedules(this.primaryTeacherId);
+                boolean primaryMatchFound = false;
+                for (TeacherSchedule ts : pTSchedules) {
+                    primaryMatchFound = isMatchFound(ts.getScheduledays().split(","), this.scheduleDaysStringArray);
+                    if (primaryMatchFound) {
+                        break;
+                    }
                 }
-            }
-            if (primaryMatchFound) {
-                setInfoMessage("Primary teacher already assigned to the selected period. "
-                        + "Please select different primary teacher.");
-                return null;
+                if (primaryMatchFound) {
+                    setInfoMessage("Primary teacher already assigned to the selected period. "
+                            + "Please select different primary teacher.");
+                    return null;
+                }
             }
 
             //If secondary teacher is already assigned to a specific period/days then display a error message.
-            sTSchedules = retrieveSecondaryTeacherSchedules(this.secondaryTeacherId);
-            boolean secondaryMatchFound = false;
-            for (TeacherSchedule ts : sTSchedules) {
-                secondaryMatchFound = isMatchFound(ts.getScheduledays().split(","), this.scheduleDaysStringArray);
+            if (selectedTeacherSchedule.getSecondaryTeacher().getTeacherid() != this.secondaryTeacherId) {
+                sTSchedules = retrieveSecondaryTeacherSchedules(this.secondaryTeacherId);
+                boolean secondaryMatchFound = false;
+                for (TeacherSchedule ts : sTSchedules) {
+                    secondaryMatchFound = isMatchFound(ts.getScheduledays().split(","), this.scheduleDaysStringArray);
+                    if (secondaryMatchFound) {
+                        break;
+                    }
+                }
                 if (secondaryMatchFound) {
-                    break;
+                    setInfoMessage("Secondary teacher already assigned to the selected period. "
+                            + "Please select different secondary teacher.");
+                    return null;
                 }
             }
-            if (secondaryMatchFound) {
-                setInfoMessage("Secondary teacher already assigned to the selected period. "
-                        + "Please select different secondary teacher.");
-                return null;
-            }
-            
-            
+
             //Read selected scheduled days
             String scheduleDays = "";
             for (int index = 0; index < this.scheduleDaysStringArray.length; index++) {
@@ -356,7 +362,7 @@ public class TeacherScheduleCRUDController {
             }
             scheduleDays = scheduleDays.substring(0, scheduleDays.length() - 1);
 
-
+            //All validations are complete and updates starting....
             em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             String updateQueryString = "update SISADMIN.SUBJECTSCHEDULE set "

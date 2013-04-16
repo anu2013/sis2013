@@ -44,11 +44,11 @@
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="4" columnClasses="rightAlign,leftAlign">
-                            <h:outputText value="First Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;First Name:" escape="false"></h:outputText>
                             <h:inputText label="First Name" value="#{userProfileController.userprofile.firstname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Last Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Last Name:" escape="false"></h:outputText>
                             <h:inputText label="Last Name" value="#{userProfileController.userprofile.lastname}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="50"></f:validateLength>
                             </h:inputText>
