@@ -107,14 +107,14 @@
                                     <h:outputText value="Edit"/>
                                 </h:commandLink>
                             </h:column>      
-                            <h:column>       
+<!--                            <h:column>       
                                 <f:facet name="header">            
                                     <h:outputText value="Delete"/>
                                 </f:facet>
                                 <h:commandLink action="#{teacherScheduleCRUDController.deleteTeacherSchedule(teacherSubjectScheduleVO)}">
                                     <h:outputText value="Delete"/>
                                 </h:commandLink>
-                            </h:column>       
+                            </h:column>       -->
                         </h:dataTable>
                         <h:panelGroup rendered="#{empty teacherScheduleCRUDController.teacherSubjectScheduleVOs}">
                             <p>There are no teacher subject schedules available. Please add new items.</p>
