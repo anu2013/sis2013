@@ -41,82 +41,82 @@
                 <h:form>
                     <h4 align="center">Teacher/Subject Schedule Maintenance</h4>
                     <div align="center">
-                        <h:dataTable rendered="#{not empty teacherScheduleCRUDController.teacherSchedules}" 
-                                     value="#{teacherScheduleCRUDController.teacherSchedules}" 
-                                     var="teacherSchedule" border="1" width="95%"
+                        <h:dataTable rendered="#{not empty teacherScheduleCRUDController.teacherSubjectScheduleVOs}" 
+                                     value="#{teacherScheduleCRUDController.teacherSubjectScheduleVOs}" 
+                                     var="teacherSubjectScheduleVO" border="1" width="95%"
                                      rowClasses="graybg,whitebg">
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Schedule Name" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.schedulename}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.scheduleName}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="School Year" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.schoolyear.schoolyear}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.schoolYear}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Period" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.period.description}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.periodName}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Start Time" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.period.starttime}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.periodStart}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="End Time" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.period.endtime}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.periodEnd}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Primary Teacher" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.primaryTeacherName}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.primaryTeacherName}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Secondary Teacher" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.secondaryTeacherName}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.secondaryTeacherName}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Subject Name" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.subject.description}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.subjectName}" />    
                             </h:column>
                             <h:column>        
                                 <f:facet name="header">            
                                     <h:outputText value="Schedule Days" />
                                 </f:facet>        
-                                <h:outputText value="${teacherSchedule.scheduledays}" />    
+                                <h:outputText value="${teacherSubjectScheduleVO.scheduleDays}" />    
                             </h:column>
-<!--                            <h:column>        
-                                <f:facet name="header">            
-                                    <h:outputText value="Edit"/>
-                                </f:facet>
-                                <h:commandLink action="#{teacherScheduleCRUDController.editTeacherSchedule(teacherSchedule)}">
-                                    <h:outputText value="Edit"/>
-                                </h:commandLink>
-                            </h:column>       
                             <h:column>        
                                 <f:facet name="header">            
+                                    <h:outputText value="Edit"/>
+                                </f:facet>
+                                <h:commandLink action="#{teacherScheduleCRUDController.editTeacherSchedule(teacherSubjectScheduleVO)}">
+                                    <h:outputText value="Edit"/>
+                                </h:commandLink>
+                            </h:column>      
+                            <h:column>       
+                                <f:facet name="header">            
                                     <h:outputText value="Delete"/>
                                 </f:facet>
-                                <h:commandLink action="#{teacherScheduleCRUDController.deleteTeacherSchedule(teacherSchedule)}">
+                                <h:commandLink action="#{teacherScheduleCRUDController.deleteTeacherSchedule(teacherSubjectScheduleVO)}">
                                     <h:outputText value="Delete"/>
                                 </h:commandLink>
-                            </h:column>        -->
+                            </h:column>       
                         </h:dataTable>
-                        <h:panelGroup rendered="#{empty teacherScheduleCRUDController.teacherSchedules}">
+                        <h:panelGroup rendered="#{empty teacherScheduleCRUDController.teacherSubjectScheduleVOs}">
                             <p>There are no teacher subject schedules available. Please add new items.</p>
                         </h:panelGroup>
                         <br></br>

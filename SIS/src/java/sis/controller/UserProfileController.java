@@ -32,7 +32,7 @@ public class UserProfileController {
     private Userprofile userprofile;
     @ManagedProperty(value = "#{users}")
     private Users changepassworduser;
-    
+
     public String updatePassword() {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
@@ -57,7 +57,7 @@ public class UserProfileController {
             return "error";
         }
     }
-    
+
     public String updateProfile() {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
@@ -120,7 +120,7 @@ public class UserProfileController {
         }
         return returnURL;
     }
-    
+
     public String editPassword() {
         UserController userController = (UserController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userController");
         Users loggedInUser = userController.getUser();
@@ -131,10 +131,8 @@ public class UserProfileController {
         if (loggedInUser.getIsAdmin()) {
             returnURL = "/admin/updateUserPassword";
         } else if (loggedInUser.getIsTeacher()) {
-            System.out.println("Teacher Pass");
             returnURL = "/teacher/updateUserPassword";
         } else if (loggedInUser.getIsStudent()) {
-            System.out.println("Student Pass");
             returnURL = "/student/updateUserPassword";
         }
         return returnURL;
@@ -181,6 +179,4 @@ public class UserProfileController {
     public void setChangepassworduser(Users changepassworduser) {
         this.changepassworduser = changepassworduser;
     }
-    
-    
 }

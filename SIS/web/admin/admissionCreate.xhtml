@@ -169,7 +169,7 @@
                             <h:inputText label="Parent First Name" value="#{parent.parentfirstname}" required="true" size="60">
                                 <f:validateLength  minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
-                            <h:outputText value="Parent Last Name:"></h:outputText>
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Parent Last Name:" escape="false"></h:outputText>
                             <h:inputText label="Parent Last Name" value="#{parent.parentlastname}" required="true" size="60">
                                 <f:validateLength  minimum="3" maximum="100"></f:validateLength>
                             </h:inputText>
