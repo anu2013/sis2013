@@ -151,7 +151,7 @@ public class TeacherViewAttendanceController implements Serializable{
         dataTable.setVar("dataItem");
         dataTable.setBorder(1);
         dataTable.setCellpadding("7");
-        dataTable.setWidth("900");
+        dataTable.setWidth("100%");
         dataTable.setRowClasses("graybg,whitebg");
 
         for (int i = 0; i < dataList.get(0).size(); i++) {
