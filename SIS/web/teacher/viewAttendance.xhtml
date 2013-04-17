@@ -23,7 +23,7 @@
 
             <h:panelGroup id="container" layout="block" class="center-align">
                <h:form>
-                <h:panelGrid rows="2" class="center-align" width="850">
+                <h:panelGrid rows="2" class="center-align" width="1000">
                     <div style="align: middle;">
                         <ul class="breadcrumb" style="margin-left: -15px;">  
                             <li class="active">View Attendance</li>  
@@ -44,10 +44,12 @@
                         </h:panelGrid>
                     </div>
                     
-                    <h:panelGroup binding="#{teacherViewAttendanceController.dataTableGroup}"
-                                  rendered="#{teacherViewAttendanceController.dataTableGroup != null}"/>
-                    
                 </h:panelGrid>
+                   
+                <div class="row" style="margin: auto; overflow: auto; width: 1000px"> 
+                    <h:panelGroup binding="#{teacherViewAttendanceController.dataTableGroup}"
+                              rendered="#{teacherViewAttendanceController.dataTableGroup != null}"/>
+                </div>
                    
                 <h:messages styleClass="messages" errorClass="errorMsg" infoClass="infoMsg" layout="table" globalOnly="true" showDetail="false" showSummary="true"/>
                </h:form>
