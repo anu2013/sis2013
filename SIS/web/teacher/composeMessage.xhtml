@@ -12,7 +12,14 @@
         <title>Student Information System</title>
         <link rel="stylesheet" href="../resources/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="../resources/css/bootstrap.css" type="text/css" />
-        <style type="text/css"></style>
+        <style type="text/css">
+           input.rf-au-inp {
+                width:366px !important; 
+                font-size: 14px; 
+                height: 20px; 
+                padding: 4px 6px !important;
+            }
+        </style>
     </h:head>
     <h:body>
           <ui:include src="teacherHeader.xhtml" />
@@ -57,13 +64,20 @@
                         <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row" layout="block">  
                             <div class="span5">
                                 <label>Recipients</label>
-                                <h:inputText value="#{composeMessageController.toList}" class="span5" />
-                            </div>
+                                <rich:autocomplete mode="cachedAjax" tokens=",; " minChars="1" autofill="false"
+                                                        value="#{composeMessageController.toList}"
+                                                        autocompleteMethod="#{composeMessageController.getAutoCompleteUserList}"
+                                                        autocompleteList="#{composeMessageController.autoCompleteList}"
+                                                        var="up" fetchValue="#{up.users.userloginname}" id="autoCompleteBox"
+                                                        layout="div">
+                                        <b>#{up.firstname} #{up.lastname}</b> - <i>(#{up.users.userloginname}) </i>
+                                </rich:autocomplete>
+                           </div>
                          </h:panelGroup>
                         
                         <h:panelGroup rendered="#{!composeMessageController.isReply}" class="row" layout="block">  
                             <div class="span5">
-                                <label>Message Title</label>
+                                <label style="margin-top: 10px;">Message Title</label>
                                 <h:inputText value="#{composeMessageController.newMessage.subject}" class="span5" />
                             </div>
                          </h:panelGroup>

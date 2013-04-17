@@ -5,6 +5,7 @@
 package sis.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import javax.transaction.UserTransaction;
 import sis.model.Conversations;
 import sis.model.Messages;
 import sis.model.Recipients;
+import sis.model.Userprofile;
 import sis.model.Users;
 
 /**
@@ -47,6 +49,7 @@ public class ComposeMessageController implements Serializable{
     private Conversations prvConversation;
     private String toList = "";
     private Boolean isReply = false;
+    private List<Userprofile> autoCompleteList;
     
     @PostConstruct
     public void init(){
@@ -184,6 +187,24 @@ public class ComposeMessageController implements Serializable{
         return null;
     }
 
+    public List<Userprofile> getAutoCompleteUserList(String prefix) {
+        List<Userprofile> records = null;
+        try{
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            String queryString = "select u from Userprofile u where LOWER(u.firstname) LIKE :prefix or LOWER(u.lastname) LIKE :prefix or LOWER(u.users.userloginname) LIKE :prefix";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("prefix", prefix.toLowerCase() + "%");
+            records = query.getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(null == records)
+            records = new ArrayList<Userprofile>();
+
+        setAutoCompleteList(records);
+        return records;
+    }
+    
     public String discardMessage() {
         if(null != prvConversation){
             return "viewMessageDetails?faces-redirect=true&mid=" + prvConversation.getMessage().getMessageid();
@@ -245,5 +266,13 @@ public class ComposeMessageController implements Serializable{
     
     public void setIsReply(Boolean val){
         this.isReply = val;
+    }
+    
+    public List<Userprofile> getAutoCompleteList(){
+        return this.autoCompleteList;
+    }
+    
+    public void setAutoCompleteList(List<Userprofile> val){
+        this.autoCompleteList = val;
     }
 }
