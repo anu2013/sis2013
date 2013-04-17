@@ -133,14 +133,18 @@ public class AdmissionCRUDController {
             u.setCreatedby(createdUserId);
             u.setCreateddate(new Date());
             entityManager.persist(u);
+            entityManager.flush();
             userTransaction.commit();
+            entityManager.refresh(u);
 
             Userprofile up = getUserprofile();
             up.setUserid(u.getUserid());
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(up);
+            entityManager.flush();
             userTransaction.commit();
+            entityManager.refresh(up);
 
             Student st = getStudent();
             st.setStudentid(u.getUserid());
@@ -151,7 +155,9 @@ public class AdmissionCRUDController {
             userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.persist(st);
+            entityManager.flush();
             userTransaction.commit();
+            entityManager.refresh(st);
 
             Previouseducation pe = getPreviouseducation();
             pe.setStudentid(st);
@@ -237,6 +243,7 @@ public class AdmissionCRUDController {
             pa.setParentcontactzip(this.parent.getParentcontactzip());
             pa.setParentcontactcountry(this.parent.getParentcontactcountry());
             pa.setRelationshipwithstudent(this.parent.getRelationshipwithstudent());
+            em.persist(pa);
 
             Previouseducation pe = em.find(Previouseducation.class, this.previouseducation.getPreviousschoolid());
             pe.setLastattendedgradelevel(this.previouseducation.getLastattendedgradelevel());
@@ -247,6 +254,7 @@ public class AdmissionCRUDController {
             pe.setPreviousschoolstate(this.previouseducation.getPreviousschoolstate());
             pe.setPreviousschoolzip(this.previouseducation.getPreviousschoolzip());
             pe.setPreviousschoolcountry(this.previouseducation.getPreviousschoolcountry());
+            em.persist(pe);
 
             userTransaction.commit();
             retrieveAdmissions();
@@ -454,8 +462,9 @@ public class AdmissionCRUDController {
             entityManager.persist(admissionStepComment);
             userTransaction.commit();
 
-            entityManager = entityManagerFactory.createEntityManager();
+
             userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
             Admission a = entityManager.find(Admission.class, this.admission.getAdmissionid());
             a.setStatus("Granted");
             a.setEnddate(new Date());
@@ -465,19 +474,19 @@ public class AdmissionCRUDController {
             userTransaction.commit();
             this.admission.setStatus(a.getStatus());
 
-            entityManager = entityManagerFactory.createEntityManager();
+
             userTransaction.begin();
+            entityManager = entityManagerFactory.createEntityManager();
             Student s = entityManager.find(Student.class, this.student.getStudentid());
             s.setAdmissionstatus("Granted");
             entityManager.persist(s);
             userTransaction.commit();
 
 
+            userTransaction.begin();
             entityManager = entityManagerFactory.createEntityManager();
             Users u = entityManager.find(Users.class, this.student.getStudentid());
             Userprofile up = entityManager.find(Userprofile.class, this.student.getStudentid());
-
-            userTransaction.begin();
             u.setActive(new Short("1"));
             u.setLastupdatedby(loggedInUser.getUserid());
             u.setLastupdateddate(new Date());
@@ -491,7 +500,7 @@ public class AdmissionCRUDController {
             entityManager.flush();
             userTransaction.commit();
             entityManager.refresh(u);
-            
+
             populateAdmissonStepsAndComments(argAdmission);
         } catch (Exception e) {
             e.printStackTrace();
