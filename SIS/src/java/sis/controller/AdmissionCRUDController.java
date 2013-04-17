@@ -472,32 +472,31 @@ public class AdmissionCRUDController {
             entityManager.persist(s);
             userTransaction.commit();
 
+
             entityManager = entityManagerFactory.createEntityManager();
-            userTransaction.begin();
             Users u = entityManager.find(Users.class, this.student.getStudentid());
-            entityManager.refresh(u);
-            Student st = entityManager.find(Student.class, this.student.getStudentid());
-            entityManager.refresh(st);
+            Userprofile up = entityManager.find(Userprofile.class, this.student.getStudentid());
+
+            userTransaction.begin();
             u.setActive(new Short("1"));
             u.setLastupdatedby(loggedInUser.getUserid());
             u.setLastupdateddate(new Date());
-//            System.out.println("Student = "+ st);
-//            System.out.println("Pofile = "+ st.getProfile());
-//            System.out.println("Firstane = "+ st.getProfile().getFirstname());
-            String loginName = st.getProfile().getLastname() + "_" + st.getProfile().getFirstname().substring(0, 1) + "_" + this.student.getStudentid();
+            String loginName = "";
+            if (up != null) {
+                loginName = up.getLastname() + "_" + up.getFirstname().substring(0, 1) + "_" + this.student.getStudentid();
+            }
             u.setUserloginname(loginName);
             u.setPassword("password");
             entityManager.persist(u);
             entityManager.flush();
             userTransaction.commit();
             entityManager.refresh(u);
-
+            
             populateAdmissonStepsAndComments(argAdmission);
-            return "/admin/admissionStepsCRUD";
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
         }
+        return "/admin/admissionStepsCRUD";
     }
 
     public String reject(Admission argAdmission) {
