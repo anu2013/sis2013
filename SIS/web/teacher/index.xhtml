@@ -56,7 +56,8 @@
                             </h:column>
 
                             <h:column width="10%">
-                                <h:commandButton value="Take Attendance" action="#{teacherSchedulesController.takeAttendance(schedule)}" class="btn btn-medium btn-primary" />
+                                <h:commandButton value="View Attendance" action="#{teacherSchedulesController.viewAttendance(schedule)}" class="btn btn-medium btn-primary" style="float: right; margin-right: 0px;"/>
+                                <h:commandButton value="Take Attendance" action="#{teacherSchedulesController.takeAttendance(schedule)}" class="btn btn-medium btn-primary" style="float: right; margin-right: 10px;" />
                             </h:column>
                         </h:dataTable>
                         
