@@ -56,13 +56,27 @@ public class TeacherSchedulesController implements Serializable {
         }
     }
     
-     public String takeAttendance(TeacherSchedule schedule){
+    public String takeAttendance(TeacherSchedule schedule){
         try{
             if (null == schedule) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Schedule not found!"));
             } else {
                 setSelectedSchedule(schedule);
                 return "attendance?faces-redirect=true&sid=" + schedule.getSubjectscheduleid();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String viewAttendance(TeacherSchedule schedule){
+        try{
+            if (null == schedule) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Schedule not found!"));
+            } else {
+                setSelectedSchedule(schedule);
+                return "viewAttendance?faces-redirect=true&sid=" + schedule.getSubjectscheduleid();
             }
         }catch(Exception e){
             e.printStackTrace();
