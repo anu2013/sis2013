@@ -217,16 +217,21 @@ public class StudentSubjectEnrollmentController implements Serializable {
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", this.selectedSchoolYear);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
-            //query.setParameter("status",null);
             studentGradeLevels = (List<Studentgradelevel>) query.getResultList();
             for (Studentgradelevel studentGradeLevel : studentGradeLevels) {
-                studentVO = new StudentVO();
-                studentVO.setStudentid(studentGradeLevel.getStudent().getStudentid());
-                studentVO.setFirstName(studentGradeLevel.getStudent().getProfile().getFirstname());
-                studentVO.setLastName(studentGradeLevel.getStudent().getProfile().getLastname());
-                ts = retrieveSubjectSchedules(studentVO);
-                studentVO.setSubjectSchedules(ts);
-                studentVOs.add(studentVO);
+                boolean passFailFlag = false;
+                if (("PASS".equalsIgnoreCase(studentGradeLevel.getStatus())) || ("FAIL".equalsIgnoreCase(studentGradeLevel.getStatus()))) {
+                    passFailFlag = true;
+                }
+                if (passFailFlag == false) {
+                    studentVO = new StudentVO();
+                    studentVO.setStudentid(studentGradeLevel.getStudent().getStudentid());
+                    studentVO.setFirstName(studentGradeLevel.getStudent().getProfile().getFirstname());
+                    studentVO.setLastName(studentGradeLevel.getStudent().getProfile().getLastname());
+                    ts = retrieveSubjectSchedules(studentVO);
+                    studentVO.setSubjectSchedules(ts);
+                    studentVOs.add(studentVO);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
