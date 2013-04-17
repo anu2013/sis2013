@@ -221,7 +221,7 @@ public class StudentEnrollmentController implements Serializable {
                     + "stgl.gradelevel.gradelevelid = :gradelevelid)";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("status", "FAIL");
-            query.setParameter("schoolyear", this.selectedSchoolYear);
+            query.setParameter("schoolyear", this.selectedSchoolYear - 1);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
             sts = (List<Student>) query.getResultList();
         } catch (Exception e) {
@@ -280,7 +280,7 @@ public class StudentEnrollmentController implements Serializable {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select stgl from Studentgradelevel stgl where "
                     + "stgl.schoolyear.schoolyear = :schoolyear and "
-                    + "stgl.gradelevel.gradelevelid = :gradelevelid";
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid ";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", this.selectedSchoolYear);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
@@ -288,8 +288,34 @@ public class StudentEnrollmentController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modifySVOs = convertStudentGradeLevelToStudentVO(stgrdlvls);
+        modifySVOs = convertStudentGradeLevelToStudentVOForUpdate(stgrdlvls);
         this.setModifyStudentVOs(modifySVOs);
+    }
+
+    private List<StudentVO> convertStudentGradeLevelToStudentVOForUpdate(List<Studentgradelevel> argStudentGradeLevels) {
+        List<StudentVO> studentVOs = null;
+        StudentVO sVO = null;
+        if (argStudentGradeLevels != null) {
+            if (!argStudentGradeLevels.isEmpty()) {
+                studentVOs = new ArrayList<StudentVO>();
+                for (Studentgradelevel st : argStudentGradeLevels) {
+                    boolean passFailFlag = false;
+                    if (("PASS".equalsIgnoreCase(st.getStatus())) || ("FAIL".equalsIgnoreCase(st.getStatus()))) {
+                        passFailFlag = true;
+                    }
+                    if (passFailFlag == false) {
+                        sVO = new StudentVO();
+                        sVO.setStudentid(st.getStudent().getStudentid());
+                        sVO.setFirstName(st.getStudent().getProfile().getFirstname());
+                        sVO.setLastName(st.getStudent().getProfile().getLastname());
+                        sVO.setStudentgradelevelid(st.getStudentgradelevelid());
+                        sVO.setSelected(true);
+                        studentVOs.add(sVO);
+                    }
+                }
+            }
+        }
+        return studentVOs;
     }
 
     private void populateAllEnrolledStudents() {

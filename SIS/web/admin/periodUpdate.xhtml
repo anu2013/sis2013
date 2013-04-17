@@ -43,7 +43,8 @@
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
-
+                            <h:outputText value="School Year:"></h:outputText>
+                            <h:outputText value="#{periodCRUDController.period.schoolyear.schoolyear}"></h:outputText>
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:" escape="false"></h:outputText>
                             <h:inputText label="Description" value="#{periodCRUDController.period.description}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>

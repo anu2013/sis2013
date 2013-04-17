@@ -52,7 +52,21 @@ public class PeriodCRUDController {
         }
     }
 
+    private List retrievePeriodsBySortOrderAndYear(Integer argSchoolyear, Integer argSortOrder) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        String queryString = "select p from Period p where p.schoolyear.schoolyear=:schoolyear and "
+                + "p.sortorder=:sortorder";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("schoolyear", argSchoolyear);
+        query.setParameter("sortorder", argSortOrder);
+        return query.getResultList();
+    }
+
     public String createPeriod() {
+        if (!retrievePeriodsBySortOrderAndYear(getSchoolyearschedule().getSchoolyear(), getPeriod().getSortorder()).isEmpty()) {
+            setInfoMessage("The selected period sort order already exists for the selected school year. Please select different sort order.");
+            return null;
+        }
         String startTime = getPeriod().getStarttime();
         String endTime = getPeriod().getEndtime();
         int startIndex = retrievieTimingIndex(startTime);
@@ -61,7 +75,6 @@ public class PeriodCRUDController {
             setInfoMessage("Start Timings should be less than End timings. Please select different start and end timings.");
             return null;
         }
-
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
@@ -89,6 +102,14 @@ public class PeriodCRUDController {
     }
 
     public String updatePeriod() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Period pd = em.find(Period.class, this.period.getPeriodid());
+        if (pd.getSortorder() != this.period.getSortorder()) {
+            if (!retrievePeriodsBySortOrderAndYear(pd.getSchoolyear().getSchoolyear(), this.period.getSortorder()).isEmpty()) {
+                setInfoMessage("The selected period sort order already exists for the selected school year. Please select different sort order.");
+                return null;
+            }
+        }
         String startTime = this.period.getStarttime();
         String endTime = this.period.getEndtime();
         int startIndex = retrievieTimingIndex(startTime);
@@ -98,7 +119,7 @@ public class PeriodCRUDController {
             return null;
         }
         try {
-            EntityManager em = entityManagerFactory.createEntityManager();
+            em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Period p = em.find(Period.class, this.period.getPeriodid());
             p.setDescription(this.period.getDescription());

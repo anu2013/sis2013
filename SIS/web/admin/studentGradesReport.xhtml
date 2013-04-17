@@ -45,7 +45,7 @@
                         <div align="center">
                             <h4>Student Grades Report</h4>
                             <h:panelGrid columns="7">
-                                <h:outputText value="Admission Year:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Admission Year:" escape="false"/>
                                 <h:selectOneMenu id="admissionyear" style="width:175px;"
                                                  value="#{studentGradeReportController.selectedSchoolYear}"
                                                  converter="javax.faces.Integer"
@@ -57,7 +57,7 @@
                                                    itemValue="#{schoolyearschedule.schoolyear}"/>
                                 </h:selectOneMenu>
                                 <h:outputText value="" />
-                                <h:outputText value="Grade Level:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Grade Level:" escape="false"/>
                                 <h:selectOneMenu id="gradelevel" 
                                                  style="width:175px;"
                                                  value="#{studentGradeReportController.selectedGradeLevelId}"

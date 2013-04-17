@@ -46,7 +46,7 @@
                             <h4>Teacher Schedule Report</h4>
                             <h:messages style="color:red;font-weight:bold;"></h:messages>
                             <h:panelGrid columns="7">
-                                <h:outputText value="Admission Year:"/>
+                                <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Admission Year:" escape="false"/>
                                 <h:selectOneMenu id="admissionyear" style="width:175px;"
                                                  value="#{teacherScheduleReportController.selectedSchoolYear}"
                                                  converter="javax.faces.Integer"

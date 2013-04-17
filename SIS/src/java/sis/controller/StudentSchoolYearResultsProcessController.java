@@ -37,9 +37,11 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
     private List<Schoolyearschedule> schoolyearschedules;
     private Integer selectedSchoolYear;
     private Integer selectedPassScore = 70;
+    private List<Studentgradelevel> studentgradelevels;
 
     @PostConstruct
     public void init() {
+        setStudentgradelevels(null);
         populateSchoolYearschedules();
     }
 
@@ -62,13 +64,48 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
 
     public String processStudentSchoolYearResults() {
         //Initial validation to check valid Grade Level and School Year is selected.
+        setStudentgradelevels(null);
         if (this.selectedSchoolYear == 0) {
             setInfoMessage("Please select valid School year and Grade level.");
             return null;
         }
-        System.out.println("Selected Pass scores is = " + selectedPassScore);
         updateStudentResults();
         setInfoMessage("Student results for the selected year have bean updated.");
+        return null;
+    }
+
+    public String retrieveStudentResults() {
+        setInfoMessage("");
+        setStudentgradelevels(null);
+        List<Studentgradelevel> stGrdLvls = null;
+        EntityManager entityManager = null;
+        String studentGradeLevelQueryString;
+        Query studentGradeLevelQuery;
+
+
+        //Initial validation to check valid Grade Level and School Year is selected.
+        if (this.selectedSchoolYear == 0) {
+            setInfoMessage("Please select valid School year and Grade level.");
+            return null;
+        }
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+            studentGradeLevelQueryString = "select stgl from Studentgradelevel stgl where "
+                    + "stgl.schoolyear.schoolyear = :schoolyear "
+                    + "order by stgl.gradelevel.sortorder asc, "
+                    + "stgl.student.profile.firstname asc";
+            studentGradeLevelQuery = entityManager.createQuery(studentGradeLevelQueryString);
+            studentGradeLevelQuery.setParameter("schoolyear", this.selectedSchoolYear);
+            stGrdLvls = (List<Studentgradelevel>) studentGradeLevelQuery.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!stGrdLvls.isEmpty()) {
+            setStudentgradelevels(stGrdLvls);
+        } else {
+            setInfoMessage("There are no results exists.");
+            setStudentgradelevels(null);
+        }
         return null;
     }
 
@@ -128,9 +165,6 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
         }
     }
 
-    private void updateStudentGradeLevelStatus() {
-    }
-
     protected void setInfoMessage(String summary) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
     }
@@ -175,5 +209,19 @@ public class StudentSchoolYearResultsProcessController implements Serializable {
      */
     public void setSelectedPassScore(Integer selectedPassScore) {
         this.selectedPassScore = selectedPassScore;
+    }
+
+    /**
+     * @return the studentgradelevels
+     */
+    public List<Studentgradelevel> getStudentgradelevels() {
+        return studentgradelevels;
+    }
+
+    /**
+     * @param studentgradelevels the studentgradelevels to set
+     */
+    public void setStudentgradelevels(List<Studentgradelevel> studentgradelevels) {
+        this.studentgradelevels = studentgradelevels;
     }
 }

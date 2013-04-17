@@ -4,6 +4,10 @@
  */
 package sis.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import sis.model.TeacherSchedule;
 import java.util.List;
@@ -18,7 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
+import sis.bean.TeacherSubjectScheduleVO;
 import sis.model.Period;
 import sis.model.Schoolyearschedule;
 import sis.model.Subject;
@@ -33,6 +39,8 @@ public class TeacherScheduleCRUDController {
 
     @PersistenceUnit(unitName = "SISPU")
     private EntityManagerFactory entityManagerFactory;
+    @Resource(name = "jdbc/SISDB")
+    private DataSource dataSource;
     @Resource
     private UserTransaction userTransaction;
     private List<TeacherSchedule> teacherSchedules;
@@ -47,13 +55,13 @@ public class TeacherScheduleCRUDController {
     private Integer secondaryTeacherId;
     private static Map<String, Object> scheduleDaysMap;
     private String[] scheduleDaysStringArray;
+    private List<TeacherSubjectScheduleVO> teacherSubjectScheduleVOs;
 
     static {
         scheduleDaysMap = new LinkedHashMap<String, Object>();
         scheduleDaysMap.put("Monday", "M");
         scheduleDaysMap.put("Tuesday", "T");
         scheduleDaysMap.put("Wednesday", "W");
-        //scheduleDaysMap.put("Thursday", "TR");
         scheduleDaysMap.put("Thursday", "TH");
         scheduleDaysMap.put("Friday", "F");
     }
@@ -64,11 +72,43 @@ public class TeacherScheduleCRUDController {
     }
 
     private void retrieveTeacherSchedules() {
+        TeacherSubjectScheduleVO teSSVO = null;
+        List<TeacherSubjectScheduleVO> teSSVOs = null;
+        EntityManager em = entityManagerFactory.createEntityManager();
         try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            String queryString = "select ts from TeacherSchedule ts";
-            Query query = entityManager.createQuery(queryString);
-            this.setTeacherSchedules((List<TeacherSchedule>) query.getResultList());
+            Connection connection = dataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement("select subjectscheduleId,"
+                    + "schedulename,primaryteacherid,"
+                    + "secondaryteacherid,periodid,subjectid,"
+                    + "schoolyear,scheduledays from SISADMIN.SUBJECTSCHEDULE");
+            ResultSet rst = pstmt.executeQuery();
+            teSSVOs = new ArrayList<TeacherSubjectScheduleVO>();
+            while (rst.next()) {
+                teSSVO = new TeacherSubjectScheduleVO();
+                teSSVO.setSubjectScheduleId(rst.getInt("subjectscheduleId"));
+                teSSVO.setScheduleName(rst.getString("ScheduleName"));
+                teSSVO.setScheduleDays(rst.getString("ScheduleDays"));
+                teSSVO.setPrimaryTeacherId(rst.getInt("primaryTeacherId"));
+                Teacher pT = em.find(Teacher.class, teSSVO.getPrimaryTeacherId());
+                teSSVO.setPrimaryTeacherName(pT.getProfile().getFirstname() + " " + pT.getProfile().getLastname());
+                teSSVO.setSecondaryTeacherId(rst.getInt("secondaryTeacherId"));
+                Teacher sT = em.find(Teacher.class, teSSVO.getSecondaryTeacherId());
+                teSSVO.setSecondaryTeacherName(sT.getProfile().getFirstname() + " " + sT.getProfile().getLastname());
+                teSSVO.setPeriodId(rst.getInt("periodId"));
+                Period p = em.find(Period.class, teSSVO.getPeriodId());
+                teSSVO.setPeriodName(p.getDescription());
+                teSSVO.setPeriodStart(p.getStarttime());
+                teSSVO.setPeriodEnd(p.getEndtime());
+                teSSVO.setSubjectId(rst.getInt("subjectId"));
+                Subject subject = em.find(Subject.class, teSSVO.getSubjectId());
+                teSSVO.setSubjectName(subject.getSubjectname());
+                teSSVO.setSchoolYear(rst.getInt("schoolyear"));
+                teSSVOs.add(teSSVO);
+            }
+            rst.close();
+            pstmt.close();
+            connection.close();
+            this.setTeacherSubjectScheduleVOs(teSSVOs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,6 +182,15 @@ public class TeacherScheduleCRUDController {
                 return null;
             }
 
+            Period selectedPeriod = entityManager.find(Period.class, periodId);
+            if (selectedPeriod != null) {
+                if (selectedPeriod.getSchoolyear().getSchoolyear().intValue() != schoolYear.intValue()) {
+                    setInfoMessage("The selected period code does not belong to the selected school year. "
+                            + "Please select an appropriate period code or school year.");
+                    return null;
+                }
+            }
+
             //If primary teacher and secondary teacher are same then display error message
             if (this.primaryTeacherId == this.secondaryTeacherId) {
                 setInfoMessage("Primary teacher and Secondary teacher should not be the same for the period.");
@@ -211,7 +260,9 @@ public class TeacherScheduleCRUDController {
             tsch.setSecondaryTeacher(st);
 
             entityManager.persist(tsch);
+            entityManager.flush();
             userTransaction.commit();
+            entityManager.refresh(tsch);
             retrieveTeacherSchedules();
             return "/admin/teacherScheduleCRUD";
         } catch (Exception e) {
@@ -224,28 +275,145 @@ public class TeacherScheduleCRUDController {
         return "/admin/teacherScheduleCreate";
     }
 
-//    public String updateTeacherSchedule() {
-//        try {
-//            EntityManager em = entityManagerFactory.createEntityManager();
-//            userTransaction.begin();
-//            TeacherSchedule tsch = em.find(TeacherSchedule.class, this.teacherSchedule.getSubjectscheduleid());
-//            tsch.setSchedulename(this.teacherSchedule.getSchedulename());
-//            tsch.setScheduledays(this.teacherSchedule.getScheduledays());
-//            tsch.getPeriod().setPeriodid(this.periodId);
-//            em.persist(tsch);
-//            userTransaction.commit();
-//            retrieveTeacherSchedules();
-//            return "/admin/teacherScheduleCRUD";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "error";
-//        }
-//    }
-    public String deleteTeacherSchedule(TeacherSchedule argTeacherSchedule) {
+    public String updateTeacherSchedule() {
+        List<TeacherSchedule> pTSchedules = null;
+        List<TeacherSchedule> sTSchedules = null;
+        EntityManager em = null;
+        try {
+
+            //Validate the valid school year, period, subject, primary and secondry teachers are selected.
+            if (this.schoolYear == 0) {
+                setInfoMessage("Please select school year.");
+                return null;
+            }
+            if (this.periodId == 0) {
+                setInfoMessage("Please select period.");
+                return null;
+            }
+            if (this.subjectId == 0) {
+                setInfoMessage("Please select subject.");
+                return null;
+            }
+            if (this.primaryTeacherId == 0) {
+                setInfoMessage("Please select Primary Teacher.");
+                return null;
+            }
+            if (this.secondaryTeacherId == 0) {
+                setInfoMessage("Please select Secondary Teacher.");
+                return null;
+            }
+            em = entityManagerFactory.createEntityManager();
+            Period selectedPeriod = em.find(Period.class, periodId);
+            if (selectedPeriod != null) {
+                if (selectedPeriod.getSchoolyear().getSchoolyear().intValue() != schoolYear.intValue()) {
+                    setInfoMessage("The selected period code does not belong to the selected school year. "
+                            + "Please select an appropriate period code or school year.");
+                    return null;
+                }
+            }
+
+            //If primary teacher and secondary teacher are same then display error message
+            if (this.primaryTeacherId == this.secondaryTeacherId) {
+                setInfoMessage("Primary teacher and Secondary teacher should not be the same for the period.");
+                return null;
+            }
+
+
+            em = entityManagerFactory.createEntityManager();
+            TeacherSchedule selectedTeacherSchedule = em.find(TeacherSchedule.class, this.teacherSchedule.getSubjectscheduleid());
+            if (selectedTeacherSchedule.getPrimaryTeacher().getTeacherid() != this.primaryTeacherId) {
+                //If primary teacher is already assigned to a specific period/days then display a error message.
+                pTSchedules = retrievePrimaryTeacherSchedules(this.primaryTeacherId);
+                boolean primaryMatchFound = false;
+                for (TeacherSchedule ts : pTSchedules) {
+                    primaryMatchFound = isMatchFound(ts.getScheduledays().split(","), this.scheduleDaysStringArray);
+                    if (primaryMatchFound) {
+                        break;
+                    }
+                }
+                if (primaryMatchFound) {
+                    setInfoMessage("Primary teacher already assigned to the selected period. "
+                            + "Please select different primary teacher.");
+                    return null;
+                }
+            }
+
+            //If secondary teacher is already assigned to a specific period/days then display a error message.
+            if (selectedTeacherSchedule.getSecondaryTeacher().getTeacherid() != this.secondaryTeacherId) {
+                sTSchedules = retrieveSecondaryTeacherSchedules(this.secondaryTeacherId);
+                boolean secondaryMatchFound = false;
+                for (TeacherSchedule ts : sTSchedules) {
+                    secondaryMatchFound = isMatchFound(ts.getScheduledays().split(","), this.scheduleDaysStringArray);
+                    if (secondaryMatchFound) {
+                        break;
+                    }
+                }
+                if (secondaryMatchFound) {
+                    setInfoMessage("Secondary teacher already assigned to the selected period. "
+                            + "Please select different secondary teacher.");
+                    return null;
+                }
+            }
+
+            //Read selected scheduled days
+            String scheduleDays = "";
+            for (int index = 0; index < this.scheduleDaysStringArray.length; index++) {
+                scheduleDays = scheduleDays + scheduleDaysStringArray[index] + ",";
+            }
+            scheduleDays = scheduleDays.substring(0, scheduleDays.length() - 1);
+
+            //All validations are complete and updates starting....
+            em = entityManagerFactory.createEntityManager();
+            userTransaction.begin();
+            String updateQueryString = "update SISADMIN.SUBJECTSCHEDULE set "
+                    + "schedulename=?, "
+                    + "primaryteacherid=?, "
+                    + "secondaryteacherid=?, "
+                    + "periodid=?, "
+                    + "subjectid=?, "
+                    + "schoolyear=?, "
+                    + "scheduledays=? where "
+                    + "subjectscheduleid=?";
+            Query updateQuery = em.createNativeQuery(updateQueryString);
+            updateQuery.setParameter(1, this.teacherSchedule.getSchedulename());
+            updateQuery.setParameter(2, this.primaryTeacherId);
+            updateQuery.setParameter(3, this.secondaryTeacherId);
+            updateQuery.setParameter(4, this.periodId);
+            updateQuery.setParameter(5, this.subjectId);
+            updateQuery.setParameter(6, this.schoolYear);
+            updateQuery.setParameter(7, scheduleDays);
+            updateQuery.setParameter(8, this.teacherSchedule.getSubjectscheduleid());
+            int recordsAffected = updateQuery.executeUpdate();
+            em.flush();
+            userTransaction.commit();
+
+            retrieveTeacherSchedules();
+            return "/admin/teacherScheduleCRUD";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    public String editTeacherSchedule(TeacherSubjectScheduleVO argTeacherScheduleSubjectScheduleVO) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        TeacherSchedule currentTeacherSchedule = em.find(TeacherSchedule.class, argTeacherScheduleSubjectScheduleVO.getSubjectScheduleId());
+        em.refresh(currentTeacherSchedule);
+        this.teacherSchedule = currentTeacherSchedule;
+        this.schoolYear = currentTeacherSchedule.getSchoolyear().getSchoolyear();
+        this.periodId = currentTeacherSchedule.getPeriod().getPeriodid();
+        this.primaryTeacherId = currentTeacherSchedule.getPrimaryTeacher().getTeacherid();
+        this.secondaryTeacherId = currentTeacherSchedule.getSecondaryTeacher().getTeacherid();
+        this.subjectId = currentTeacherSchedule.getSubject().getSubjectid();
+        this.scheduleDaysStringArray = currentTeacherSchedule.getScheduledays().split(",");
+        return "/admin/teacherScheduleUpdate";
+    }
+
+    public String deleteTeacherSchedule(TeacherSubjectScheduleVO argTeacherScheduleSubjectScheduleVO) {
         try {
             EntityManager em = entityManagerFactory.createEntityManager();
             userTransaction.begin();
-            TeacherSchedule currentTeacherSchedule = em.find(TeacherSchedule.class, argTeacherSchedule.getSubjectscheduleid());
+            TeacherSchedule currentTeacherSchedule = em.find(TeacherSchedule.class, argTeacherScheduleSubjectScheduleVO.getSubjectScheduleId());
             em.remove(currentTeacherSchedule);
             userTransaction.commit();
             retrieveTeacherSchedules();
@@ -256,15 +424,6 @@ public class TeacherScheduleCRUDController {
         }
     }
 
-//    public String editTeacherSchedule(TeacherSchedule argTeacherSchedule) {
-//        this.teacherSchedule = argTeacherSchedule;
-//        this.schoolYear = argTeacherSchedule.getSchoolyear().getSchoolyear();
-//        this.periodId = argTeacherSchedule.getPeriod().getPeriodid();
-//        this.primaryTeacherId = argTeacherSchedule.getPrimaryTeacher().getTeacherid();
-//        this.secondaryTeacherId = argTeacherSchedule.getSecondaryTeacher().getTeacherid();
-//        this.subjectId = argTeacherSchedule.getSubject().getSubjectid();
-//        return "/admin/teacherScheduleUpdate";
-//    }
     /**
      * @return the teacherSchedules
      */
@@ -388,9 +547,11 @@ public class TeacherScheduleCRUDController {
     public List getPeriods() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         //String queryString = "select s from Period s where s.schoolyear.schoolyear=:schoolyear";
-        String queryString = "select s from Period s";
+        String queryString = "select p from Period p where "
+                + "p.schoolyear.schoolyear >= (select s.schoolyear from "
+                + "Schoolyearschedule s where s.active = :active)";
         Query query = entityManager.createQuery(queryString);
-        //query.setParameter("schoolyear", this.schoolYear);
+        query.setParameter("active", new Short("1"));
         return (List<Period>) query.getResultList();
     }
 
@@ -406,5 +567,19 @@ public class TeacherScheduleCRUDController {
      */
     public void setPeriod(Period period) {
         this.period = period;
+    }
+
+    /**
+     * @return the teacherSubjectScheduleVOs
+     */
+    public List<TeacherSubjectScheduleVO> getTeacherSubjectScheduleVOs() {
+        return teacherSubjectScheduleVOs;
+    }
+
+    /**
+     * @param teacherSubjectScheduleVOs the teacherSubjectScheduleVOs to set
+     */
+    public void setTeacherSubjectScheduleVOs(List<TeacherSubjectScheduleVO> teacherSubjectScheduleVOs) {
+        this.teacherSubjectScheduleVOs = teacherSubjectScheduleVOs;
     }
 }

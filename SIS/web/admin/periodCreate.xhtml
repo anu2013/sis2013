@@ -42,6 +42,11 @@
                     <div align="center">
                         <h:messages style="color:red;font-weight:bold;"></h:messages>
                         <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign"> 
+                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"></h:outputText>
+                            <h:selectOneMenu value="#{schoolyearschedule.schoolyear}">
+                                <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
+                                               itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
+                            </h:selectOneMenu>
                             <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;Description:" escape="false"></h:outputText>
                             <h:inputText label="Description" value="#{period.description}" required="true" size="60">
                                 <f:validateLength minimum="3" maximum="100"></f:validateLength>
@@ -62,11 +67,6 @@
                             <h:selectOneMenu value="#{period.endtime}" required="true">
                                 <f:selectItems value="#{sISLookupController.timings}" var="t"
                                                itemLabel="#{t}" itemValue="#{t}" />
-                            </h:selectOneMenu>
-                            <h:outputText value="&lt;font color='red' face='bold'&gt;*&lt;/font&gt;School Year:" escape="false"></h:outputText>
-                            <h:selectOneMenu value="#{schoolyearschedule.schoolyear}">
-                                <f:selectItems value="#{schoolyearscheduleCRUDController.schoolyearschedules}" var="y"
-                                               itemLabel="#{y.schoolyear}" itemValue="#{y.schoolyear}" />
                             </h:selectOneMenu>
                         </h:panelGrid>
                         <br/>
