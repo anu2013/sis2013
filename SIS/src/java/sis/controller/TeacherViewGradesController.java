@@ -114,7 +114,7 @@ public class TeacherViewGradesController implements Serializable{
                                     Studentscorecard score = scorecards.get(m);
                                     if(score.getStudentId() == ss.getStudent().getStudentid() && score.getSubjectid() == ts.getSubject().getSubjectid()){
                                         String val = score.getPercentage() + "% (" + score.getGradeletter() + ")";
-                                        val = "<div class='progress "+ score.getCssClass() + " score'>" + val + "</div>";
+                                        val = "<div class='"+ score.getCssClass() + "'><div class='bar score'>" + val + "</div</div>";
                                         row.set(k+1, val);
                                         break;
                                     }
@@ -201,19 +201,7 @@ public class TeacherViewGradesController implements Serializable{
     public void setSchedulesController(TeacherSchedulesController controller) {
         this.schedulesController = controller;
     }
-    
-    public Integer getSelectedScheduleId() {
-        return selectedScheduleId;
-    }
-
-    public void setSelectedScheduleId(Integer scheduleId) {
-        this.selectedScheduleId = scheduleId;
-    }
-            
-    public TeacherSchedule getSelectedSchedule() {
-        return schedulesController.getScheduleById(selectedScheduleId);
-    }
-    
+        
     public List<List<String>> getDataList() {
         return dataList;
     }
