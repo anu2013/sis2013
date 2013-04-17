@@ -475,14 +475,22 @@ public class AdmissionCRUDController {
             entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             Users u = entityManager.find(Users.class, this.student.getStudentid());
+            entityManager.refresh(u);
             Student st = entityManager.find(Student.class, this.student.getStudentid());
+            entityManager.refresh(st);
             u.setActive(new Short("1"));
             u.setLastupdatedby(loggedInUser.getUserid());
             u.setLastupdateddate(new Date());
-            u.setUserloginname(st.getProfile().getLastname() + "_" + st.getProfile().getFirstname().substring(0, 1) + "_" + this.student.getStudentid());
+//            System.out.println("Student = "+ st);
+//            System.out.println("Pofile = "+ st.getProfile());
+//            System.out.println("Firstane = "+ st.getProfile().getFirstname());
+            String loginName = st.getProfile().getLastname() + "_" + st.getProfile().getFirstname().substring(0, 1) + "_" + this.student.getStudentid();
+            u.setUserloginname(loginName);
             u.setPassword("password");
             entityManager.persist(u);
+            entityManager.flush();
             userTransaction.commit();
+            entityManager.refresh(u);
 
             populateAdmissonStepsAndComments(argAdmission);
             return "/admin/admissionStepsCRUD";
