@@ -212,22 +212,26 @@ public class StudentSubjectEnrollmentController implements Serializable {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             String queryString = "select stgl from Studentgradelevel stgl where "
                     + "stgl.schoolyear.schoolyear = :schoolyear and "
-                    + "stgl.gradelevel.gradelevelid = :gradelevelid and "
-                    + "stgl.status=:status "
+                    + "stgl.gradelevel.gradelevelid = :gradelevelid  "
                     + "order by stgl.student.profile.firstname asc";
             Query query = entityManager.createQuery(queryString);
             query.setParameter("schoolyear", this.selectedSchoolYear);
             query.setParameter("gradelevelid", this.selectedGradeLevelId);
-            query.setParameter("status",null);
             studentGradeLevels = (List<Studentgradelevel>) query.getResultList();
             for (Studentgradelevel studentGradeLevel : studentGradeLevels) {
-                studentVO = new StudentVO();
-                studentVO.setStudentid(studentGradeLevel.getStudent().getStudentid());
-                studentVO.setFirstName(studentGradeLevel.getStudent().getProfile().getFirstname());
-                studentVO.setLastName(studentGradeLevel.getStudent().getProfile().getLastname());
-                ts = retrieveSubjectSchedules(studentVO);
-                studentVO.setSubjectSchedules(ts);
-                studentVOs.add(studentVO);
+                boolean passFailFlag = false;
+                if (("PASS".equalsIgnoreCase(studentGradeLevel.getStatus())) || ("FAIL".equalsIgnoreCase(studentGradeLevel.getStatus()))) {
+                    passFailFlag = true;
+                }
+                if (passFailFlag == false) {
+                    studentVO = new StudentVO();
+                    studentVO.setStudentid(studentGradeLevel.getStudent().getStudentid());
+                    studentVO.setFirstName(studentGradeLevel.getStudent().getProfile().getFirstname());
+                    studentVO.setLastName(studentGradeLevel.getStudent().getProfile().getLastname());
+                    ts = retrieveSubjectSchedules(studentVO);
+                    studentVO.setSubjectSchedules(ts);
+                    studentVOs.add(studentVO);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
